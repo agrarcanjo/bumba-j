@@ -1,6 +1,8 @@
 export const AUTHORITIES = {
   ADMIN: 'ROLE_ADMIN',
   USER: 'ROLE_USER',
+  ROLE_STUDENT: 'ROLE_STUDENT',
+  ROLE_TEACHER: 'ROLE_TEACHER',
 };
 
 export const messages = {

@@ -1,0 +1,208 @@
+application {
+  config {
+    baseName BumbaLearning
+    applicationType monolith
+    databaseType sql
+    prodDatabaseType postgresql
+    devDatabaseType postgresql
+    buildTool maven
+    authenticationType jwt
+    packageName com.bumbatech.bumbalearning
+    languages [pt-br]
+    jhiPrefix jhi
+    enableHibernateCache true
+    reactive false
+    clientFramework react
+    clientTheme none
+    skipUserManagement true
+  }
+  entities *
+}
+
+enum ProficiencyLevel { EASY, INTERMEDIATE, ADVANCED }
+
+enum QuestionType { READING, WRITING, MULTIPLE_CHOICE, GAP_FILL, AUDIO_REPLAY }
+
+enum Skill { READING, WRITING, LISTENING }
+
+enum AssignmentScope { CLASS }
+
+enum GoalType { XP, TIME_MINUTES, LESSON_COUNT }
+
+enum RankingPeriod { ALL_TIME, MONTHLY }
+
+enum RankingScope { GLOBAL, MUNICIPALITY }
+
+entity UserProfile {
+  displayName String required maxlength(80)
+  municipalityCode String maxlength(20)
+  municipalityName String maxlength(120)
+  preferredLangKey String maxlength(10)
+  currentLevel ProficiencyLevel required
+  totalXp Long required min(0)
+  currentStreak Integer required min(0)
+  longestStreak Integer required min(0)
+  prefs TextBlob
+}
+
+entity ClassRoom {
+  name String required maxlength(120)
+  description String maxlength(512)
+  languageCode String required maxlength(10)
+  level ProficiencyLevel required
+}
+
+entity ClassMember {
+  roleInClass String maxlength(30)
+  joinedAt Instant
+  notes String maxlength(300)
+}
+
+entity Topic {
+  name String required maxlength(120) unique
+  description String maxlength(500)
+}
+
+entity Lesson {
+  title String required maxlength(160)
+  description String maxlength(1000)
+  languageCode String required maxlength(10)
+  level ProficiencyLevel required
+  topicName String maxlength(120)
+  estimatedMinutes Integer min(1)
+  ext TextBlob
+}
+
+entity Question {
+  type QuestionType required
+  skill Skill required
+  languageCode String required maxlength(10)
+  level ProficiencyLevel required
+  prompt TextBlob required
+  options TextBlob
+  correctAnswer TextBlob
+  rules TextBlob
+}
+
+entity LessonItem {
+  orderIndex Integer required min(0)
+  weight Integer min(0)
+}
+
+entity Asset {
+  kind String required maxlength(40)
+  url String required maxlength(512)
+  contentType String maxlength(120)
+  meta TextBlob
+}
+
+entity Assignment {
+  scope AssignmentScope required
+  dueAt Instant required
+  status String required maxlength(30)
+  title String maxlength(160)
+  notes String maxlength(1000)
+  ext TextBlob
+}
+
+entity AssignmentProgress {
+  status String required maxlength(30)
+  startedAt Instant
+  completedAt Instant
+  score Double min(0) max(100)
+  earnedXp Integer min(0)
+}
+
+entity Attempt {
+  startedAt Instant
+  completedAt Instant
+  correct Boolean
+  timeMs Long min(0)
+  response TextBlob
+  eval TextBlob
+  voluntary Boolean
+}
+
+entity Achievement {
+  code String required maxlength(50) unique
+  title String required maxlength(120)
+  description String maxlength(300)
+  criteria TextBlob
+  iconUrl String maxlength(512)
+}
+
+entity UserAchievement {
+  unlockedAt Instant required
+}
+
+entity Recommendation {
+  kind String required maxlength(40)
+  targetId Long required
+  languageCode String maxlength(10)
+  rationale TextBlob
+  effectiveAt Instant
+}
+
+entity RankingSnapshot {
+  period RankingPeriod required
+  scope RankingScope required
+  municipalityCode String maxlength(20)
+  languageCode String maxlength(10)
+  snapshotAt Instant required
+  data TextBlob
+}
+
+entity AuditLog {
+  actorId Long
+  actorLogin String maxlength(50)
+  action String required maxlength(120)
+  entityName String required maxlength(120)
+  entityId String required maxlength(64)
+  details TextBlob
+  occurredAt Instant required
+}
+
+// Relacionamentos
+
+relationship OneToOne {
+  UserProfile{user(login)} to User with builtInEntity
+}
+
+relationship ManyToOne {
+  ClassMember{classRoom(name)} to ClassRoom
+  ClassMember{student(login)} to User with builtInEntity
+
+  Lesson{topic(name)} to Topic
+
+  LessonItem{lesson(title)} to Lesson
+  LessonItem{question} to Question
+
+  Asset{question} to Question
+
+  Assignment{lesson(title)} to Lesson
+  Assignment{classRoom(name)} to ClassRoom
+
+  AssignmentProgress{assignment} to Assignment
+  AssignmentProgress{user(login)} to User with builtInEntity
+
+  Attempt{user(login)} to User with builtInEntity
+  Attempt{question} to Question
+  Attempt{lesson(title)} to Lesson
+
+  UserAchievement{user(login)} to User with builtInEntity
+  UserAchievement{achievement(code)} to Achievement
+
+  Recommendation{user(login)} to User with builtInEntity
+}
+
+relationship OneToMany {
+  Lesson{items} to LessonItem
+  Question{assets} to Asset
+  Assignment{progresses} to AssignmentProgress
+  ClassRoom{members} to ClassMember
+  Topic{lessons} to Lesson
+}
+
+paginate * with pagination
+dto * with mapstruct
+service all with serviceClass

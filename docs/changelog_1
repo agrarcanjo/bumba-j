@@ -1,0 +1,287 @@
+Changelog do Modelo de Dados - Bumba Learning MVP
+Contexto do Projeto
+
+Bumba Learning é uma plataforma web de aprendizado de idiomas estilo Duolingo, desenvolvida como MVP monolítico usando JHipster (Spring Boot + React + PostgreSQL).
+ A interface e textos institucionais estão em português do Brasil; o conteúdo pedagógico (lições/questões) está no idioma definido pelo professor.
+
+Decisões de Arquitetura e Requisitos
+1. Perfis e Autorização
+Perfis: Aluno (ROLE_STUDENT), Professor (ROLE_TEACHER), Administrador (ROLE_ADMIN)
+Implementação: Usar entidades JHipster existentes User e Authority
+Extensão: Entidade UserProfile (OneToOne com User) armazena dados específicos do domínio (município, XP, streak, nível global, preferências)
+
+2. Atribuição de Lições
+Decisão: Lições são atribuídas apenas para turmas (ClassRoom), não para alunos individuais
+Motivo: Simplificar gestão do professor; todos os alunos de uma turma recebem as mesmas atividades
+Extensão: Alunos podem fazer atividades extras (voluntárias) para ganhar XP adicional, marcadas com Attempt.voluntary = true
+Entidades envolvidas:
+  Assignment (scope sempre CLASS, relaciona turma + lição + prazo)
+  AssignmentProgress (materializa status de conclusão por aluno com timestamp)
+
+3. Múltiplos Idiomas
+Decisão: Um aluno pode estudar múltiplos idiomas simultaneamente
+Implementação:
+  Lesson.languageCode e ClassRoom.languageCode identificam o idioma alvo
+  Question.languageCode permite banco de questões multilíngue
+  Recommendation.languageCode e RankingSnapshot.languageCode segmentam por idioma
+Impacto: Progresso, recomendações e rankings podem ser filtrados por idioma
+
+4. Metas e Gamificação
+Meta operacional: Concluir atividades atribuídas pelo professor (via Assignment)
+XP adicional: Aluno pode fazer lições/questões extras (fora de assignments) para aumentar XP
+Campos de gamificação em UserProfile:
+  totalXp (Long): XP acumulado total
+  currentStreak (Integer): dias consecutivos de atividade
+  longestStreak (Integer): recorde de streak
+  currentLevel (enum ProficiencyLevel): nível global do aluno (EASY, INTERMEDIATE, ADVANCED)
+Conquistas: Entidade Achievement com critérios em JSON; UserAchievement registra desbloqueio
+  MVP: Conquista mínima "1000 XP" (seed: code="XP_1000")
+
+5. Ranking
+Períodos: Total (ALL_TIME) e Mensal (MONTHLY)
+Escopos: Global (GLOBAL) e por Município (MUNICIPALITY)
+Recontagem: Diária via job scheduler básico
+Município: Usa UserProfile.municipalityCode (código IBGE) vigente no momento do snapshot
+Entidade: RankingSnapshot armazena snapshots materializados com dados em JSON (data como TextBlob)
+Motivo: Evitar queries pesadas em tempo real; dashboards leem snapshots pré-calculados
+
+6. Nível do Aluno
+Decisão: Nível é global (único por aluno), não por idioma
+Campo: UserProfile.currentLevel (enum ProficiencyLevel)
+Mapeamento: Lesson.level e Question.level usam o mesmo enum; recomendações e atribuições consideram compatibilidade de nível
+Evolução: Algoritmo de recomendação (simples no MVP) promove/demove nível conforme XP, taxa de acerto e tempo
+
+7. Assets (Áudio, Imagem, Texto)
+Decisão: Armazenar apenas URLs (CDN/S3), não blobs no banco
+Entidade: Asset com campos url, kind (AUDIO, IMAGE, TEXT, VIDEO), contentType, meta (JSON para metadata adicional)
+Relacionamento: Asset ManyToOne Question (uma questão pode ter múltiplos assets)
+
+8. Exercícios de Fala (Speech-to-Text)
+Decisão: Não implementar no MVP (Fase 1)
+Impacto: Enum QuestionType e Skill não incluem SPEAKING
+Tipos válidos no MVP:
+  QuestionType: READING, WRITING, MULTIPLE_CHOICE, GAP_FILL, AUDIO_REPLAY
+  Skill: READING, WRITING, LISTENING
+Futuro: Placeholder para integração STT pode ser adicionado em fases posteriores
+
+9. Recomendações
+Decisão: Algoritmo simples no MVP (sem parametrização avançada)
+Lógica: Baseado em nível global do aluno, XP recente, taxa de acerto e tempo médio
+Entidade: Recommendation com kind (LESSON ou QUESTION), targetId, languageCode, rationale (JSON explicando motivo)
+Extensão futura: Adicionar tabela de configuração de parâmetros (janelas de histórico, thresholds)
+
+10. Prazo e Conclusão de Assignments
+Decisão: Prazo único por turma (Assignment.dueAt)
+  Status de conclusão: Por aluno em AssignmentProgress
+  status: NOT_STARTED, IN_PROGRESS, COMPLETED, LATE
+  completedAt: timestamp de conclusão
+  startedAt: timestamp de início
+  score, earnedXp: métricas de desempenho
+Relatórios: Professor visualiza quais alunos concluíram no prazo via AssignmentProgress
+
+11. Matrícula em Turmas
+Decisão: Sem workflow de aprovação; professor adiciona/remove alunos diretamente
+Entidade: ClassMember relaciona User (aluno) e ClassRoom
+Campos: roleInClass (opcional, ex.: STUDENT, TEACHER), joinedAt, notes
+Gestão: Professor usa APIs CRUD para gerenciar membros
+
+12. Conquistas (Achievements)
+Decisão: Conquista mínima no MVP: "1000 XP"
+Entidade: Achievement com code (único), title, description, criteria (JSON), iconUrl
+Seed: { code: "XP_1000", title: "1000 XP", criteria: { type: "XP_AT_LEAST", value: 1000 } }
+Desbloqueio: UserAchievement registra unlockedAt quando critério é atingido
+Extensão futura: Adicionar conquistas de streak, primeira lição avançada, etc.
+
+13. Relatórios
+Granularidade mínima: Por aluno, por turma, global
+Filtros: Período (from/to), idioma, nível (opcionais)
+Dados:
+  Turma: taxa de conclusão, score médio, erros comuns, soma de XP
+  Aluno: XP ganho, lições concluídas, tempo médio, taxa de acerto
+  Global: métricas agregadas (usuários ativos, lições concluídas, XP total)
+Implementação: Queries agregadas em Attempt, AssignmentProgress, UserProfile
+
+14. Tema e Habilidade
+Tema: Normalizado como entidade Topic (name único, description)
+  Lesson ManyToOne Topic
+  Facilita analytics e reuso de temas
+Habilidade: Enum Skill (READING, WRITING, LISTENING)
+  Question.skill identifica habilidade treinada
+
+15. Auditoria
+Decisão: Auditoria simples usando AbstractAuditingEntity do JHipster
+Campos automáticos: createdBy, createdDate, lastModifiedBy, lastModifiedDate
+Entidade adicional: AuditLog para ações administrativas críticas (opcional)
+  Campos: actorId, actorLogin, action, entityName, entityId, details (JSON), occurredAt
+Sem auditoria avançada: Não rastrear histórico completo de mudanças (fora do escopo do MVP)
+
+16. Município
+Decisão: Padronizar com código IBGE
+Campo: UserProfile.municipalityCode (String, ex.: "3550308" para São Paulo)
+Uso: Segmentação de rankings por município; RankingSnapshot.municipalityCode
+Opcional: UserProfile.municipalityName para exibição amigável
+
+17. Job Diário de Ranking
+Decisão: Materializar rankings via job scheduler básico (ex.: Spring @Scheduled)
+Frequência: Diária (ex.: 00:00 UTC)
+Tarefas:
+Recalcular XP agregado por usuário (se necessário)
+Gerar RankingSnapshot para:
+  period=ALL_TIME, scope=GLOBAL
+  period=ALL_TIME, scope=MUNICIPALITY (por cada município ativo)
+  period=MONTHLY, scope=GLOBAL
+  period=MONTHLY, scope=MUNICIPALITY
+Armazenar lista ordenada em RankingSnapshot.data (JSON: [{userId, displayName, xp, rank, municipalityCode}])
+Benefício: Dashboards leem snapshots pré-calculados, evitando queries pesadas
+Ajustes Técnicos do JDL
+
+
+Entidades Principais e Relacionamentos
+Entidades de Usuário
+User (JHipster): login, password, email, authorities
+Authority (JHipster): name (ROLE_ADMIN, ROLE_USER, ROLE_STUDENT, ROLE_TEACHER)
+UserProfile: displayName, municipalityCode, municipalityName, preferredLangKey, currentLevel, totalXp, currentStreak, longestStreak, prefs
+OneToOne com User
+Entidades de Conteúdo
+
+Topic: name (único), description
+Lesson: title, description, languageCode, level, topicName, estimatedMinutes, ext
+ManyToOne com Topic
+OneToMany com LessonItem
+Question: type, skill, languageCode, level, prompt, options, correctAnswer, rules
+OneToMany com Asset
+LessonItem: orderIndex, weight
+ManyToOne com Lesson e Question (composição de lição)
+Asset: kind, url, contentType, meta
+ManyToOne com Question
+
+Entidades de Turma e Atribuição
+ClassRoom: name, description, languageCode, level
+OneToMany com ClassMember e Assignment
+ClassMember: roleInClass, joinedAt, notes
+ManyToOne com ClassRoom e User (student)
+Assignment: scope (sempre CLASS), dueAt, status, title, notes, ext
+ManyToOne com Lesson e ClassRoom
+OneToMany com AssignmentProgress
+AssignmentProgress: status, startedAt, completedAt, score, earnedXp
+ManyToOne com Assignment e User
+
+Entidades de Progresso e Gamificação
+Attempt: startedAt, completedAt, correct, timeMs, response, eval, voluntary
+ManyToOne com User, Question, Lesson
+Achievement: code (único), title, description, criteria, iconUrl
+UserAchievement: unlockedAt
+ManyToOne com User e Achievement
+Recommendation: kind, targetId, languageCode, rationale, effectiveAt
+ManyToOne com User
+RankingSnapshot: period, scope, municipalityCode, languageCode, snapshotAt, data
+AuditLog: actorId, actorLogin, action, entityName, entityId, details, occurredAt
+
+APIs REST Essenciais
+Perfil do Usuário
+GET /api/me/profile → UserProfile do usuário logado
+PUT /api/me/profile → Atualizar perfil
+GET /api/me/progress → { totalXp, currentLevel, currentStreak, longestStreak }
+GET /api/me/achievements → Lista de conquistas desbloqueadas
+Turmas
+POST /api/classes → Criar turma (prof/admin)
+GET /api/classes?mine=true → Turmas do usuário (aluno: matriculado; prof: criadas)
+POST /api/classes/{id}/members → Adicionar aluno (prof/admin)
+DELETE /api/classes/{id}/members/{memberId} → Remover aluno (prof/admin)
+GET /api/classes/{id}/members → Listar membros
+Lições e Conteúdo
+POST /api/topics → Criar tema (admin)
+GET /api/topics → Listar temas
+POST /api/lessons → Criar lição (prof/admin)
+GET /api/lessons?language=en&level=EASY&topicId=... → Buscar lições
+GET /api/lessons/{id} → Detalhes da lição
+GET /api/lessons/{id}/items → Itens (questões) da lição
+POST /api/questions → Criar questão (prof/admin)
+GET /api/questions?skill=READING&type=MULTIPLE_CHOICE&level=... → Buscar questões
+GET /api/questions/{id} → Detalhes da questão
+POST /api/questions/{id}/assets → Adicionar asset (prof/admin)
+Atribuições
+POST /api/assignments → Criar assignment (prof) { classRoomId, lessonId, dueAt, title }
+GET /api/assignments?classRoomId=... → Listar assignments da turma
+GET /api/assignments/{id} → Detalhes do assignment
+GET /api/assignments/{id}/progress → Progresso dos alunos
+POST /api/assignments/{id}/publish → Publicar assignment
+POST /api/assignments/{id}/close → Fechar assignment
+Progresso de Assignment (Aluno)
+GET /api/me/assignments?status=IN_PROGRESS → Assignments do aluno
+POST /api/assignments/{id}/start → Iniciar assignment
+POST /api/assignments/{id}/complete → Concluir assignment { score, earnedXp }
+Attempts (Questões)
+POST /api/attempts/start → Iniciar tentativa { lessonId, questionId, voluntary }
+POST /api/attempts/{id}/submit → Submeter resposta { response }
+GET /api/attempts?lessonId=...&userId=... → Histórico de tentativas
+Recomendações
+GET /api/me/recommendations/next?language=en → Próxima lição/questão recomendada
+POST /api/me/recommendations/accept → Aceitar recomendação { targetId, kind }
+Ranking
+GET /api/rankings?period=ALL_TIME&scope=GLOBAL → Ranking global total
+GET /api/rankings?period=MONTHLY&scope=MUNICIPALITY&municipalityCode=3550308 → Ranking mensal por município
+Relatórios
+GET /api/reports/class/{classId}?from=2025-01-01&to=2025-01-31 → Relatório da turma
+GET /api/reports/user/{userId}?from=...&to=... → Relatório do aluno
+GET /api/reports/global?from=...&to=... → Relatório global
+Admin/Users
+GET /api/users?role=ROLE_STUDENT → Listar usuários (admin)
+POST /api/users → Criar usuário (admin)
+PATCH /api/users/{id} → Atualizar usuário (admin)
+GET /api/authorities → Listar roles (admin)
+
+Seeds e Dados Iniciais
+Authorities (roles)
+INSERT INTO jhi_authority (name) VALUES ('ROLE_ADMIN');
+INSERT INTO jhi_authority (name) VALUES ('ROLE_USER');
+INSERT INTO jhi_authority (name) VALUES ('ROLE_STUDENT');
+INSERT INTO jhi_authority (name) VALUES ('ROLE_TEACHER');
+
+Achievement (conquista mínima)
+INSERT INTO achievement (code, title, description, criteria, icon_url)
+VALUES ('XP_1000', '1000 XP', 'Alcançou 1000 pontos de experiência', '{"type":"XP_AT_LEAST","value":1000}', 'https://example.com/icons/xp1000.png');
+
+Job Diário (Scheduler)
+Implementar @Scheduled(cron = "0 0 0 * * ?") para gerar RankingSnapshot diariamente
+Recalcular XP agregado (se necessário)
+Gerar snapshots para todos os períodos/escopos
+Extensões Futuras (Fora do MVP)
+Fase 2+
+Conversas com IA: Chat voz/texto para prática conversacional
+Aulas ao vivo: Integração com videoconferência (Zoom, Meet)
+Exercícios de fala: Speech-to-Text (STT) para validação de pronúncia
+Recomendações avançadas: Machine learning para personalização
+Gamificação expandida: Ligas, duelos, power-ups
+Certificados: Geração de certificados de conclusão
+Integração com sistemas externos: LMS, Google Classroom
+Pontos de Integração Preparados
+ext (TextBlob) em Lesson, Assignment: metadata para integrações futuras
+meta (TextBlob) em Asset: metadata de processamento (ex.: transcrição de áudio)
+Recommendation.rationale: pode incluir scores de modelos de ML
+AuditLog: rastrear ações de integrações externas
+Resumo das Decisões Críticas para LLMs
+Assignments apenas por turma, progresso por aluno; atividades voluntárias para XP extra
+Múltiplos idiomas suportados; segmentação por languageCode
+Nível global do aluno (não por idioma); mapeia para Lesson.level
+Ranking materializado via job diário; snapshots Total e Mensal, Global e por Município
+Assets como URLs (não blobs); TextBlob no JDL, customizar para jsonb pós-geração
+Sem exercícios de fala no MVP; enums sem SPEAKING
+Matrícula direta (sem aprovação); professor gerencia membros
+Conquista mínima "1000 XP"; extensível via JSON criteria
+Auditoria simples; AbstractAuditingEntity + AuditLog opcional
+Município padronizado com código IBGE; usado em rankings
+Validação do JDL
+
+✅ JDL válido após correções:
+
+Removido extends AbstractAuditingEntity
+Removido bloco search { ... }
+Substituído jsonb por TextBlob
+
+✅ Pronto para colar no JDL‑Studio e gerar código JHipster.
+
+Versão: 1.0
+Data: 2025-10-20
+Autor: Equipe Bumba Learning
+Próximos passos: Gerar código JHipster, customizar entidades para jsonb, implementar job de ranking, criar seeds de roles e conquistas.

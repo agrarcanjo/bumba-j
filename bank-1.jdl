@@ -1,6 +1,6 @@
 application {
   config {
-    baseName BumbaLearning
+    baseName bumba
     applicationType monolith
     databaseType sql
     prodDatabaseType postgresql
@@ -14,23 +14,17 @@ application {
     reactive false
     clientFramework react
     clientTheme none
-    skipUserManagement true
+    skipUserManagement false
   }
   entities *
 }
 
 enum ProficiencyLevel { EASY, INTERMEDIATE, ADVANCED }
-
 enum QuestionType { READING, WRITING, MULTIPLE_CHOICE, GAP_FILL, AUDIO_REPLAY }
-
 enum Skill { READING, WRITING, LISTENING }
-
 enum AssignmentScope { CLASS }
-
 enum GoalType { XP, TIME_MINUTES, LESSON_COUNT }
-
 enum RankingPeriod { ALL_TIME, MONTHLY }
-
 enum RankingScope { GLOBAL, MUNICIPALITY }
 
 entity UserProfile {
@@ -165,42 +159,42 @@ entity AuditLog {
 // Relacionamentos
 
 relationship OneToOne {
-  UserProfile{user(login)} to User with builtInEntity
+  UserProfile{user(login) required} to User with builtInEntity
 }
 
 relationship ManyToOne {
-  ClassMember{classRoom(name)} to ClassRoom
-  ClassMember{student(login)} to User with builtInEntity
+  ClassMember{classRoom(name) required} to ClassRoom
+  ClassMember{student(login) required} to User with builtInEntity
 
   Lesson{topic(name)} to Topic
 
-  LessonItem{lesson(title)} to Lesson
-  LessonItem{question} to Question
+  LessonItem{lesson(title) required} to Lesson
+  LessonItem{question required} to Question
 
   Asset{question} to Question
 
   Assignment{lesson(title)} to Lesson
   Assignment{classRoom(name)} to ClassRoom
 
-  AssignmentProgress{assignment} to Assignment
-  AssignmentProgress{user(login)} to User with builtInEntity
+  AssignmentProgress{assignment required} to Assignment
+  AssignmentProgress{user(login) required} to User with builtInEntity
 
-  Attempt{user(login)} to User with builtInEntity
+  Attempt{user(login) required} to User with builtInEntity
   Attempt{question} to Question
   Attempt{lesson(title)} to Lesson
 
-  UserAchievement{user(login)} to User with builtInEntity
-  UserAchievement{achievement(code)} to Achievement
+  UserAchievement{user(login) required} to User with builtInEntity
+  UserAchievement{achievement(code) required} to Achievement
 
-  Recommendation{user(login)} to User with builtInEntity
+  Recommendation{user(login) required} to User with builtInEntity
 }
 
 relationship OneToMany {
-  Lesson{items} to LessonItem
-  Question{assets} to Asset
-  Assignment{progresses} to AssignmentProgress
-  ClassRoom{members} to ClassMember
-  Topic{lessons} to Lesson
+  Lesson{items} to LessonItem{lesson}
+  Question{assets} to Asset{question}
+  Assignment{progresses} to AssignmentProgress{assignment}
+  ClassRoom{members} to ClassMember{classRoom}
+  Topic{lessons} to Lesson{topic}
 }
 
 paginate * with pagination

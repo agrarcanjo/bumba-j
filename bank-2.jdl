@@ -1,0 +1,548 @@
+/**
+ * Bumba Learning - MVP
+ * Modelo de dados JDL para plataforma de aprendizado de idiomas
+ * Gerado para JHipster
+ *
+ * Premissas:
+ * - Entidades User e Authority já existem no JHipster (não recriar)
+ * - Fase 1: Foco em inglês, monólito, entrega rápida
+ * - PostgreSQL com suporte a JSONB
+ */
+
+// ============================================
+// ENUMS
+// ============================================
+
+enum UserLevel {
+    BEGINNER,      // 0-500 XP
+    INTERMEDIATE,  // 501-2000 XP
+    ADVANCED       // 2001+ XP
+}
+
+enum Language {
+    ENGLISH,
+    SPANISH,
+    FRENCH,
+    GERMAN,
+    PORTUGUESE
+}
+
+enum QuestionType {
+    MULTIPLE_CHOICE,
+    FILL_BLANK,
+    LISTENING,
+    READING_COMPREHENSION,
+    WRITING,
+    SPEAKING_PLACEHOLDER
+}
+
+enum Skill {
+    READING,
+    WRITING,
+    LISTENING,
+    SPEAKING
+}
+
+enum DifficultyLevel {
+    EASY,
+    INTERMEDIATE,
+    ADVANCED
+}
+
+enum LessonStatus {
+    NOT_STARTED,
+    IN_PROGRESS,
+    COMPLETED,
+    FAILED
+}
+
+// ============================================
+// ENTIDADE: PERFIL DO USUÁRIO
+// ============================================
+
+/**
+ * UserProfile - Estende User do JHipster
+ * Relacionamento 1:1 com User
+ */
+entity UserProfile {
+    municipalityCode String required maxlength(7) /** Código IBGE do município */
+    currentLevel UserLevel required /** Nível atual baseado em XP */
+    totalXp Integer required min(0) /** XP total acumulado */
+    currentStreak Integer required min(0) /** Dias consecutivos de atividade */
+    dailyGoalXp Integer required min(10) /** Meta diária de XP (padrão: 50) */
+    lastActivityDate LocalDate /** Data da última atividade */
+}
+
+// ============================================
+// ENTIDADES: CONTEÚDO PEDAGÓGICO
+// ============================================
+
+/**
+ * Topic - Temas de aprendizado (normalizado para reuso)
+ */
+entity Topic {
+    name String required maxlength(100) /** Ex: "Greetings", "Food", "Travel" */
+    description TextBlob /** Descrição detalhada do tema */
+    language Language required /** Idioma do tema */
+}
+
+/**
+ * Question - Banco de questões
+ * Armazena todos os tipos de atividades
+ */
+entity Question {
+    type QuestionType required /** Tipo da questão */
+    language Language required /** Idioma da questão */
+    skill Skill required /** Habilidade trabalhada */
+    level DifficultyLevel required /** Nível de dificuldade */
+    prompt TextBlob required /** Enunciado da questão */
+    content TextBlob required /** JSONB - estrutura específica por tipo */
+    assets TextBlob /** JSONB - array de URLs de imagens/áudios */
+    createdAt Instant required /** Data de criação */
+}
+
+/**
+ * Lesson - Lição (agrupador de 5-15 questões)
+ */
+entity Lesson {
+    title String required maxlength(200) /** Título da lição */
+    description TextBlob /** Descrição da lição */
+    language Language required /** Idioma da lição */
+    level DifficultyLevel required /** Nível de dificuldade */
+    xpReward Integer required min(0) /** XP ao completar (padrão: 100) */
+    passThreshold Integer required min(0) max(100) /** % mínimo de acerto (padrão: 70) */
+    createdAt Instant required /** Data de criação */
+}
+
+/**
+ * LessonQuestion - Relacionamento N:N entre Lesson e Question
+ * Define ordem das questões na lição
+ */
+entity LessonQuestion {
+    orderIndex Integer required min(0) /** Ordem da questão na lição */
+}
+
+// ============================================
+// ENTIDADES: TURMAS E ASSIGNMENTS
+// ============================================
+
+/**
+ * Class - Turma gerenciada por professor
+ */
+entity Class {
+    name String required maxlength(200) /** Nome da turma */
+    language Language required /** Idioma da turma (fase 1: apenas inglês) */
+    description TextBlob /** Descrição da turma */
+    createdAt Instant required /** Data de criação */
+}
+
+/**
+ * ClassMember - Alunos matriculados na turma
+ */
+entity ClassMember {
+    enrolledAt Instant required /** Data de matrícula */
+}
+
+/**
+ * LessonAssignment - Atribuição de lição para turma
+ */
+entity LessonAssignment {
+    dueDate Instant required /** Prazo para conclusão */
+    assignedAt Instant required /** Data de atribuição */
+}
+
+/**
+ * StudentLessonProgress - Progresso individual do aluno em lições
+ */
+entity StudentLessonProgress {
+    status LessonStatus required /** Status da lição */
+    score Integer min(0) max(100) /** Percentual de acerto */
+    xpEarned Integer min(0) /** XP ganho nesta lição */
+    completedAt Instant /** Data/hora de conclusão */
+    isLate Boolean /** Se completou após o prazo */
+}
+
+// ============================================
+// ENTIDADES: TENTATIVAS E VALIDAÇÃO
+// ============================================
+
+/**
+ * Attempt - Registro de cada tentativa de resposta
+ */
+entity Attempt {
+    answer TextBlob required /** JSONB - resposta do aluno */
+    isCorrect Boolean required /** Se a resposta está correta */
+    timeSpentSeconds Integer required min(0) /** Tempo gasto na questão */
+    attemptedAt Instant required /** Data/hora da tentativa */
+    metadata TextBlob /** JSONB - dados extras (confidence, etc) */
+}
+
+// ============================================
+// ENTIDADES: GAMIFICAÇÃO
+// ============================================
+
+/**
+ * Achievement - Conquistas disponíveis
+ */
+entity Achievement {
+    code String required unique maxlength(50) /** Código único (ex: STREAK_7) */
+    name String required maxlength(100) /** Nome da conquista */
+    description TextBlob /** Descrição detalhada */
+    iconUrl String maxlength(500) /** URL do ícone */
+    criteria TextBlob required /** JSONB - critérios para desbloquear */
+}
+
+/**
+ * UserAchievement - Conquistas desbloqueadas pelo usuário
+ */
+entity UserAchievement {
+    unlockedAt Instant required /** Data/hora do desbloqueio */
+}
+
+// ============================================
+// ENTIDADES: RECOMENDAÇÃO
+// ============================================
+
+/**
+ * Recommendation - Histórico de recomendações de lições
+ */
+entity Recommendation {
+    reason String maxlength(500) /** Motivo da recomendação */
+    recommendedAt Instant required /** Data/hora da recomendação */
+    wasCompleted Boolean required /** Se o aluno completou a lição */
+}
+
+// ============================================
+// RELACIONAMENTOS
+// ============================================
+
+// UserProfile → User (1:1)
+relationship OneToOne {
+    UserProfile{user(login) required} to User with builtInEntity
+}
+
+// Question → Topic (N:1)
+relationship ManyToOne {
+    Question{topic(name) required} to Topic
+}
+
+// Question → User (criador) (N:1)
+relationship ManyToOne {
+    Question{createdBy(login) required} to User with builtInEntity
+}
+
+// Lesson → Topic (N:1)
+relationship ManyToOne {
+    Lesson{topic(name) required} to Topic
+}
+
+// Lesson → User (criador) (N:1)
+relationship ManyToOne {
+    Lesson{createdBy(login) required} to User with builtInEntity
+}
+
+// LessonQuestion → Lesson (N:1)
+relationship ManyToOne {
+    LessonQuestion{lesson(title) required} to Lesson
+}
+
+// LessonQuestion → Question (N:1)
+relationship ManyToOne {
+    LessonQuestion{question required} to Question
+}
+
+// Class → User (professor) (N:1)
+relationship ManyToOne {
+    Class{teacher(login) required} to User with builtInEntity
+}
+
+// ClassMember → Class (N:1)
+relationship ManyToOne {
+    ClassMember{class(name) required} to Class
+}
+
+// ClassMember → User (aluno) (N:1)
+relationship ManyToOne {
+    ClassMember{student(login) required} to User with builtInEntity
+}
+
+// LessonAssignment → Class (N:1)
+relationship ManyToOne {
+    LessonAssignment{class(name) required} to Class
+}
+
+// LessonAssignment → Lesson (N:1)
+relationship ManyToOne {
+    LessonAssignment{lesson(title) required} to Lesson
+}
+
+// LessonAssignment → User (professor que atribuiu) (N:1)
+relationship ManyToOne {
+    LessonAssignment{assignedBy(login) required} to User with builtInEntity
+}
+
+// StudentLessonProgress → User (aluno) (N:1)
+relationship ManyToOne {
+    StudentLessonProgress{student(login) required} to User with builtInEntity
+}
+
+// StudentLessonProgress → Lesson (N:1)
+relationship ManyToOne {
+    StudentLessonProgress{lesson(title) required} to Lesson
+}
+
+// StudentLessonProgress → LessonAssignment (N:1, nullable)
+relationship ManyToOne {
+    StudentLessonProgress{assignment} to LessonAssignment
+}
+
+// Attempt → User (aluno) (N:1)
+relationship ManyToOne {
+    Attempt{student(login) required} to User with builtInEntity
+}
+
+// Attempt → Question (N:1)
+relationship ManyToOne {
+    Attempt{question required} to Question
+}
+
+// Attempt → Lesson (N:1)
+relationship ManyToOne {
+    Attempt{lesson(title) required} to Lesson
+}
+
+// UserAchievement → User (N:1)
+relationship ManyToOne {
+    UserAchievement{user(login) required} to User with builtInEntity
+}
+
+// UserAchievement → Achievement (N:1)
+relationship ManyToOne {
+    UserAchievement{achievement(name) required} to Achievement
+}
+
+// Recommendation → User (aluno) (N:1)
+relationship ManyToOne {
+    Recommendation{student(login) required} to User with builtInEntity
+}
+
+// Recommendation → Lesson (N:1)
+relationship ManyToOne {
+    Recommendation{lesson(title) required} to Lesson
+}
+
+// ============================================
+// CONFIGURAÇÕES DE SERVIÇO
+// ============================================
+
+// Gerar serviços com lógica de negócio
+service all with serviceImpl
+
+// Gerar DTOs para todas as entidades
+dto all with mapstruct
+
+// Habilitar paginação onde faz sentido
+paginate Question, Lesson, Class, Attempt, Recommendation with pagination
+
+// Habilitar filtros para buscas avançadas
+filter UserProfile, Question, Lesson, Class, StudentLessonProgress, Attempt
+
+// ============================================
+// NOTAS DE IMPLEMENTAÇÃO
+// ============================================
+
+/**
+ * CAMPOS JSONB (PostgreSQL):
+ *
+ * Question.content - Estrutura por tipo:
+ * - MULTIPLE_CHOICE: {"options": ["opt1", "opt2", "opt3", "opt4"], "correct_index": 2}
+ * - FILL_BLANK: {"sentence": "I ___ to school", "correct_answers": ["go", "walk"]}
+ * - LISTENING: {"audio_url": "https://...", "question": "What?", "correct_answer": "Hello"}
+ * - READING_COMPREHENSION: {"text": "...", "question": "...", "correct_answer": "..."}
+ * - WRITING: {"prompt": "Describe your day", "sample_answer": "..."}
+ * - SPEAKING_PLACEHOLDER: {"prompt": "Say: Hello, how are you?"}
+ *
+ * Question.assets:
+ * [{"type": "image", "url": "https://..."}, {"type": "audio", "url": "https://..."}]
+ *
+ * Achievement.criteria:
+ * {"type": "streak", "value": 7}
+ * {"type": "xp", "value": 1000}
+ * {"type": "lesson_type", "value": "ADVANCED"}
+ *
+ * Attempt.answer:
+ * {"selected_index": 2} // para múltipla escolha
+ * {"text": "go"} // para fill blank
+ * {"text": "Hello"} // para listening/writing
+ *
+ * Attempt.metadata:
+ * {"confidence": 0.95, "audio_duration": 3.5}
+ */
+
+/**
+ * ÍNDICES RECOMENDADOS (adicionar manualmente no PostgreSQL):
+ *
+ * -- Performance de ranking
+ * CREATE INDEX idx_user_profile_xp ON user_profile(total_xp DESC);
+ * CREATE INDEX idx_user_profile_municipality ON user_profile(municipality_code);
+ * CREATE INDEX idx_user_profile_activity ON user_profile(last_activity_date);
+ * CREATE INDEX idx_user_profile_ranking ON user_profile(total_xp DESC, last_activity_date);
+ *
+ * -- Performance de queries de tentativas
+ * CREATE INDEX idx_attempt_student_lesson ON attempt(student_id, lesson_id);
+ * CREATE INDEX idx_attempt_question ON attempt(question_id);
+ * CREATE INDEX idx_attempt_timestamp ON attempt(attempted_at);
+ *
+ * -- Performance de progresso
+ * CREATE INDEX idx_progress_student_status ON student_lesson_progress(student_id, status);
+ * CREATE INDEX idx_progress_assignment ON student_lesson_progress(assignment_id);
+ * CREATE INDEX idx_progress_completed ON student_lesson_progress(completed_at);
+ *
+ * -- Performance de assignments
+ * CREATE INDEX idx_assignment_class_due ON lesson_assignment(class_id, due_date);
+ * CREATE INDEX idx_assignment_lesson ON lesson_assignment(lesson_id);
+ *
+ * -- Performance de questões
+ * CREATE INDEX idx_question_filters ON question(language, level, skill);
+ * CREATE INDEX idx_question_topic ON question(topic_id, level);
+ *
+ * -- Performance de lições
+ * CREATE INDEX idx_lesson_filters ON lesson(language, level);
+ * CREATE INDEX idx_lesson_topic ON lesson(topic_id);
+ */
+
+/**
+ * REGRAS DE NEGÓCIO A IMPLEMENTAR NO BACKEND:
+ *
+ * 1. Atualização de Nível (UserProfile.currentLevel):
+ *    - Recalcular após cada lição completa baseado em totalXp
+ *    - BEGINNER: 0-500 XP
+ *    - INTERMEDIATE: 501-2000 XP
+ *    - ADVANCED: 2001+ XP
+ *
+ * 2. Atualização de Streak (UserProfile.currentStreak):
+ *    - Incrementar se lastActivityDate = ontem
+ *    - Resetar para 1 se lastActivityDate < ontem
+ *    - Manter se lastActivityDate = hoje
+ *    - Timezone: America/Sao_Paulo
+ *
+ * 3. Validação de Respostas (Attempt):
+ *    - MULTIPLE_CHOICE: comparar índice
+ *    - FILL_BLANK: case-insensitive, trim, aceitar qualquer correct_answer
+ *    - LISTENING/READING: comparação exata com correct_answer
+ *    - WRITING: comparação com sample_answer (aceitar variações)
+ *    - SPEAKING_PLACEHOLDER: sempre retornar isCorrect = true
+ *
+ * 4. Conclusão de Lição (StudentLessonProgress):
+ *    - Calcular score = (acertos / total_questões) * 100
+ *    - Se score >= passThreshold:
+ *      * status = COMPLETED
+ *      * xpEarned = lesson.xpReward
+ *      * Atualizar UserProfile.totalXp
+ *      * Atualizar UserProfile.currentStreak
+ *      * Verificar conquistas
+ *    - Se score < passThreshold:
+ *      * status = FAILED
+ *      * Permitir retry após 1 hora
+ *
+ * 5. Verificação de Conquistas (UserAchievement):
+ *    - Após cada ação relevante, verificar critérios de Achievement
+ *    - Se critério atendido e não existe UserAchievement: criar registro
+ *
+ * 6. Recomendação de Lições:
+ *    - Prioridade 1: LessonAssignment pendentes (status != COMPLETED)
+ *    - Prioridade 2: Lições do nível atual não completadas
+ *    - Prioridade 3: Lições de temas com taxa de acerto < 70%
+ *    - Ordenar por: menos tentativas → mais recentes
+ *
+ * 7. Mistura Inteligente de Questões:
+ *    - Embaralhar LessonQuestion.orderIndex
+ *    - Evitar mais de 2 questões consecutivas do mesmo tipo
+ *    - Algoritmo: shuffle + reordenar se houver 3+ consecutivas
+ *
+ * 8. Marcação de Atraso (StudentLessonProgress.isLate):
+ *    - Se completedAt > assignment.dueDate: isLate = true
+ *    - Se assignment é null (lição recomendada): isLate = false
+ */
+
+/**
+ * DADOS INICIAIS (Seeds):
+ *
+ * 1. Achievement - 10 conquistas básicas:
+ *    - FIRST_LESSON: {"type": "lesson_count", "value": 1}
+ *    - STREAK_7: {"type": "streak", "value": 7}
+ *    - STREAK_30: {"type": "streak", "value": 30}
+ *    - XP_100: {"type": "xp", "value": 100}
+ *    - XP_1000: {"type": "xp", "value": 1000}
+ *    - XP_5000: {"type": "xp", "value": 5000}
+ *    - FIRST_ADVANCED: {"type": "lesson_level", "value": "ADVANCED"}
+ *    - TEACHER_ASSIGNMENT: {"type": "assignment_complete", "value": 1}
+ *    - PERFECT_LESSON: {"type": "perfect_score", "value": 100}
+ *    - SPEED_DEMON: {"type": "lesson_time", "value": 300}
+ *
+ * 2. Topic - Temas básicos de inglês:
+ *    - Greetings (Cumprimentos)
+ *    - Numbers (Números)
+ *    - Colors (Cores)
+ *    - Food (Comida)
+ *    - Family (Família)
+ *    - Travel (Viagem)
+ *    - Work (Trabalho)
+ *    - Hobbies (Hobbies)
+ *
+ * 3. UserProfile padrão para novos usuários:
+ *    - currentLevel: BEGINNER
+ *    - totalXp: 0
+ *    - currentStreak: 0
+ *    - dailyGoalXp: 50
+ */
+
+/**
+ * ENDPOINTS REST SUGERIDOS:
+ *
+ * Autenticação:
+ * POST   /api/authenticate
+ * GET    /api/account
+ *
+ * Aluno:
+ * GET    /api/student/dashboard
+ * GET    /api/student/lessons/next
+ * GET    /api/student/lessons/{id}/start
+ * POST   /api/student/lessons/{lessonId}/questions/{questionId}/answer
+ * POST   /api/student/lessons/{id}/complete
+ * GET    /api/student/ranking
+ * GET    /api/student/achievements
+ *
+ * Professor:
+ * GET    /api/teacher/classes
+ * POST   /api/teacher/classes
+ * GET    /api/teacher/classes/{id}
+ * POST   /api/teacher/classes/{id}/members
+ * DELETE /api/teacher/classes/{classId}/members/{memberId}
+ * POST   /api/teacher/classes/{id}/assignments
+ * GET    /api/teacher/classes/{id}/report
+ * GET    /api/teacher/students/{id}/report
+ * GET    /api/teacher/questions
+ * POST   /api/teacher/questions
+ * PUT    /api/teacher/questions/{id}
+ * DELETE /api/teacher/questions/{id}
+ * GET    /api/teacher/lessons
+ * POST   /api/teacher/lessons
+ *
+ * Admin:
+ * GET    /api/admin/users
+ * POST   /api/admin/users
+ * PUT    /api/admin/users/{id}
+ * DELETE /api/admin/users/{id}
+ * PUT    /api/admin/users/{id}/roles
+ * GET    /api/admin/questions
+ * PUT    /api/admin/questions/{id}
+ * DELETE /api/admin/questions/{id}
+ * GET    /api/admin/lessons
+ * GET    /api/admin/topics
+ * POST   /api/admin/topics
+ * GET    /api/admin/metrics
+ * GET    /api/admin/ranking
+ * GET    /api/admin/achievements
+ * POST   /api/admin/achievements
+ */

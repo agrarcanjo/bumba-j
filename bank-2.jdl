@@ -127,9 +127,10 @@ entity LessonQuestion {
 // ============================================
 
 /**
- * Class - Turma gerenciada por professor
+ * ClassRoom - Turma gerenciada por professor
+ * (Renomeado de "Class" para evitar palavra reservada do Java)
  */
-entity Class {
+entity ClassRoom {
     name String required maxlength(200) /** Nome da turma */
     language Language required /** Idioma da turma (fase 1: apenas inglês) */
     description TextBlob /** Descrição da turma */
@@ -218,7 +219,7 @@ entity Recommendation {
 
 // UserProfile → User (1:1)
 relationship OneToOne {
-    UserProfile{user(login) required} to User with builtInEntity
+    UserProfile{user(id) required} to User with builtInEntity
 }
 
 // Question → Topic (N:1)
@@ -228,7 +229,7 @@ relationship ManyToOne {
 
 // Question → User (criador) (N:1)
 relationship ManyToOne {
-    Question{createdBy(login) required} to User with builtInEntity
+    Question{createdBy required} to User with builtInEntity
 }
 
 // Lesson → Topic (N:1)
@@ -238,7 +239,7 @@ relationship ManyToOne {
 
 // Lesson → User (criador) (N:1)
 relationship ManyToOne {
-    Lesson{createdBy(login) required} to User with builtInEntity
+    Lesson{createdBy required} to User with builtInEntity
 }
 
 // LessonQuestion → Lesson (N:1)
@@ -251,24 +252,24 @@ relationship ManyToOne {
     LessonQuestion{question required} to Question
 }
 
-// Class → User (professor) (N:1)
+// ClassRoom → User (professor) (N:1)
 relationship ManyToOne {
-    Class{teacher(login) required} to User with builtInEntity
+    ClassRoom{teacher required} to User with builtInEntity
 }
 
-// ClassMember → Class (N:1)
+// ClassMember → ClassRoom (N:1)
 relationship ManyToOne {
-    ClassMember{class(name) required} to Class
+    ClassMember{classRoom(name) required} to ClassRoom
 }
 
 // ClassMember → User (aluno) (N:1)
 relationship ManyToOne {
-    ClassMember{student(login) required} to User with builtInEntity
+    ClassMember{student required} to User with builtInEntity
 }
 
-// LessonAssignment → Class (N:1)
+// LessonAssignment → ClassRoom (N:1)
 relationship ManyToOne {
-    LessonAssignment{class(name) required} to Class
+    LessonAssignment{classRoom(name) required} to ClassRoom
 }
 
 // LessonAssignment → Lesson (N:1)
@@ -278,12 +279,12 @@ relationship ManyToOne {
 
 // LessonAssignment → User (professor que atribuiu) (N:1)
 relationship ManyToOne {
-    LessonAssignment{assignedBy(login) required} to User with builtInEntity
+    LessonAssignment{assignedBy required} to User with builtInEntity
 }
 
 // StudentLessonProgress → User (aluno) (N:1)
 relationship ManyToOne {
-    StudentLessonProgress{student(login) required} to User with builtInEntity
+    StudentLessonProgress{student required} to User with builtInEntity
 }
 
 // StudentLessonProgress → Lesson (N:1)
@@ -298,7 +299,7 @@ relationship ManyToOne {
 
 // Attempt → User (aluno) (N:1)
 relationship ManyToOne {
-    Attempt{student(login) required} to User with builtInEntity
+    Attempt{student required} to User with builtInEntity
 }
 
 // Attempt → Question (N:1)
@@ -313,7 +314,7 @@ relationship ManyToOne {
 
 // UserAchievement → User (N:1)
 relationship ManyToOne {
-    UserAchievement{user(login) required} to User with builtInEntity
+    UserAchievement{user required} to User with builtInEntity
 }
 
 // UserAchievement → Achievement (N:1)
@@ -323,7 +324,7 @@ relationship ManyToOne {
 
 // Recommendation → User (aluno) (N:1)
 relationship ManyToOne {
-    Recommendation{student(login) required} to User with builtInEntity
+    Recommendation{student required} to User with builtInEntity
 }
 
 // Recommendation → Lesson (N:1)
@@ -342,10 +343,10 @@ service all with serviceImpl
 dto all with mapstruct
 
 // Habilitar paginação onde faz sentido
-paginate Question, Lesson, Class, Attempt, Recommendation with pagination
+paginate Question, Lesson, ClassRoom, Attempt, Recommendation with pagination
 
 // Habilitar filtros para buscas avançadas
-filter UserProfile, Question, Lesson, Class, StudentLessonProgress, Attempt
+filter UserProfile, Question, Lesson, ClassRoom, StudentLessonProgress, Attempt
 
 // ============================================
 // NOTAS DE IMPLEMENTAÇÃO

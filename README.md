@@ -31,6 +31,43 @@ You will only need to run this command when dependencies change in [package.json
 ./npmw install
 ```
 
+init debugger mode
+
+```
+.\mvnw spring-boot:run "-Dspring-boot.run.jvmArguments=-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"
+```
+
+### Limpe o projeto
+
+```
+./mvnw clean
+```
+
+### Regenere com o JDL corrigido
+
+```
+jhipster jdl seu-arquivo.jdl --force
+```
+
+### Compile novamente
+
+```
+./mvnw compile
+```
+
+Limpar banco
+
+```
+./mvnw liquibase:dropAll
+./mvnw liquibase:update
+```
+
+Failed to execute goal org.apache.maven.plugins:maven-clean-plugin:3.4.1:clean
+
+```
+npm run prettier:format
+```
+
 We use npm scripts and [Webpack][] as our build system.
 
 Run the following commands in two separate terminals to create a blissful development experience where your browser

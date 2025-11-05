@@ -1,12 +1,11 @@
 /**
  * Bumba Learning - MVP
  * Modelo de dados JDL para plataforma de aprendizado de idiomas
- * Gerado para JHipster
+ * Versão: 2.0
  *
  * Premissas:
- * - Entidades User e Authority já existem no JHipster (não recriar)
- * - Fase 1: Foco em inglês, monólito, entrega rápida
- * - PostgreSQL com suporte a JSONB
+ * - PostgreSQL 12+
+ * - JHipster 8.x
  */
 
 // ============================================
@@ -80,8 +79,8 @@ entity UserProfile {
  */
 entity Topic {
     name String required maxlength(100) /** Ex: "Greetings", "Food", "Travel" */
-    description String maxlength(250) /** Descrição detalhada do tema */
     language Language required /** Idioma do tema */
+    description String maxlength(500) /** Descrição detalhada do tema */
 }
 
 /**
@@ -93,10 +92,10 @@ entity Question {
     language Language required /** Idioma da questão */
     skill Skill required /** Habilidade trabalhada */
     level DifficultyLevel required /** Nível de dificuldade */
-    prompt TextBlob required /** Enunciado da questão */
-    content TextBlob required /** JSONB - estrutura específica por tipo */
-    assets TextBlob /** JSONB - array de URLs de imagens/áudios */
     createdAt Instant required /** Data de criação */
+    prompt String required maxlength(2000) /** Enunciado da questão */
+    content TextBlob required /** JSONB - estrutura específica por tipo */
+    assets TextBlob /** JSONB - estrutura específica por tipo */
 }
 
 /**
@@ -104,12 +103,12 @@ entity Question {
  */
 entity Lesson {
     title String required maxlength(200) /** Título da lição */
-    description String maxlength(250) /** Descrição da lição */
     language Language required /** Idioma da lição */
     level DifficultyLevel required /** Nível de dificuldade */
     xpReward Integer required min(0) /** XP ao completar (padrão: 100) */
     passThreshold Integer required min(0) max(100) /** % mínimo de acerto (padrão: 70) */
     createdAt Instant required /** Data de criação */
+    description String maxlength(250) /** Descrição da lição */
 }
 
 /**
@@ -126,13 +125,12 @@ entity LessonQuestion {
 
 /**
  * ClassRoom - Turma gerenciada por professor
- * (Renomeado de "Class" para evitar palavra reservada do Java)
  */
 entity ClassRoom {
     name String required maxlength(200) /** Nome da turma */
     language Language required /** Idioma da turma (fase 1: apenas inglês) */
     createdAt Instant required /** Data de criação */
-    description String maxlength(250) /** Descrição da turma */
+    description String maxlength(500) /** Descrição da turma */
 }
 
 /**
@@ -146,8 +144,8 @@ entity ClassMember {
  * LessonAssignment - Atribuição de lição para turma
  */
 entity LessonAssignment {
-    dueDate Instant required /** Prazo para conclusão */
     assignedAt Instant required /** Data de atribuição */
+    dueDate Instant required /** Prazo para conclusão */
 }
 
 /**
@@ -169,10 +167,10 @@ entity StudentLessonProgress {
  * Attempt - Registro de cada tentativa de resposta
  */
 entity Attempt {
-    answer TextBlob required /** JSONB - resposta do aluno */
     isCorrect Boolean required /** Se a resposta está correta */
     timeSpentSeconds Integer required min(0) /** Tempo gasto na questão */
     attemptedAt Instant required /** Data/hora da tentativa */
+    answer TextBlob required /** JSONB - resposta do aluno */
     metadata TextBlob /** JSONB - dados extras (confidence, etc) */
 }
 
@@ -186,8 +184,8 @@ entity Attempt {
 entity Achievement {
     code String required unique maxlength(50) /** Código único (ex: STREAK_7) */
     name String required maxlength(100) /** Nome da conquista */
-    description String maxlength(250) /** Descrição detalhada */
     iconUrl String maxlength(500) /** URL do ícone */
+    description String maxlength(250) /** Descrição detalhada */
     criteria TextBlob required /** JSONB - critérios para desbloquear */
 }
 
@@ -206,9 +204,9 @@ entity UserAchievement {
  * Recommendation - Histórico de recomendações de lições
  */
 entity Recommendation {
-    reason String maxlength(500) /** Motivo da recomendação */
     recommendedAt Instant required /** Data/hora da recomendação */
     wasCompleted Boolean required /** Se o aluno completou a lição */
+    reason String maxlength(500) /** Motivo da recomendação */
 }
 
 // ============================================

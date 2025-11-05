@@ -22,9 +22,7 @@ enum UserLevel {
 enum Language {
     ENGLISH,
     SPANISH,
-    FRENCH,
-    GERMAN,
-    PORTUGUESE
+    FRENCH
 }
 
 enum QuestionType {
@@ -82,7 +80,7 @@ entity UserProfile {
  */
 entity Topic {
     name String required maxlength(100) /** Ex: "Greetings", "Food", "Travel" */
-    description TextBlob /** Descrição detalhada do tema */
+    description String maxlength(250) /** Descrição detalhada do tema */
     language Language required /** Idioma do tema */
 }
 
@@ -106,7 +104,7 @@ entity Question {
  */
 entity Lesson {
     title String required maxlength(200) /** Título da lição */
-    description TextBlob /** Descrição da lição */
+    description String maxlength(250) /** Descrição da lição */
     language Language required /** Idioma da lição */
     level DifficultyLevel required /** Nível de dificuldade */
     xpReward Integer required min(0) /** XP ao completar (padrão: 100) */
@@ -133,8 +131,8 @@ entity LessonQuestion {
 entity ClassRoom {
     name String required maxlength(200) /** Nome da turma */
     language Language required /** Idioma da turma (fase 1: apenas inglês) */
-    description TextBlob /** Descrição da turma */
     createdAt Instant required /** Data de criação */
+    description String maxlength(250) /** Descrição da turma */
 }
 
 /**
@@ -188,7 +186,7 @@ entity Attempt {
 entity Achievement {
     code String required unique maxlength(50) /** Código único (ex: STREAK_7) */
     name String required maxlength(100) /** Nome da conquista */
-    description TextBlob /** Descrição detalhada */
+    description String maxlength(250) /** Descrição detalhada */
     iconUrl String maxlength(500) /** URL do ícone */
     criteria TextBlob required /** JSONB - critérios para desbloquear */
 }

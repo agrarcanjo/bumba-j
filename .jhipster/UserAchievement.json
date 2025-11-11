@@ -1,0 +1,37 @@
+{
+  "annotations": {
+    "changelogDate": "20251105172326"
+  },
+  "applications": "*",
+  "documentation": "UserAchievement - Conquistas desbloqueadas pelo usuário",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "documentation": "Data/hora do desbloqueio",
+      "fieldName": "unlockedAt",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "UserAchievement",
+  "relationships": [
+    {
+      "otherEntityName": "user",
+      "relationshipName": "user",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required",
+      "relationshipWithBuiltInEntity": true
+    },
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "achievement",
+      "relationshipName": "achievement",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

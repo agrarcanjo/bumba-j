@@ -1,0 +1,35 @@
+{
+  "annotations": {
+    "changelogDate": "20251105172316"
+  },
+  "applications": "*",
+  "documentation": "Topic - Temas de aprendizado (normalizado para reuso)",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "documentation": "Ex: \"Greetings\", \"Food\", \"Travel\"",
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "100"
+    },
+    {
+      "documentation": "Idioma do tema",
+      "fieldName": "language",
+      "fieldType": "Language",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "ENGLISH,SPANISH,FRENCH"
+    },
+    {
+      "documentation": "Descrição detalhada do tema",
+      "fieldName": "description",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "500"
+    }
+  ],
+  "name": "Topic",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

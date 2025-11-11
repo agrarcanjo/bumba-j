@@ -1,0 +1,41 @@
+{
+  "bumbaApp": {
+    "lesson": {
+      "home": {
+        "title": "Lessons",
+        "refreshListLabel": "Atualizar lista",
+        "createLabel": "Criar novo Lesson",
+        "createOrEditLabel": "Criar ou editar Lesson",
+        "notFound": "Nenhum Lesson encontrado"
+      },
+      "created": "Um novo Lesson foi criado com o identificador {{ param }}",
+      "updated": "Um Lesson foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Lesson foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Lesson {{ id }}?"
+      },
+      "detail": {
+        "title": "Lesson"
+      },
+      "id": "ID",
+      "title": "Title",
+      "language": "Language",
+      "level": "Level",
+      "xpReward": "Xp Reward",
+      "passThreshold": "Pass Threshold",
+      "createdAt": "Created At",
+      "description": "Description",
+      "topic": "Topic",
+      "createdBy": "Created By",
+      "help": {
+        "title": "Título da lição",
+        "language": "Idioma da lição",
+        "level": "Nível de dificuldade",
+        "xpReward": "XP ao completar (padrão: 100)",
+        "passThreshold": "% mínimo de acerto (padrão: 70)",
+        "createdAt": "Data de criação",
+        "description": "Descrição da lição"
+      }
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "annotations": {
+    "changelogDate": "20251105172315"
+  },
+  "applications": "*",
+  "documentation": "UserProfile - Estende User do JHipster\\nRelacionamento 1:1 com User",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "documentation": "Código IBGE do município",
+      "fieldName": "municipalityCode",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "7"
+    },
+    {
+      "documentation": "Nível atual baseado em XP",
+      "fieldName": "currentLevel",
+      "fieldType": "UserLevel",
+      "fieldTypeDocumentation": "Bumba Learning - MVP\\nModelo de dados JDL para plataforma de aprendizado de idiomas\\nVersão: 2.0\\n\\nPremissas:\\n- PostgreSQL 12+\\n- JHipster 8.x",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "BEGINNER,INTERMEDIATE,ADVANCED"
+    },
+    {
+      "documentation": "XP total acumulado",
+      "fieldName": "totalXp",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "min"],
+      "fieldValidateRulesMin": "0"
+    },
+    {
+      "documentation": "Dias consecutivos de atividade",
+      "fieldName": "currentStreak",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "min"],
+      "fieldValidateRulesMin": "0"
+    },
+    {
+      "documentation": "Meta diária de XP (padrão: 50)",
+      "fieldName": "dailyGoalXp",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "min"],
+      "fieldValidateRulesMin": "10"
+    },
+    {
+      "documentation": "Data da última atividade",
+      "fieldName": "lastActivityDate",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "UserProfile",
+  "relationships": [
+    {
+      "otherEntityName": "user",
+      "relationshipName": "user",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one",
+      "relationshipValidateRules": "required",
+      "relationshipWithBuiltInEntity": true
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

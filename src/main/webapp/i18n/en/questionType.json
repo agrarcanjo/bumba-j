@@ -1,0 +1,13 @@
+{
+  "bumbaApp": {
+    "QuestionType": {
+      "null": "",
+      "MULTIPLE_CHOICE": "MULTIPLE_CHOICE",
+      "FILL_BLANK": "FILL_BLANK",
+      "LISTENING": "LISTENING",
+      "READING_COMPREHENSION": "READING_COMPREHENSION",
+      "WRITING": "WRITING",
+      "SPEAKING_PLACEHOLDER": "SPEAKING_PLACEHOLDER"
+    }
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "annotations": {
+    "changelogDate": "20251105172318"
+  },
+  "applications": "*",
+  "documentation": "Lesson - Lição (agrupador de 5-15 questões)",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "documentation": "Título da lição",
+      "fieldName": "title",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "200"
+    },
+    {
+      "documentation": "Idioma da lição",
+      "fieldName": "language",
+      "fieldType": "Language",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "ENGLISH,SPANISH,FRENCH"
+    },
+    {
+      "documentation": "Nível de dificuldade",
+      "fieldName": "level",
+      "fieldType": "DifficultyLevel",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "EASY,INTERMEDIATE,ADVANCED"
+    },
+    {
+      "documentation": "XP ao completar (padrão: 100)",
+      "fieldName": "xpReward",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "min"],
+      "fieldValidateRulesMin": "0"
+    },
+    {
+      "documentation": "% mínimo de acerto (padrão: 70)",
+      "fieldName": "passThreshold",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "min", "max"],
+      "fieldValidateRulesMax": "100",
+      "fieldValidateRulesMin": "0"
+    },
+    {
+      "documentation": "Data de criação",
+      "fieldName": "createdAt",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "documentation": "Descrição da lição",
+      "fieldName": "description",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "250"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Lesson",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "topic",
+      "relationshipName": "topic",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityName": "user",
+      "relationshipName": "createdBy",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required",
+      "relationshipWithBuiltInEntity": true
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

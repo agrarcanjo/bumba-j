@@ -1,0 +1,70 @@
+{
+  "annotations": {
+    "changelogDate": "20251105172323"
+  },
+  "applications": "*",
+  "documentation": "StudentLessonProgress - Progresso individual do aluno em lições",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "documentation": "Status da lição",
+      "fieldName": "status",
+      "fieldType": "LessonStatus",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "NOT_STARTED,IN_PROGRESS,COMPLETED,FAILED"
+    },
+    {
+      "documentation": "Percentual de acerto",
+      "fieldName": "score",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["min", "max"],
+      "fieldValidateRulesMax": "100",
+      "fieldValidateRulesMin": "0"
+    },
+    {
+      "documentation": "XP ganho nesta lição",
+      "fieldName": "xpEarned",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["min"],
+      "fieldValidateRulesMin": "0"
+    },
+    {
+      "documentation": "Data/hora de conclusão",
+      "fieldName": "completedAt",
+      "fieldType": "Instant"
+    },
+    {
+      "documentation": "Se completou após o prazo",
+      "fieldName": "isLate",
+      "fieldType": "Boolean"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "StudentLessonProgress",
+  "relationships": [
+    {
+      "otherEntityName": "user",
+      "relationshipName": "student",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required",
+      "relationshipWithBuiltInEntity": true
+    },
+    {
+      "otherEntityField": "title",
+      "otherEntityName": "lesson",
+      "relationshipName": "lesson",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityName": "lessonAssignment",
+      "relationshipName": "assignment",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

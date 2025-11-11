@@ -1,0 +1,11 @@
+id;type;language;skill;level;created_at;prompt;content;assets;topic_id;created_by_id
+1;MULTIPLE_CHOICE;SPANISH;READING;INTERMEDIATE;2025-11-05T02:57:26;partial ad among;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;1;1
+2;READING_COMPREHENSION;SPANISH;READING;ADVANCED;2025-11-05T09:25:34;traditionalism;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;2;2
+3;WRITING;SPANISH;LISTENING;ADVANCED;2025-11-04T20:05:48;seriously even more;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;3;1
+4;FILL_BLANK;SPANISH;LISTENING;INTERMEDIATE;2025-11-04T17:42:32;cutlet whoever without;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;4;2
+5;LISTENING;FRENCH;READING;INTERMEDIATE;2025-11-05T15:32:20;contractor once;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;5;2
+6;FILL_BLANK;ENGLISH;LISTENING;ADVANCED;2025-11-04T17:55:55;boo;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;6;2
+7;MULTIPLE_CHOICE;SPANISH;READING;INTERMEDIATE;2025-11-05T10:12:21;sans guzzle eek;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;7;2
+8;MULTIPLE_CHOICE;ENGLISH;WRITING;ADVANCED;2025-11-05T14:41:55;since affiliate;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;8;2
+9;FILL_BLANK;SPANISH;SPEAKING;ADVANCED;2025-11-05T05:57:20;until exhausted;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;9;1
+10;MULTIPLE_CHOICE;SPANISH;LISTENING;EASY;2025-11-04T19:39:00;aha tightly who;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;10;2

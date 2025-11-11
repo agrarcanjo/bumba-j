@@ -1,0 +1,48 @@
+{
+  "annotations": {
+    "changelogDate": "20251105172325"
+  },
+  "applications": "*",
+  "documentation": "Achievement - Conquistas disponíveis",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "documentation": "Código único (ex: STREAK_7)",
+      "fieldName": "code",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "unique", "maxlength"],
+      "fieldValidateRulesMaxlength": "50"
+    },
+    {
+      "documentation": "Nome da conquista",
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "100"
+    },
+    {
+      "documentation": "URL do ícone",
+      "fieldName": "iconUrl",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "500"
+    },
+    {
+      "documentation": "Descrição detalhada",
+      "fieldName": "description",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "250"
+    },
+    {
+      "documentation": "JSONB - critérios para desbloquear",
+      "fieldName": "criteria",
+      "fieldType": "TextBlob",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "Achievement",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

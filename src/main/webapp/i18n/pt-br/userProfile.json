@@ -1,0 +1,38 @@
+{
+  "bumbaApp": {
+    "userProfile": {
+      "home": {
+        "title": "User Profiles",
+        "refreshListLabel": "Atualizar lista",
+        "createLabel": "Criar novo User Profile",
+        "createOrEditLabel": "Criar ou editar User Profile",
+        "notFound": "Nenhum User Profile encontrado"
+      },
+      "created": "Um novo User Profile foi criado com o identificador {{ param }}",
+      "updated": "Um User Profile foi atualizado com o identificador {{ param }}",
+      "deleted": "Um User Profile foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir User Profile {{ id }}?"
+      },
+      "detail": {
+        "title": "User Profile"
+      },
+      "id": "ID",
+      "municipalityCode": "Municipality Code",
+      "currentLevel": "Current Level",
+      "totalXp": "Total Xp",
+      "currentStreak": "Current Streak",
+      "dailyGoalXp": "Daily Goal Xp",
+      "lastActivityDate": "Last Activity Date",
+      "user": "User",
+      "help": {
+        "municipalityCode": "Código IBGE do município",
+        "currentLevel": "Nível atual baseado em XP",
+        "totalXp": "XP total acumulado",
+        "currentStreak": "Dias consecutivos de atividade",
+        "dailyGoalXp": "Meta diária de XP (padrão: 50)",
+        "lastActivityDate": "Data da última atividade"
+      }
+    }
+  }
+}

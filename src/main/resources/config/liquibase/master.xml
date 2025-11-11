@@ -12,7 +12,31 @@
     <property name="timeType" value="time(6)" dbms="postgresql"/>
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20251105172315_added_entity_UserProfile.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20251105172316_added_entity_Topic.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20251105172317_added_entity_Question.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20251105172318_added_entity_Lesson.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20251105172319_added_entity_LessonQuestion.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20251105172320_added_entity_ClassRoom.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20251105172321_added_entity_ClassMember.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20251105172322_added_entity_LessonAssignment.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20251105172323_added_entity_StudentLessonProgress.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20251105172324_added_entity_Attempt.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20251105172325_added_entity_Achievement.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20251105172326_added_entity_UserAchievement.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20251105172327_added_entity_Recommendation.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+    <include file="config/liquibase/changelog/20251105172315_added_entity_constraints_UserProfile.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20251105172317_added_entity_constraints_Question.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20251105172318_added_entity_constraints_Lesson.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20251105172319_added_entity_constraints_LessonQuestion.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20251105172320_added_entity_constraints_ClassRoom.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20251105172321_added_entity_constraints_ClassMember.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20251105172322_added_entity_constraints_LessonAssignment.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20251105172323_added_entity_constraints_StudentLessonProgress.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20251105172324_added_entity_constraints_Attempt.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20251105172326_added_entity_constraints_UserAchievement.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20251105172327_added_entity_constraints_Recommendation.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
 </databaseChangeLog>

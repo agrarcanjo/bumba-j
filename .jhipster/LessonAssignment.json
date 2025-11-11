@@ -1,0 +1,51 @@
+{
+  "annotations": {
+    "changelogDate": "20251105172322"
+  },
+  "applications": "*",
+  "documentation": "LessonAssignment - Atribuição de lição para turma",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "documentation": "Data de atribuição",
+      "fieldName": "assignedAt",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "documentation": "Prazo para conclusão",
+      "fieldName": "dueDate",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "LessonAssignment",
+  "relationships": [
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "classRoom",
+      "relationshipName": "classRoom",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityField": "title",
+      "otherEntityName": "lesson",
+      "relationshipName": "lesson",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityName": "user",
+      "relationshipName": "assignedBy",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required",
+      "relationshipWithBuiltInEntity": true
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

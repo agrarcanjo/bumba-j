@@ -1,0 +1,38 @@
+{
+  "bumbaApp": {
+    "attempt": {
+      "home": {
+        "title": "Attempts",
+        "refreshListLabel": "Atualizar lista",
+        "createLabel": "Criar novo Attempt",
+        "createOrEditLabel": "Criar ou editar Attempt",
+        "notFound": "Nenhum Attempt encontrado"
+      },
+      "created": "Um novo Attempt foi criado com o identificador {{ param }}",
+      "updated": "Um Attempt foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Attempt foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Attempt {{ id }}?"
+      },
+      "detail": {
+        "title": "Attempt"
+      },
+      "id": "ID",
+      "isCorrect": "Is Correct",
+      "timeSpentSeconds": "Time Spent Seconds",
+      "attemptedAt": "Attempted At",
+      "answer": "Answer",
+      "metadata": "Metadata",
+      "student": "Student",
+      "question": "Question",
+      "lesson": "Lesson",
+      "help": {
+        "isCorrect": "Se a resposta está correta",
+        "timeSpentSeconds": "Tempo gasto na questão",
+        "attemptedAt": "Data/hora da tentativa",
+        "answer": "JSONB - resposta do aluno",
+        "metadata": "JSONB - dados extras (confidence, etc)"
+      }
+    }
+  }
+}

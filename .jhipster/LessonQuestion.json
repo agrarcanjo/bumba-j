@@ -1,0 +1,37 @@
+{
+  "annotations": {
+    "changelogDate": "20251105172319"
+  },
+  "applications": "*",
+  "documentation": "LessonQuestion - Relacionamento N:N entre Lesson e Question\\nDefine ordem das questões na lição",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "documentation": "Ordem da questão na lição",
+      "fieldName": "orderIndex",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "min"],
+      "fieldValidateRulesMin": "0"
+    }
+  ],
+  "name": "LessonQuestion",
+  "relationships": [
+    {
+      "otherEntityField": "title",
+      "otherEntityName": "lesson",
+      "relationshipName": "lesson",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityName": "question",
+      "relationshipName": "question",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

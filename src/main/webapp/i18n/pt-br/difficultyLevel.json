@@ -1,0 +1,10 @@
+{
+  "bumbaApp": {
+    "DifficultyLevel": {
+      "null": "",
+      "EASY": "EASY",
+      "INTERMEDIATE": "INTERMEDIATE",
+      "ADVANCED": "ADVANCED"
+    }
+  }
+}

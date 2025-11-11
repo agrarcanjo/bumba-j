@@ -1,0 +1,34 @@
+{
+  "bumbaApp": {
+    "classRoom": {
+      "home": {
+        "title": "Class Rooms",
+        "refreshListLabel": "Atualizar lista",
+        "createLabel": "Criar novo Class Room",
+        "createOrEditLabel": "Criar ou editar Class Room",
+        "notFound": "Nenhum Class Room encontrado"
+      },
+      "created": "Um novo Class Room foi criado com o identificador {{ param }}",
+      "updated": "Um Class Room foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Class Room foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Class Room {{ id }}?"
+      },
+      "detail": {
+        "title": "Class Room"
+      },
+      "id": "ID",
+      "name": "Name",
+      "language": "Language",
+      "createdAt": "Created At",
+      "description": "Description",
+      "teacher": "Teacher",
+      "help": {
+        "name": "Nome da turma",
+        "language": "Idioma da turma (fase 1: apenas inglês)",
+        "createdAt": "Data de criação",
+        "description": "Descrição da turma"
+      }
+    }
+  }
+}

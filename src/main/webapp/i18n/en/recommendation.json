@@ -1,0 +1,33 @@
+{
+  "bumbaApp": {
+    "recommendation": {
+      "home": {
+        "title": "Recommendations",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Recommendation",
+        "createOrEditLabel": "Create or edit a Recommendation",
+        "notFound": "No Recommendations found"
+      },
+      "created": "A new Recommendation is created with identifier {{ param }}",
+      "updated": "A Recommendation is updated with identifier {{ param }}",
+      "deleted": "A Recommendation is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Recommendation {{ id }}?"
+      },
+      "detail": {
+        "title": "Recommendation"
+      },
+      "id": "ID",
+      "recommendedAt": "Recommended At",
+      "wasCompleted": "Was Completed",
+      "reason": "Reason",
+      "student": "Student",
+      "lesson": "Lesson",
+      "help": {
+        "recommendedAt": "Data/hora da recomendação",
+        "wasCompleted": "Se o aluno completou a lição",
+        "reason": "Motivo da recomendação"
+      }
+    }
+  }
+}

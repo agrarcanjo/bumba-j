@@ -1,0 +1,29 @@
+{
+  "bumbaApp": {
+    "lessonQuestion": {
+      "home": {
+        "title": "Lesson Questions",
+        "refreshListLabel": "Atualizar lista",
+        "createLabel": "Criar novo Lesson Question",
+        "createOrEditLabel": "Criar ou editar Lesson Question",
+        "notFound": "Nenhum Lesson Question encontrado"
+      },
+      "created": "Um novo Lesson Question foi criado com o identificador {{ param }}",
+      "updated": "Um Lesson Question foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Lesson Question foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Lesson Question {{ id }}?"
+      },
+      "detail": {
+        "title": "Lesson Question"
+      },
+      "id": "ID",
+      "orderIndex": "Order Index",
+      "lesson": "Lesson",
+      "question": "Question",
+      "help": {
+        "orderIndex": "Ordem da questão na lição"
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "annotations": {
+    "changelogDate": "20251105172321"
+  },
+  "applications": "*",
+  "documentation": "ClassMember - Alunos matriculados na turma",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "documentation": "Data de matrícula",
+      "fieldName": "enrolledAt",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "ClassMember",
+  "relationships": [
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "classRoom",
+      "relationshipName": "classRoom",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityName": "user",
+      "relationshipName": "student",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required",
+      "relationshipWithBuiltInEntity": true
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

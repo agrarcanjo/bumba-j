@@ -1,0 +1,43 @@
+{
+  "bumbaApp": {
+    "question": {
+      "home": {
+        "title": "Questions",
+        "refreshListLabel": "Atualizar lista",
+        "createLabel": "Criar novo Question",
+        "createOrEditLabel": "Criar ou editar Question",
+        "notFound": "Nenhum Question encontrado"
+      },
+      "created": "Um novo Question foi criado com o identificador {{ param }}",
+      "updated": "Um Question foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Question foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Question {{ id }}?"
+      },
+      "detail": {
+        "title": "Question"
+      },
+      "id": "ID",
+      "type": "Type",
+      "language": "Language",
+      "skill": "Skill",
+      "level": "Level",
+      "createdAt": "Created At",
+      "prompt": "Prompt",
+      "content": "Content",
+      "assets": "Assets",
+      "topic": "Topic",
+      "createdBy": "Created By",
+      "help": {
+        "type": "Tipo da questão",
+        "language": "Idioma da questão",
+        "skill": "Habilidade trabalhada",
+        "level": "Nível de dificuldade",
+        "createdAt": "Data de criação",
+        "prompt": "Enunciado da questão",
+        "content": "JSONB - estrutura específica por tipo",
+        "assets": "JSONB - estrutura específica por tipo"
+      }
+    }
+  }
+}

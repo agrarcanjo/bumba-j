@@ -1,0 +1,38 @@
+{
+  "bumbaApp": {
+    "studentLessonProgress": {
+      "home": {
+        "title": "Student Lesson Progresses",
+        "refreshListLabel": "Atualizar lista",
+        "createLabel": "Criar novo Student Lesson Progress",
+        "createOrEditLabel": "Criar ou editar Student Lesson Progress",
+        "notFound": "Nenhum Student Lesson Progress encontrado"
+      },
+      "created": "Um novo Student Lesson Progress foi criado com o identificador {{ param }}",
+      "updated": "Um Student Lesson Progress foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Student Lesson Progress foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Student Lesson Progress {{ id }}?"
+      },
+      "detail": {
+        "title": "Student Lesson Progress"
+      },
+      "id": "ID",
+      "status": "Status",
+      "score": "Score",
+      "xpEarned": "Xp Earned",
+      "completedAt": "Completed At",
+      "isLate": "Is Late",
+      "student": "Student",
+      "lesson": "Lesson",
+      "assignment": "Assignment",
+      "help": {
+        "status": "Status da lição",
+        "score": "Percentual de acerto",
+        "xpEarned": "XP ganho nesta lição",
+        "completedAt": "Data/hora de conclusão",
+        "isLate": "Se completou após o prazo"
+      }
+    }
+  }
+}

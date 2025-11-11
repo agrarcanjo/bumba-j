@@ -1,0 +1,85 @@
+{
+  "annotations": {
+    "changelogDate": "20251105172317"
+  },
+  "applications": "*",
+  "documentation": "Question - Banco de questões\\nArmazena todos os tipos de atividades",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "documentation": "Tipo da questão",
+      "fieldName": "type",
+      "fieldType": "QuestionType",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "MULTIPLE_CHOICE,FILL_BLANK,LISTENING,READING_COMPREHENSION,WRITING,SPEAKING_PLACEHOLDER"
+    },
+    {
+      "documentation": "Idioma da questão",
+      "fieldName": "language",
+      "fieldType": "Language",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "ENGLISH,SPANISH,FRENCH"
+    },
+    {
+      "documentation": "Habilidade trabalhada",
+      "fieldName": "skill",
+      "fieldType": "Skill",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "READING,WRITING,LISTENING,SPEAKING"
+    },
+    {
+      "documentation": "Nível de dificuldade",
+      "fieldName": "level",
+      "fieldType": "DifficultyLevel",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "EASY,INTERMEDIATE,ADVANCED"
+    },
+    {
+      "documentation": "Data de criação",
+      "fieldName": "createdAt",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "documentation": "Enunciado da questão",
+      "fieldName": "prompt",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "2000"
+    },
+    {
+      "documentation": "JSONB - estrutura específica por tipo",
+      "fieldName": "content",
+      "fieldType": "TextBlob",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "documentation": "JSONB - estrutura específica por tipo",
+      "fieldName": "assets",
+      "fieldType": "TextBlob"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Question",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "topic",
+      "relationshipName": "topic",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityName": "user",
+      "relationshipName": "createdBy",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required",
+      "relationshipWithBuiltInEntity": true
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

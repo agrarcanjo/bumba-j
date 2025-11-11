@@ -1,0 +1,29 @@
+{
+  "bumbaApp": {
+    "userAchievement": {
+      "home": {
+        "title": "User Achievements",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new User Achievement",
+        "createOrEditLabel": "Create or edit a User Achievement",
+        "notFound": "No User Achievements found"
+      },
+      "created": "A new User Achievement is created with identifier {{ param }}",
+      "updated": "A User Achievement is updated with identifier {{ param }}",
+      "deleted": "A User Achievement is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete User Achievement {{ id }}?"
+      },
+      "detail": {
+        "title": "User Achievement"
+      },
+      "id": "ID",
+      "unlockedAt": "Unlocked At",
+      "user": "User",
+      "achievement": "Achievement",
+      "help": {
+        "unlockedAt": "Data/hora do desbloqueio"
+      }
+    }
+  }
+}

@@ -7,7 +7,20 @@
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
         "main": "Entities",
-        "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
+        "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)",
+        "userProfile": "User Profile",
+        "topic": "Topic",
+        "question": "Question",
+        "lesson": "Lesson",
+        "lessonQuestion": "Lesson Question",
+        "classRoom": "Class Room",
+        "classMember": "Class Member",
+        "lessonAssignment": "Lesson Assignment",
+        "studentLessonProgress": "Student Lesson Progress",
+        "attempt": "Attempt",
+        "achievement": "Achievement",
+        "userAchievement": "User Achievement",
+        "recommendation": "Recommendation"
       },
       "account": {
         "main": "Account",

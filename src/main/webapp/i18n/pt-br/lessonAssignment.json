@@ -1,0 +1,32 @@
+{
+  "bumbaApp": {
+    "lessonAssignment": {
+      "home": {
+        "title": "Lesson Assignments",
+        "refreshListLabel": "Atualizar lista",
+        "createLabel": "Criar novo Lesson Assignment",
+        "createOrEditLabel": "Criar ou editar Lesson Assignment",
+        "notFound": "Nenhum Lesson Assignment encontrado"
+      },
+      "created": "Um novo Lesson Assignment foi criado com o identificador {{ param }}",
+      "updated": "Um Lesson Assignment foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Lesson Assignment foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Lesson Assignment {{ id }}?"
+      },
+      "detail": {
+        "title": "Lesson Assignment"
+      },
+      "id": "ID",
+      "assignedAt": "Assigned At",
+      "dueDate": "Due Date",
+      "classRoom": "Class Room",
+      "lesson": "Lesson",
+      "assignedBy": "Assigned By",
+      "help": {
+        "assignedAt": "Data de atribuição",
+        "dueDate": "Prazo para conclusão"
+      }
+    }
+  }
+}

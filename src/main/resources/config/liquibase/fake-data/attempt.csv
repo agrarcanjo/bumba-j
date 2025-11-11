@@ -1,0 +1,11 @@
+id;is_correct;time_spent_seconds;attempted_at;answer;metadata;student_id;question_id;lesson_id
+1;false;22160;2025-11-05T12:20:51;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;1;1;1
+2;false;29579;2025-11-05T07:39:32;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;2;2;2
+3;false;17353;2025-11-05T01:05:39;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;2;3;3
+4;true;5005;2025-11-04T21:29:24;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;1;4;4
+5;false;32110;2025-11-05T04:28:34;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;2;5;5
+6;false;20638;2025-11-05T12:08:30;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;1;6;6
+7;true;20870;2025-11-05T12:07:42;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;2;7;7
+8;true;12414;2025-11-04T18:52:48;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;1;8;8
+9;false;23470;2025-11-04T23:19:05;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;1;9;9
+10;true;21837;2025-11-05T13:47:07;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;2;10;10

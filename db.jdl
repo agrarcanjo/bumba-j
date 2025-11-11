@@ -215,7 +215,7 @@ entity Recommendation {
 
 // UserProfile → User (1:1)
 relationship OneToOne {
-    UserProfile{user(id) required} to User with builtInEntity
+    UserProfile{user required} to User with builtInEntity
 }
 
 // Question → Topic (N:1)

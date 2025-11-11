@@ -1,0 +1,31 @@
+{
+  "bumbaApp": {
+    "topic": {
+      "home": {
+        "title": "Topics",
+        "refreshListLabel": "Atualizar lista",
+        "createLabel": "Criar novo Topic",
+        "createOrEditLabel": "Criar ou editar Topic",
+        "notFound": "Nenhum Topic encontrado"
+      },
+      "created": "Um novo Topic foi criado com o identificador {{ param }}",
+      "updated": "Um Topic foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Topic foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Topic {{ id }}?"
+      },
+      "detail": {
+        "title": "Topic"
+      },
+      "id": "ID",
+      "name": "Name",
+      "language": "Language",
+      "description": "Description",
+      "help": {
+        "name": "Ex: &#34;Greetings&#34;, &#34;Food&#34;, &#34;Travel&#34;",
+        "language": "Idioma do tema",
+        "description": "Descrição detalhada do tema"
+      }
+    }
+  }
+}

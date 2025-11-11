@@ -1,0 +1,29 @@
+{
+  "bumbaApp": {
+    "classMember": {
+      "home": {
+        "title": "Class Members",
+        "refreshListLabel": "Atualizar lista",
+        "createLabel": "Criar novo Class Member",
+        "createOrEditLabel": "Criar ou editar Class Member",
+        "notFound": "Nenhum Class Member encontrado"
+      },
+      "created": "Um novo Class Member foi criado com o identificador {{ param }}",
+      "updated": "Um Class Member foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Class Member foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Class Member {{ id }}?"
+      },
+      "detail": {
+        "title": "Class Member"
+      },
+      "id": "ID",
+      "enrolledAt": "Enrolled At",
+      "classRoom": "Class Room",
+      "student": "Student",
+      "help": {
+        "enrolledAt": "Data de matrícula"
+      }
+    }
+  }
+}

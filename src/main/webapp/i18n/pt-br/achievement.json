@@ -1,0 +1,35 @@
+{
+  "bumbaApp": {
+    "achievement": {
+      "home": {
+        "title": "Achievements",
+        "refreshListLabel": "Atualizar lista",
+        "createLabel": "Criar novo Achievement",
+        "createOrEditLabel": "Criar ou editar Achievement",
+        "notFound": "Nenhum Achievement encontrado"
+      },
+      "created": "Um novo Achievement foi criado com o identificador {{ param }}",
+      "updated": "Um Achievement foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Achievement foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Achievement {{ id }}?"
+      },
+      "detail": {
+        "title": "Achievement"
+      },
+      "id": "ID",
+      "code": "Code",
+      "name": "Name",
+      "iconUrl": "Icon Url",
+      "description": "Description",
+      "criteria": "Criteria",
+      "help": {
+        "code": "Código único (ex: STREAK_7)",
+        "name": "Nome da conquista",
+        "iconUrl": "URL do ícone",
+        "description": "Descrição detalhada",
+        "criteria": "JSONB - critérios para desbloquear"
+      }
+    }
+  }
+}

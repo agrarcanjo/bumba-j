@@ -9,9 +9,6 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-/**
- * Spring Data JPA repository for the UserAchievement entity.
- */
 @Repository
 public interface UserAchievementRepository extends JpaRepository<UserAchievement, Long> {
     @Query("select userAchievement from UserAchievement userAchievement where userAchievement.user.login = ?#{authentication.name}")
@@ -42,4 +39,9 @@ public interface UserAchievementRepository extends JpaRepository<UserAchievement
         "select userAchievement from UserAchievement userAchievement left join fetch userAchievement.achievement where userAchievement.id =:id"
     )
     Optional<UserAchievement> findOneWithToOneRelationships(@Param("id") Long id);
+
+    @Query(
+        "select case when count(ua) > 0 then true else false end from UserAchievement ua where ua.user.id = :userId and ua.achievement.id = :achievementId"
+    )
+    boolean existsByUserIdAndAchievementId(@Param("userId") Long userId, @Param("achievementId") Long achievementId);
 }

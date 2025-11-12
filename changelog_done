@@ -20,8 +20,33 @@ Não é necessário criar novos testes unitários no momento.
   - GET /api/student/lessons/next - Retorna próxima lição recomendada
   - GET /api/student/lessons/{id}/start - Inicia lição e retorna questões
   - POST /api/student/lessons/{lessonId}/questions/{questionId}/answer - Valida resposta e registra tentativa
-  - POST /api/student/lessons/{id}/complete - Calcula score e XP ao completar lição
+  - POST /api/student/lessons/{id}/complete - Calcula score, atualiza XP/streak e verifica conquistas
   - Métodos adicionados aos repositories: QuestionRepository.findByLessonId() e AttemptRepository.findByStudentIdAndLessonId()
+9. ✅ **XpService implementado** - Serviço para gerenciar XP e níveis dos usuários (v2.2 - 2025-01-XX)
+  - calculateXpForQuestion() - Calcula XP baseado na dificuldade da questão (EASY: 10 XP, INTERMEDIATE: 15 XP, ADVANCED: 20 XP)
+  - updateUserXp() - Atualiza XP total do usuário e recalcula nível automaticamente
+  - calculateLevel() - Determina nível baseado no XP total (BEGINNER: 0-999, INTERMEDIATE: 1000-4999, ADVANCED: 5000+)
+  - getXpForNextLevel() - Retorna XP necessário para próximo nível
+  - getProgressToNextLevel() - Retorna progresso percentual para próximo nível
+  - Método adicionado ao repository: UserProfileRepository.findByUserId()
+10. ✅ **StreakService implementado** - Serviço para gerenciar streak de dias consecutivos (v2.2 - 2025-01-XX)
+  - updateStreak() - Atualiza streak do usuário baseado na última atividade
+  - checkStreakBreak() - Verifica se o streak foi quebrado (mais de 1 dia sem atividade)
+  - getCurrentStreak() - Retorna streak atual do usuário
+  - isStreakActive() - Verifica se o streak está ativo (atividade hoje ou ontem)
+  - Integrado ao StudentLessonResource.completeLesson() para atualizar automaticamente
+11. ✅ **AchievementCheckService implementado** - Serviço para verificar e desbloquear conquistas (v2.2 - 2025-01-XX)
+  - checkAllAchievements() - Verifica todas as conquistas possíveis para o usuário
+  - checkLessonAchievements() - Verifica conquistas relacionadas a lições completadas (FIRST_LESSON, LESSON_MASTER_10, LESSON_MASTER_50)
+  - checkXpAchievements() - Verifica conquistas relacionadas a XP total (XP_COLLECTOR_100, XP_COLLECTOR_1000, XP_COLLECTOR_5000)
+  - checkStreakAchievements() - Verifica conquistas relacionadas a streak (STREAK_WARRIOR_7, STREAK_WARRIOR_30, STREAK_WARRIOR_100)
+  - checkPerfectScoreAchievement() - Verifica conquista de score perfeito (PERFECT_SCORE)
+  - unlockAchievement() - Desbloqueia uma conquista específica para o usuário
+  - Integrado ao StudentLessonResource.completeLesson() para verificar automaticamente após completar lição
+  - Métodos adicionados aos repositories:
+    - AchievementRepository.findByCode()
+    - UserAchievementRepository.existsByUserIdAndAchievementId()
+    - StudentLessonProgressRepository.countCompletedLessonsByUserId()
 
 
 

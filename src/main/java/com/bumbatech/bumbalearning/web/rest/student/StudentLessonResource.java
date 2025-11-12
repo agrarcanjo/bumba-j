@@ -4,12 +4,17 @@ import com.bumbatech.bumbalearning.domain.Attempt;
 import com.bumbatech.bumbalearning.domain.Lesson;
 import com.bumbatech.bumbalearning.domain.Question;
 import com.bumbatech.bumbalearning.domain.User;
+import com.bumbatech.bumbalearning.domain.UserAchievement;
+import com.bumbatech.bumbalearning.domain.UserProfile;
 import com.bumbatech.bumbalearning.repository.AttemptRepository;
 import com.bumbatech.bumbalearning.repository.LessonRepository;
 import com.bumbatech.bumbalearning.repository.QuestionRepository;
 import com.bumbatech.bumbalearning.repository.UserRepository;
 import com.bumbatech.bumbalearning.security.SecurityUtils;
+import com.bumbatech.bumbalearning.service.custom.AchievementCheckService;
 import com.bumbatech.bumbalearning.service.custom.AnswerValidationService;
+import com.bumbatech.bumbalearning.service.custom.StreakService;
+import com.bumbatech.bumbalearning.service.custom.XpService;
 import com.bumbatech.bumbalearning.service.dto.AttemptDTO;
 import com.bumbatech.bumbalearning.service.dto.LessonDTO;
 import com.bumbatech.bumbalearning.service.dto.QuestionDTO;
@@ -40,6 +45,9 @@ public class StudentLessonResource {
     private final AttemptRepository attemptRepository;
     private final UserRepository userRepository;
     private final AnswerValidationService answerValidationService;
+    private final XpService xpService;
+    private final StreakService streakService;
+    private final AchievementCheckService achievementCheckService;
     private final LessonMapper lessonMapper;
     private final QuestionMapper questionMapper;
     private final AttemptMapper attemptMapper;
@@ -50,6 +58,9 @@ public class StudentLessonResource {
         AttemptRepository attemptRepository,
         UserRepository userRepository,
         AnswerValidationService answerValidationService,
+        XpService xpService,
+        StreakService streakService,
+        AchievementCheckService achievementCheckService,
         LessonMapper lessonMapper,
         QuestionMapper questionMapper,
         AttemptMapper attemptMapper
@@ -59,6 +70,9 @@ public class StudentLessonResource {
         this.attemptRepository = attemptRepository;
         this.userRepository = userRepository;
         this.answerValidationService = answerValidationService;
+        this.xpService = xpService;
+        this.streakService = streakService;
+        this.achievementCheckService = achievementCheckService;
         this.lessonMapper = lessonMapper;
         this.questionMapper = questionMapper;
         this.attemptMapper = attemptMapper;
@@ -180,12 +194,49 @@ public class StudentLessonResource {
         boolean passed = score >= lesson.getPassThreshold();
         int xpEarned = passed ? lesson.getXpReward() : 0;
 
+        List<UserAchievement> newAchievements = List.of();
+
+        if (passed && xpEarned > 0) {
+            UserProfile updatedProfile = xpService.updateUserXp(student, xpEarned);
+            streakService.updateStreak(student);
+
+            newAchievements = achievementCheckService.checkAllAchievements(student);
+            achievementCheckService.checkPerfectScoreAchievement(student, score).ifPresent(newAchievements::add);
+
+            LOG.info(
+                "User {} completed lesson {} - Score: {}%, XP earned: {}, Total XP: {}, Streak: {}, New achievements: {}",
+                student.getLogin(),
+                lesson.getId(),
+                score,
+                xpEarned,
+                updatedProfile.getTotalXp(),
+                updatedProfile.getCurrentStreak(),
+                newAchievements.size()
+            );
+        }
+
         Map<String, Object> response = new HashMap<>();
         response.put("score", score);
         response.put("correctAnswers", correctAnswers);
         response.put("totalQuestions", totalQuestions);
         response.put("passed", passed);
         response.put("xpEarned", xpEarned);
+        response.put(
+            "newAchievements",
+            newAchievements
+                .stream()
+                .map(ua ->
+                    Map.of(
+                        "code",
+                        ua.getAchievement().getCode(),
+                        "name",
+                        ua.getAchievement().getName(),
+                        "description",
+                        ua.getAchievement().getDescription()
+                    )
+                )
+                .collect(Collectors.toList())
+        );
 
         return ResponseEntity.ok(response);
     }

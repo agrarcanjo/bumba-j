@@ -1,6 +1,7 @@
 package com.bumbatech.bumbalearning.repository;
 
 import com.bumbatech.bumbalearning.domain.StudentLessonProgress;
+import com.bumbatech.bumbalearning.domain.enumeration.LessonStatus;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -9,9 +10,6 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-/**
- * Spring Data JPA repository for the StudentLessonProgress entity.
- */
 @Repository
 public interface StudentLessonProgressRepository
     extends JpaRepository<StudentLessonProgress, Long>, JpaSpecificationExecutor<StudentLessonProgress> {
@@ -45,4 +43,7 @@ public interface StudentLessonProgressRepository
         "select studentLessonProgress from StudentLessonProgress studentLessonProgress left join fetch studentLessonProgress.lesson where studentLessonProgress.id =:id"
     )
     Optional<StudentLessonProgress> findOneWithToOneRelationships(@Param("id") Long id);
+
+    @Query("select count(slp) from StudentLessonProgress slp where slp.student.id = :userId and slp.status = 'COMPLETED'")
+    long countCompletedLessonsByUserId(@Param("userId") Long userId);
 }

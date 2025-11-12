@@ -1,13 +1,12 @@
-
 ## 🚀 PRÓXIMAS ATIVIDADES PRIORITÁRIAS
 
 v2.2 - Próxima Versão (Em Desenvolvimento)
-🔄 XpService - Calcular e atualizar XP dos usuários
-🔄 StreakService - Gerenciar streak de dias consecutivos
-⏳ AchievementCheckService - Verificar e desbloquear conquistas
-⏳ StudentLessonResource - Endpoints para lições do aluno
-⏳ DashboardResource - Endpoint para dashboard do aluno
-⏳ Seeds de dados iniciais
+✅ XpService - Calcular e atualizar XP dos usuários (CONCLUÍDO)
+✅ StreakService - Gerenciar streak de dias consecutivos (CONCLUÍDO)
+✅ AchievementCheckService - Verificar e desbloquear conquistas (CONCLUÍDO)
+✅ StudentLessonResource - Endpoints para lições do aluno (CONCLUÍDO)
+🔄 DashboardResource - Endpoint para dashboard do aluno (PRÓXIMO)
+⏳ Seeds de dados iniciais (conquistas, tópicos, questões exemplo)
 ⏳ Interfaces de usuário (frontend)
 
 v3.0 - Futuro (Planejado)
@@ -16,61 +15,35 @@ v3.0 - Futuro (Planejado)
 ⏳ Otimizações de performance
 
 
-Comandos sugeridos:
-
-# Criar estrutura de serviços customizados
-mkdir -p src/main/java/com/bumbatech/bumbalearning/service/custom
-mkdir -p src/main/java/com/bumbatech/bumbalearning/web/rest/student
-mkdir -p src/main/java/com/bumbatech/bumbalearning/web/rest/teacher
-mkdir -p src/main
-
-/java/com/bumbatech/bumbalearning/web/rest/admin
-
-# Criar estrutura frontend
-mkdir -p src/main/webapp/app/modules/student/dashboard
-mkdir -p src/main/webapp/app/modules/student/lesson
-mkdir -p src/main/webapp/app/modules/teacher
-mkdir -p src/main/webapp/app/modules/admin
-
+📞 PRÓXIMA AÇÃO IMEDIATA
+Implementar DashboardResource para fornecer endpoint que retorna dados consolidados do dashboard do aluno (XP total, streak, nível, conquistas, meta diária, progresso).
 
 ### **FASE 1: Backend - Lógica de Negócio Customizada**
 
 #### **1.1 Endpoints Customizados para Aluno**
 **Prioridade: CRÍTICA**
 
-Criar em `src/main/java/com/bumbatech/bumbalearning/web/rest/`:
+✅ StudentLessonResource.java (CONCLUÍDO)
+- GET /api/student/lessons/next - Retorna próxima lição recomendada
+- GET /api/student/lessons/{id}/start - Inicia lição e retorna questões
+- POST /api/student/lessons/{lessonId}/questions/{questionId}/answer - Valida resposta e registra tentativa
+- POST /api/student/lessons/{id}/complete - Calcula score, atualiza XP/streak/nível e verifica conquistas
 
-```java
-// Student
-
-DashboardResource.java
+🔄 DashboardResource.java (PRÓXIMO)
 GET /api/student/dashboard
-- Retorna: XP total, streak, nível, conquistas, meta diária
+- Retorna: XP total, streak, nível, conquistas desbloqueadas, meta diária, progresso para próximo nível
+- Dados consolidados do perfil do usuário
+- Lista de conquistas recentes
+- Estatísticas de lições completadas
 
-// StudentLessonResource.java
-GET /api/student/lessons/next
-- Implementa lógica de recomendação
-
-GET /api/student/lessons/{id}/start
-- Retorna questões embaralhadas (mistura inteligente)
-
-POST /api/student/lessons/{lessonId}/questions/{questionId}/answer
-- Valida resposta e retorna feedback imediato
-- Registra Attempt
-
-POST /api/student/lessons/{id}/complete
-- Calcula score, atualiza XP/streak/nível
-- Verifica conquistas
-
-// StudentRankingResource.java
+⏳ StudentRankingResource.java
 GET /api/student/ranking?municipality={code}&period={week|month|all}
 - Query otimizada com índices
+- Ranking por município e período
 
 
-1.2 Serviços de Validação
-Prioridade: CRÍTICA
-
-Criar em src/main/java/com/bumbatech/bumbalearning/service/:
+#### **1.2 Serviços de Gamificação**
+**Prioridade: CRÍTICA**
 
 ✅ AnswerValidationService.java (CONCLUÍDO)
 - validateMultipleChoice()
@@ -80,37 +53,42 @@ Criar em src/main/java/com/bumbatech/bumbalearning/service/:
 - validateWriting()
 - validateSpeaking()
 
-✅ StudentLessonResource.java (CONCLUÍDO)
-- GET /api/student/lessons/next - Retorna próxima lição recomendada
-- GET /api/student/lessons/{id}/start - Inicia lição e retorna questões
-- POST /api/student/lessons/{lessonId}/questions/{questionId}/answer - Valida resposta e registra tentativa
-- POST /api/student/lessons/{id}/complete - Calcula score e XP ao completar lição
-
-📞 PRÓXIMA AÇÃO IMEDIATA
-Implementar XpService e StreakService para gerenciar XP e streak dos usuários. Estes serviços são necessários para completar a funcionalidade do StudentLessonResource.
-
-# Criar serviços customizados
-Criar em src/main/java/com/bumbatech/bumbalearning/service/custom/:
-- XpService.java
-- StreakService.java
-
-// XpService.java
-- calculateXp
-
-ForQuestion()
+✅ XpService.java (CONCLUÍDO)
+- calculateXpForQuestion()
 - updateUserXp()
-- recalculateLevel()
+- calculateLevel()
+- getXpForNextLevel()
+- getProgressToNextLevel()
 
-// StreakService.java
+✅ StreakService.java (CONCLUÍDO)
 - updateStreak()
 - checkStreakBreak()
+- getCurrentStreak()
+- isStreakActive()
 
-// AchievementCheckService.java
-- checkAllAchievements()
-- unlockAchievement()
+✅ AchievementCheckService.java (CONCLUÍDO)
+- checkAllAchievements() - Verifica todas as conquistas possíveis
+- unlockAchievement() - Desbloqueia uma conquista específica
+- checkLessonAchievements() - Verifica conquistas relacionadas a lições completadas
+- checkXpAchievements() - Verifica conquistas relacionadas a XP total
+- checkStreakAchievements() - Verifica conquistas relacionadas a streak
+- checkPerfectScoreAchievement() - Verifica conquista de score perfeito
 
-1.3 Endpoints para Professor
-Prioridade: ALTA
+Conquistas implementadas:
+- FIRST_LESSON: Completar primeira lição
+- LESSON_MASTER_10: Completar 10 lições
+- LESSON_MASTER_50: Completar 50 lições
+- XP_COLLECTOR_100: Atingir 100 XP
+- XP_COLLECTOR_1000: Atingir 1000 XP
+- XP_COLLECTOR_5000: Atingir 5000 XP
+- STREAK_WARRIOR_7: Manter streak de 7 dias
+- STREAK_WARRIOR_30: Manter streak de 30 dias
+- STREAK_WARRIOR_100: Manter streak de 100 dias
+- PERFECT_SCORE: Completar lição com 100% de acerto
+
+
+#### **1.3 Endpoints para Professor**
+**Prioridade: ALTA**
 
 GET /api/teacher/classes/{id}/report
 - Relatório de turma com progresso dos alunos

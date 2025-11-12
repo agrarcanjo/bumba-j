@@ -193,6 +193,7 @@ JHipster: https://www.jhipster.tech/
 Spring Boot: https://spring.io/projects/spring-boot
 React: https://react.dev/
 PostgreSQL JSONB: https://www.postgresql.org/docs/current/datatype-json.html
+Modelo de dados criado: db.jdl na raiz do projeto.
 
 Padrões de Código:
 

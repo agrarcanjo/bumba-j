@@ -9,9 +9,6 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-/**
- * Spring Data JPA repository for the Question entity.
- */
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Long>, JpaSpecificationExecutor<Question> {
     @Query("select question from Question question where question.createdBy.login = ?#{authentication.name}")
@@ -40,4 +37,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long>, JpaSp
 
     @Query("select question from Question question left join fetch question.topic where question.id =:id")
     Optional<Question> findOneWithToOneRelationships(@Param("id") Long id);
+
+    @Query("select q from Question q join q.lessons l where l.id = :lessonId")
+    List<Question> findByLessonId(@Param("lessonId") Long lessonId);
 }

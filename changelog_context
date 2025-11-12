@@ -1,3 +1,7 @@
+De acordo com os arquivos changelog_context, changelog_done e changelog_todo, entenda o contexto e execute a próxima ação imediata conforme TODO.
+Após implementação, atualize os arquivos de changelog_done com as atividades concluídas, changelog_context (caso necessário)
+e o changelog_todo com as ações feitas e defina a próxima atividade.
+
 # 📚 BUMBA LEARNING - CHANGELOG
 
 ## 🎯 VISÃO GERAL DA APLICAÇÃO
@@ -6,6 +10,7 @@
 **Objetivo**: Criar uma experiência gamificada de aprendizado de idiomas com foco em inglês (Fase 1), permitindo que professores criem conteúdo, gerenciem turmas e acompanhem o progresso dos alunos.
 
 **Tema**: Bumba remete a um boi (touro) nordestino de cores verde e colorido.
+
 
 ---
 

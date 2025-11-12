@@ -9,9 +9,6 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-/**
- * Spring Data JPA repository for the Attempt entity.
- */
 @Repository
 public interface AttemptRepository extends JpaRepository<Attempt, Long>, JpaSpecificationExecutor<Attempt> {
     @Query("select attempt from Attempt attempt where attempt.student.login = ?#{authentication.name}")
@@ -40,4 +37,7 @@ public interface AttemptRepository extends JpaRepository<Attempt, Long>, JpaSpec
 
     @Query("select attempt from Attempt attempt left join fetch attempt.lesson where attempt.id =:id")
     Optional<Attempt> findOneWithToOneRelationships(@Param("id") Long id);
+
+    @Query("select a from Attempt a where a.student.id = :studentId and a.lesson.id = :lessonId")
+    List<Attempt> findByStudentIdAndLessonId(@Param("studentId") Long studentId, @Param("lessonId") Long lessonId);
 }

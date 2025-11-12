@@ -1,6 +1,3 @@
-De acordo com os arquivos changelog_context e changelog_done, entenda o contexto e execute a próxima ação imediata conforme esse documento de TODO.
-Após implementação, atualize os arquivos de changelog_done com as atividades concluídas, changelog_context (caso necessário)
-e o changelog_todo com as ações feitas e defina a próxima atividade.
 
 ## 🚀 PRÓXIMAS ATIVIDADES PRIORITÁRIAS
 
@@ -18,9 +15,6 @@ v3.0 - Futuro (Planejado)
 ⏳ Painel do admin
 ⏳ Otimizações de performance
 
-
-📞 PRÓXIMA AÇÃO IMEDIATA
-Começar por: Implementar AnswerValidationService (feito) e StudentLessonResource para permitir que alunos completem lições e ganhem XP. Este é o fluxo core da aplicação.
 
 Comandos sugeridos:
 
@@ -78,12 +72,27 @@ Prioridade: CRÍTICA
 
 Criar em src/main/java/com/bumbatech/bumbalearning/service/:
 
+✅ AnswerValidationService.java (CONCLUÍDO)
 - validateMultipleChoice()
 - validateFillBlank()
 - validateListening()
 - validateReading()
 - validateWriting()
-- validateSpeaking() // placeholder
+- validateSpeaking()
+
+✅ StudentLessonResource.java (CONCLUÍDO)
+- GET /api/student/lessons/next - Retorna próxima lição recomendada
+- GET /api/student/lessons/{id}/start - Inicia lição e retorna questões
+- POST /api/student/lessons/{lessonId}/questions/{questionId}/answer - Valida resposta e registra tentativa
+- POST /api/student/lessons/{id}/complete - Calcula score e XP ao completar lição
+
+📞 PRÓXIMA AÇÃO IMEDIATA
+Implementar XpService e StreakService para gerenciar XP e streak dos usuários. Estes serviços são necessários para completar a funcionalidade do StudentLessonResource.
+
+# Criar serviços customizados
+Criar em src/main/java/com/bumbatech/bumbalearning/service/custom/:
+- XpService.java
+- StreakService.java
 
 // XpService.java
 - calculateXp

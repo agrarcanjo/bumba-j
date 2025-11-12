@@ -1,4 +1,3 @@
-
 ## ✅ STATUS ATUAL DO PROJETO
 
 Não é necessário criar novos testes unitários no momento.
@@ -17,7 +16,12 @@ Não é necessário criar novos testes unitários no momento.
   - Validação de reading comprehension (comparação exata)
   - Validação de writing (similaridade >= 70%)
   - Validação de speaking (placeholder - sempre retorna true)
-8.
+8. ✅ **StudentLessonResource implementado** - Endpoints para alunos completarem lições (v2.2 - 2025-01-XX)
+  - GET /api/student/lessons/next - Retorna próxima lição recomendada
+  - GET /api/student/lessons/{id}/start - Inicia lição e retorna questões
+  - POST /api/student/lessons/{lessonId}/questions/{questionId}/answer - Valida resposta e registra tentativa
+  - POST /api/student/lessons/{id}/complete - Calcula score e XP ao completar lição
+  - Métodos adicionados aos repositories: QuestionRepository.findByLessonId() e AttemptRepository.findByStudentIdAndLessonId()
 
 
 

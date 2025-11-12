@@ -1,0 +1,56 @@
+
+🔧 CONFIGURAÇÕES TÉCNICAS IMPORTANTES
+
+Índices PostgreSQL (Performance Crítica)
+
+CREATE INDEX idx_user_profile_ranking ON user_profile(total_xp DESC, last_activity_date);
+CREATE INDEX idx_user_profile_municipality
+
+ ON user_profile(municipality_code);
+CREATE INDEX idx_attempt_student_lesson ON attempt(student_id, lesson_id);
+CREATE INDEX idx_progress_student_status ON student_lesson_progress(student_id, status);
+CREATE INDEX idx_assignment_class_due ON lesson_assignment(class_room_id, due_date);
+CREATE INDEX idx_question_filters ON question(language, level, skill);
+CREATE INDEX idx_question_topic ON question(topic_id, level);
+CREATE INDEX idx_lesson_filters ON lesson(language, level);
+CREATE INDEX idx_lesson_topic ON lesson(topic_id);
+
+
+📊 DADOS INICIAIS (Seeds)
+1. Authorities
+
+INSERT INTO jhi_authority (name) VALUES ('ROLE_ADMIN');
+INSERT INTO jhi_authority (name) VALUES ('ROLE_USER');
+INSERT INTO jhi_authority (name) VALUES ('ROLE_STUDENT');
+INSERT INTO jhi_authority (name) VALUES ('ROLE_TEACHER');
+
+2. Topics (8 tópicos básicos de inglês)
+
+Greetings (Cumprimentos)
+Numbers (Números)
+Colors (Cores)
+Food (Comida)
+Family (Família)
+Travel (Viagem)
+Work (Trabalho)
+Hobbies (Hobbies)
+
+3. Achievements (10 conquistas básicas)
+
+FIRST_LESSON       - {"type": "lesson_count", "value": 1}
+STREAK_7           - {"type": "streak", "value": 7}
+STREAK_30          - {"type": "streak", "value": 30}
+XP_100             - {"type": "xp", "value": 100}
+XP_1000            - {"type": "xp", "value": 1000}
+XP_5000            - {"type": "xp", "value": 5000}
+FIRST_ADVANCED     - {"type": "lesson_level", "value": "ADVANCED"}
+TEACHER_ASSIGNMENT - {"type": "assignment_complete", "value": 1}
+PERFECT_LESSON     - {"type": "perfect_score", "value": 100}
+SPEED_DEMON        - {"type": "lesson_time", "value": 300}
+
+4. UserProfile padrão para novos usuários
+
+currentLevel: BEGINNER
+totalXp: 0
+currentStreak: 0
+dailyGoalXp: 50

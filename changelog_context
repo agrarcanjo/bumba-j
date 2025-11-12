@@ -78,10 +78,11 @@ src/main/java/com/bumbatech/bumbalearning/
 ├── repository/ # Repositories Spring Data
 ├── security/ # Security
 ├── service/ # Lógica de negócio
-│ ├── dto/ # Data Transfer Objects
-│ ├── mapper/ # MapStruct mappers
 │ ├── criteria/ # Filtros de busca
-│ └── impl/ # Implementações de serviços
+│ ├── custom/ # serviços customizados
+│ ├── dto/ # Data Transfer Objects
+│ ├── impl/ # Implementações de serviços
+│ └── mapper/ # MapStruct mappers
 └── web/rest/ # Controllers REST
 
 
@@ -183,60 +184,7 @@ Cadastro público de usuários
 Múltiplos idiomas (focar apenas inglês)
 App mobile nativo
 
-📞 PRÓXIMA AÇÃO IMEDIATA
-Começar por: Implementar AnswerValidationService e StudentLessonResource para permitir que alunos completem lições e ganhem XP. Este é o fluxo core da aplicação.
 
-Comandos sugeridos:
-
-# Criar estrutura de serviços customizados
-mkdir -p src/main/java/com/bumbatech/bumbalearning/service/custom
-mkdir -p src/main/java/com/bumbatech/bumbalearning/web/rest/student
-mkdir -p src/main/java/com/bumbatech/bumbalearning/web/rest/teacher
-mkdir -p src/main
-
-/java/com/bumbatech/bumbalearning/web/rest/admin
-
-# Criar estrutura frontend
-mkdir -p src/main/webapp/app/modules/student/dashboard
-mkdir -p src/main/webapp/app/modules/student/lesson
-mkdir -p src/main/webapp/app/modules/teacher
-mkdir -p src/main/webapp/app/modules/admin
-
-
-📝 HISTÓRICO DE MUDANÇAS
-
-v1.0 - Setup Inicial
-✅ Projeto JHipster criado
-✅ Modelo JDL definido e aplicado
-✅ 17 entidades geradas
-✅ CRUD básico funcionando
-
-v2.1 - Validação de Respostas (2025-01-XX)
-✅ AnswerValidationService implementado
-  - Validação de múltipla escolha (comparação de índice)
-  - Validação de preencher lacunas (case-insensitive, aceita sinônimos)
-  - Validação de listening (comparação exata)
-  - Validação de reading comprehension (comparação exata)
-  - Validação de writing (similaridade >= 70%)
-  - Validação de speaking (placeholder - sempre retorna true)
-✅ Testes unitários criados para AnswerValidationService
-✅ Estrutura de diretórios customizados criada (service/custom)
-
-v2.2 - Próxima Versão (Em Desenvolvimento)
-🔄 XpService - Calcular e atualizar XP dos usuários
-🔄 StreakService - Gerenciar streak de dias consecutivos
-⏳ AchievementCheckService - Verificar e desbloquear conquistas
-⏳ StudentLessonResource - Endpoints para lições do aluno
-⏳ DashboardResource - Endpoint para dashboard do aluno
-⏳ Seeds de dados iniciais
-⏳ Interfaces de usuário (frontend)
-
-v3.0 - Futuro (Planejado)
-⏳ Painel do professor
-⏳ Painel do admin
-⏳ Otimizações de performance
-⏳ Cache Redis
-⏳ Testes E2E
 🔗 REFERÊNCIAS TÉCNICAS
 
 Documentação:
@@ -245,7 +193,9 @@ JHipster: https://www.jhipster.tech/
 Spring Boot: https://spring.io/projects/spring-boot
 React: https://react.dev/
 PostgreSQL JSONB: https://www.postgresql.org/docs/current/datatype-json.html
+
 Padrões de Código:
+
 REST API: Seguir convenções RESTful
 
 DTOs: Usar MapStruct para conversões

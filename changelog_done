@@ -11,6 +11,13 @@ Não é necessário criar novos testes unitários no momento.
 5. ✅ Resources REST básicos (CRUD) criados para todas as entidades
 6. ✅ Estrutura de autenticação e autorização (User, Authority)
 7. ✅ **AnswerValidationService implementado** - Serviço para validação de respostas de questões (v2.1 - 2025-01-XX)
+  - Validação de múltipla escolha (comparação de índice)
+  - Validação de preencher lacunas (case-insensitive, aceita sinônimos)
+  - Validação de listening (comparação exata)
+  - Validação de reading comprehension (comparação exata)
+  - Validação de writing (similaridade >= 70%)
+  - Validação de speaking (placeholder - sempre retorna true)
+8.
 
 
 

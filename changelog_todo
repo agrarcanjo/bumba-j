@@ -1,10 +1,40 @@
 
-### **Em Desenvolvimento:**
-- XpService - Serviço para calcular e atualizar XP dos usuários
-- StreakService - Serviço para gerenciar streak de dias consecutivos
-
-
 ## 🚀 PRÓXIMAS ATIVIDADES PRIORITÁRIAS
+
+v2.2 - Próxima Versão (Em Desenvolvimento)
+🔄 XpService - Calcular e atualizar XP dos usuários
+🔄 StreakService - Gerenciar streak de dias consecutivos
+⏳ AchievementCheckService - Verificar e desbloquear conquistas
+⏳ StudentLessonResource - Endpoints para lições do aluno
+⏳ DashboardResource - Endpoint para dashboard do aluno
+⏳ Seeds de dados iniciais
+⏳ Interfaces de usuário (frontend)
+
+v3.0 - Futuro (Planejado)
+⏳ Painel do professor
+⏳ Painel do admin
+⏳ Otimizações de performance
+
+
+📞 PRÓXIMA AÇÃO IMEDIATA
+Começar por: Implementar AnswerValidationService (feito) e StudentLessonResource para permitir que alunos completem lições e ganhem XP. Este é o fluxo core da aplicação.
+
+Comandos sugeridos:
+
+# Criar estrutura de serviços customizados
+mkdir -p src/main/java/com/bumbatech/bumbalearning/service/custom
+mkdir -p src/main/java/com/bumbatech/bumbalearning/web/rest/student
+mkdir -p src/main/java/com/bumbatech/bumbalearning/web/rest/teacher
+mkdir -p src/main
+
+/java/com/bumbatech/bumbalearning/web/rest/admin
+
+# Criar estrutura frontend
+mkdir -p src/main/webapp/app/modules/student/dashboard
+mkdir -p src/main/webapp/app/modules/student/lesson
+mkdir -p src/main/webapp/app/modules/teacher
+mkdir -p src/main/webapp/app/modules/admin
+
 
 ### **FASE 1: Backend - Lógica de Negócio Customizada**
 
@@ -235,22 +265,6 @@ Sprint 4: Admin e Otimizações (1 semana)
  Cache Redis
  Testes automatizados
 
-🔧 CONFIGURAÇÕES TÉCNICAS IMPORTANTES
-
-Índices PostgreSQL (Performance Crítica)
-
-CREATE INDEX idx_user_profile_ranking ON user_profile(total_xp DESC, last_activity_date);
-CREATE INDEX idx_user_profile_municipality
-
- ON user_profile(municipality_code);
-CREATE INDEX idx_attempt_student_lesson ON attempt(student_id, lesson_id);
-CREATE INDEX idx_progress_student_status ON student_lesson_progress(student_id, status);
-CREATE INDEX idx_assignment_class_due ON lesson_assignment(class_room_id, due_date);
-CREATE INDEX idx_question_filters ON question(language, level, skill);
-CREATE INDEX idx_question_topic ON question(topic_id, level);
-CREATE INDEX idx_lesson_filters ON lesson(language, level);
-CREATE INDEX idx_lesson_topic ON lesson(topic_id);
-
 
 Estruturas JSONB
 Question.content:
@@ -277,7 +291,6 @@ Question.content:
 
 
 Question.assets:
-
 
 [
   {"type": "image", "url": "https://..."},
@@ -312,6 +325,7 @@ INSERT INTO jhi_authority (name) VALUES ('ROLE_ADMIN');
 INSERT INTO jhi_authority (name) VALUES ('ROLE_USER');
 INSERT INTO jhi_authority (name) VALUES ('ROLE_STUDENT');
 INSERT INTO jhi_authority (name) VALUES ('ROLE_TEACHER');
+
 
 2. Topics (8 tópicos básicos de inglês)
 

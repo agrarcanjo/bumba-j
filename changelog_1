@@ -1,984 +1,594 @@
+# 📚 BUMBA LEARNING - CHANGELOG
 
-Prompt para Desenvolvimento do MVP Bumba Learning
-Contexto e Objetivo
-Você é um agente desenvolvedor full stack sênior responsável por criar o modelo de dados JDL para o MVP da plataforma "Bumba Learning" -
- uma aplicação web de aprendizado de idiomas estilo Duolingo. Bumba remete a um boi (touro) nodertino de cores verde e colorido.
+## 🎯 VISÃO GERAL DA APLICAÇÃO
+**Bumba Learning** é uma plataforma web de aprendizado de idiomas estilo Duolingo, desenvolvida como MVP monolítico usando JHipster 8.11.0, React 18 + TailwindCSS, Spring Boot, Java 17 e PostgreSQL.
 
-Premissas:
-•	O projeto JHipster já possui as entidades User e Authority
-•	Interface e textos institucionais: português do Brasil
-•	Conteúdo pedagógico (lições): idioma definido pelo professor (fase 1 foca em inglês)
-•	Arquitetura: monólito (entrega rápida)
-•	Stack: Desenvolvida como MVP monolítico usando JHipster (8.11.0) React 18 + TailwindCSS / Spring Boot / Java 17 / PostgreSQL
----------------------------
+**Objetivo**: Criar uma experiência gamificada de aprendizado de idiomas com foco em inglês (Fase 1), permitindo que professores criem conteúdo, gerenciem turmas e acompanhem o progresso dos alunos.
 
-
-## 👥 Perfis de Usuário
-
-### 1. **Aluno (Student)**
-- Realiza lições de idiomas
-- Ganha XP e conquistas
-- Acompanha progresso e ranking
-- Recebe recomendações personalizadas
-
-### 2. **Professor (Teacher)**
-- Cria e gerencia turmas
-- Atribui lições para turmas
-- Acompanha progresso dos alunos
-- Cria questões e lições customizadas
-
-### 3. **Admin**
-- Gerencia usuários e permissões
-- Modera conteúdo (questões/lições)
-- Visualiza métricas globais
-- Cria conquistas e tópicos
+**Tema**: Bumba remete a um boi (touro) nordestino de cores verde e colorido.
 
 ---
 
-1. PERFIS E AUTENTICAÇÃO
-Roles (usar Authority do JHipster)
-•	ROLE_STUDENT: acesso a lições, dashboard pessoal, ranking
-•	ROLE_TEACHER: tudo de STUDENT + gerenciar turmas próprias, criar questões, relatórios de suas turmas
-•	ROLE_ADMIN: acesso total + gestão de usuários, banco de questões global, relatórios globais
+## ✅ STATUS ATUAL DO PROJETO
 
-Seeds e Dados Iniciais
+### **Concluído:**
+1. ✅ Projeto JHipster inicializado (versão 8.11.0)
+2. ✅ Modelo de dados JDL completo criado
+3. ✅ Todas as entidades do domínio geradas (17 entidades)
+4. ✅ Repositories, Services, DTOs e Mappers gerados automaticamente
+5. ✅ Resources REST básicos (CRUD) criados para todas as entidades
+6. ✅ Estrutura de autenticação e autorização (User, Authority)
+
+### **Entidades Implementadas:**
+- **Perfil**: UserProfile
+- **Conteúdo**: Topic, Question, Lesson, LessonQuestion
+- **Turmas**: ClassRoom, ClassMember, LessonAssignment, StudentLessonProgress
+- **Tentativas**: Attempt
+- **Gamificação**: Achievement, UserAchievement
+- **Recomendação**: Recommendation
+
+---
+
+Achievement: Long id, String code, String name, String iconUrl, String description, String criteria
+Attempt: Long id ,Boolean isCorrect ,Integer timeSpentSeconds ,Instant attemptedAt ,String answer ,String metadata ,User student ,Question question ,Lesson lesson
+Authority: String name, boolean isPersisted
+ClassMember: Long id, Instant enrolledAt, ClassRoom classRoom, User student
+ClassRoom: Long id, String name, Language language, Instant createdAt, String description, User teacher
+Lesson: Long id, String title, Language language, DifficultyLevel level, Integer xpReward, Integer passThreshold, Instant createdAt, String description, Topic topic, User createdBy
+LessonAssignment: Long id, Instant assignedAt, Instant dueDate, ClassRoom classRoom, Lesson lesson, User assignedBy
+LessonQuestion: Long id, Integer orderIndex, Lesson lesson, Question question
+Question: Long id, QuestionType type, Language language, Skill skill, DifficultyLevel level, Instant createdAt, String prompt, String content, String assets, Topic topic, User createdBy
+Recommendation: Long id, Instant recommendedAt, Boolean wasCompleted, String reason, User student, Lesson lesson
+StudentLessonProgress: Long id, LessonStatus status, Integer score, Integer xpEarned, Instant completedAt, Boolean isLate, User student, Lesson lesson, LessonAssignment assignment
+Topic: Long id, String name, Language language, String description
+User: Long id, String login, String password, String firstName, String lastName, String email, boolean activated = false, String langKey, String imageUrl, String activationKey, String resetKey, Instant resetDate = null, Set<Authority> authorities
+UserAchievement: Long id, Instant unlockedAt, User user, Achievement achievement
+UserProfile: Long id, String municipalityCode, UserLevel currentLevel, Integer totalXp, Integer currentStreak, Integer dailyGoalXp, LocalDate lastActivityDate, User user
+
+---
+
+## 🎭 PERFIS DE USUÁRIO
+
+### **ROLE_STUDENT** (Aluno)
+- Realiza lições e ganha XP/conquistas
+- Acompanha progresso pessoal e ranking
+- Recebe recomendações personalizadas
+
+### **ROLE_TEACHER** (Professor)
+- Herda permissões de STUDENT
+- Cria/gerencia turmas e atribui lições
+- Cria questões customizadas
+- Visualiza relatórios de turmas
+
+### **ROLE_ADMIN** (Administrador)
+- Acesso total ao sistema
+- Gerencia usuários e permissões
+- Cria conquistas e tópicos
+- Visualiza métricas globais
+
+---
+
+## 🏗️ ARQUITETURA DO SISTEMA
+
+### **Stack Tecnológica:**
+- **Backend**: Spring Boot 3.x + Java 17 + PostgreSQL
+- **Frontend**: React 18 + TypeScript + TailwindCSS
+- **Autenticação**: JWT (JH
+
+ipster Security)
+- **ORM**: JPA/Hibernate
+- **Build**: Maven
+
+### **Estrutura de Pastas:**
+
+**Backend:**
+src/main/java/com/bumbatech/bumbalearning/
+├── app/logging # Logging
+├── config/ # Configuration files and settings
+├── domain/ # Entidades JPA
+├── management/ # Security Meters
+├── repository/ # Repositories Spring Data
+├── security/ # Security
+├── service/ # Lógica de negócio
+│ ├── dto/ # Data Transfer Objects
+│ ├── mapper/ # MapStruct mappers
+│ ├── criteria/ # Filtros de busca
+│ └── impl/ # Implementações de serviços
+└── web/rest/ # Controllers REST
+
+
+**Frontend:**
+src/main/webapp/app/
+├── config/ # axios-interceptor, constants, store ...
+├── entities/ # Menu, Reducers, Routes
+│   ├── achievement
+│   ├── attempt
+│   ├── class-member
+│   ├── class-room
+│   ├── lesson
+│   ├── lesson-assignment
+│   ├── lesson-question
+│   ├── question
+│   ├── recommendation
+│   ├── student-lesson-progress
+│   ├── topic
+│   ├── user-achievement
+│   └── user-profile
+├── shared/
+│ ├── auth/ # private route
+│ ├── error/ # Error page
+│ ├── jhipster/ # JHipster headers
+│ ├── model/ # Interfaces TypeScript
+│ ├── reducers/ # Redux reducers
+│ └── util/ # Utilitários
+└── modules/
+    ├── account/ # Gestão de conta
+    ├── login/ # Autenticação
+    ├── home/ # Dashboard
+    └── administration/ # configuration, docs, logs, health, metrics, user-management
+---
+
+## 📊 MODELO DE DADOS - REGRAS DE NEGÓCIO
+
+### **1. Sistema de XP e Níveis**
+
+BEGINNER:
+
+0-500 XP INTERMEDIATE: 501-2000 XP ADVANCED: 2001+ XP
+
+- XP por questão correta: **10 XP**
+- XP por lição completa: **100 XP** (configurável em `Lesson.xpReward`)
+- Nível recalculado automaticamente após cada lição
+
+### **2. Sistema de Streak**
+- Conta dias consecutivos com pelo menos 1 lição completa
+- Timezone: **America/Sao_Paulo**
+- Quebra se passar 1 dia sem atividade
+- Meta diária padrão: **50 XP** (configurável)
+
+### **3. Validação de Respostas**
+| Tipo | Validação |
+|------|-----------|
+| MULTIPLE_CHOICE | Comparação de índice |
+| FILL_BLANK | Case-insensitive, trim, aceita sinônimos |
+| LISTENING/READING | Comparação exata |
+| WRITING | Comparação com gabarito (variações aceitas) |
+| SPEAKING_PLACEHOLDER | Sempre retorna correto (Fase 1) |
+
+### **4. Conclusão de Lição**
+- **Threshold padrão**: 70% de acerto
+- **Aprovado**: status=COMPLETED, ganha XP, atualiza streak
+- **Reprovado**: status=FAILED, pode refazer após 1 hora (cooldown)
+- **Atrasado**: `isLate=true` se completar após `dueDate`
+
+###
+
+ **5. Conquistas (10 básicas)**
+FIRST_LESSON - Primeira lição completa STREAK_7 - 7 dias consecutivos STREAK_30 - 30 dias consecutivos XP_100/1000/5000 - Marcos de XP FIRST_ADVANCED - Primeira lição avançada TEACHER_ASSIGNMENT - Primeira atividade do professor PERFECT_LESSON - 100% de acerto SPEED_DEMON - Lição em < 5 minutos
+
+
+### **6. Sistema de Recomendação**
+**Prioridade:**
+1. Assignments pendentes (ordenar por `dueDate`)
+2. Lições do nível atual não completadas
+3. Temas com taxa de acerto < 70%
+
+### **7. Mistura Inteligente de Questões**
+- Embaralhar ordem das questões da lição
+- Evitar mais de 2 questões consecutivas do mesmo tipo
+- Intercalar tipos (ex: MULTIPLE_CHOICE → FILL_BLANK → LISTENING)
+
+---
+
+## 🚀 PRÓXIMAS ATIVIDADES PRIORITÁRIAS
+
+### **FASE 1: Backend - Lógica de Negócio Customizada**
+
+#### **1.1 Endpoints Customizados para Aluno**
+**Prioridade: CRÍTICA**
+
+Criar em `src/main/java/com/bumbatech/bumbalearning/web/rest/`:
+
+```java
+// Student
+
+DashboardResource.java
+GET /api/student/dashboard
+- Retorna: XP total, streak, nível, conquistas, meta diária
+
+// StudentLessonResource.java
+GET /api/student/lessons/next
+- Implementa lógica de recomendação
+
+GET /api/student/lessons/{id}/start
+- Retorna questões embaralhadas (mistura inteligente)
+
+POST /api/student/lessons/{lessonId}/questions/{questionId}/answer
+- Valida resposta e retorna feedback imediato
+- Registra Attempt
+
+POST /api/student/lessons/{id}/complete
+- Calcula score, atualiza XP/streak/nível
+- Verifica conquistas
+
+// StudentRankingResource.java
+GET /api/student/ranking?municipality={code}&period={week|month|all}
+- Query otimizada com índices
+
+
+1.2 Serviços de Validação
+Prioridade: CRÍTICA
+
+Criar em src/main/java/com/bumbatech/bumbalearning/service/:
+
+- validateMultipleChoice()
+- validateFillBlank()
+- validateListening()
+- validateReading()
+- validateWriting()
+- validateSpeaking() // placeholder
+
+// XpService.java
+- calculateXp
+
+ForQuestion()
+- updateUserXp()
+- recalculateLevel()
+
+// StreakService.java
+- updateStreak()
+- checkStreakBreak()
+
+// AchievementCheckService.java
+- checkAllAchievements()
+- unlockAchievement()
+
+1.3 Endpoints para Professor
+Prioridade: ALTA
+
+GET /api/teacher/classes/{id}/report
+- Relatório de turma com progresso dos alunos
+
+GET /api/teacher/students/{id}/report
+- Relatório individual detalhado
+
+// TeacherQuestionResource.java
+POST /api/teacher/questions
+- Criar questão customizada
+
+// TeacherLessonResource.java
+POST /api/teacher/lessons
+- Criar lição customizada
+
+1.4 Endpoints para Admin
+Prioridade: MÉDIA
+
+GET /api/admin/metrics
+- Métricas globais da plataforma
+
+// AdminUserResource.java
+PUT /api/admin/users/{id}/roles
+- Gerenciar roles de usuários
+
+
+1.5 Seeds de Dados Iniciais
+Prioridade: ALTA
+
+Criar em src/main/resources/config/liquibase/:
+
+-- data/topics.csv (8 tópicos básicos de inglês)
+-- data/sample_questions.csv (20-30 questões exemplo)
+-- data/sample_lessons.csv (5-10 lições exemplo)
+
+
+FASE 2: Frontend - Interfaces de Usuário
+2.1 Dashboard do Aluno
+Prioridade: CRÍTICA
+
+Criar em src/main/webapp/app/modules/student/:
+
+dashboard/
+├── student-dashboard.tsx       # Visão geral (XP, streak, nível)
+├── student-achievements.tsx    # Grid de conquistas
+├── student-ranking.tsx         # Ranking global/municipal
+└── student-profile.tsx         # Perfil e configurações
+
+Componentes:
+
+Card de XP e progresso de nível
+Contador de streak com animação
+Lista de conquistas (desbloqueadas/bloqueadas)
+Gráfico de atividade semanal
+
+2.2 Sistema de Lições
+Prioridade: CRÍTICA
+
+lesson/
+├── lesson-list.tsx             # Lista de lições disponíveis
+├── lesson-player.tsx           # Player de lição (questões)
+├── question-types/
+│   ├── multiple-choice.tsx
+│   ├── fill-blank.tsx
+│   ├──listening.tsx
+│   ├── reading.tsx
+│   └── writing.tsx
+└── lesson-result.tsx           # Resultado final da lição
+
+Features:
+
+Barra de progresso da lição
+Feedback imediato (correto/incorreto)
+Animações de transição entre questões
+Modal de resultado com XP ganho
+
+2.3 Painel do Professor
+Prioridade: ALTA
+
+teacher/
+├── class-management/
+│   ├── class-list.tsx
+│   ├── class-detail.tsx
+│   ├── class-report.tsx
+│   └── student-report.tsx
+├── content-creation/
+│   ├── question-creator.tsx
+│   └── lesson-creator.tsx
+└── assignment/
+    └── assignment-manager.tsx
+
+
+Features:
+
+Tabela de alunos com status (no prazo/atrasado/não iniciado)
+Gráficos de progresso da turma
+Formulário de criação de questões (todos os tipos)
+Atribuição de lições com prazo
+
+2.4 Painel do Admin
+Prioridade: MÉDIA
+
+admin/
+├── metrics-dashboard.tsx       # Métricas globais
+├── user-management.tsx         # Gestão de usuários
+├── content-moderation.tsx      # Moderação de questões
+└── achievement-manager.tsx     # Criar/editar conquistas
+
+
+FASE 3: Otimizações e Melhorias
+
+3.1 Performance
+Prioridade: ALTA
+
+ Adicionar índices no PostgreSQL (conforme documentado)
+ Implementar cache Redis para ranking
+ Otimizar queries N+1 com fetch joins
+ Implementar paginação em todas as listas
+
+3.2 UX/UI
+Prioridade: MÉDIA
+
+ Animações de feedback (correto/incorreto)
+ Sons de feedback (opcional)
+ Modo escuro
+ Responsividade mobile-first
+ Loading states e skeleton screens
+
+3.3 Testes
+Prioridade: MÉDIA
+
+ Testes unitários dos serviços de validação
+ Testes de integração dos endpoints customizados
+ Testes E2E do fluxo de lição completo
+ Testes de performance do ranking
+
+📋 CHECKLIST DE IMPLEMENTAÇÃO
+Sprint 1: Core do Aluno (2 semanas)
+ AnswerValidationService
+ XpService + StreakService
+ StudentLessonResource (start/answer/complete)
+ Student
+DashboardResource
+
+ Seeds de dados (achievements, topics, questions)
+ Dashboard do aluno (frontend)
+ Lesson player (frontend)
+Sprint 2: Sistema de Gamificação (1 semana)
+ AchievementCheckService
+ StudentRankingResource
+ Ranking component (frontend)
+ Achievements component (frontend)
+ Animações de feedback
+Sprint 3: Painel do Professor (2 semanas)
+ TeacherClassResource (reports)
+ TeacherQuestionResource
+ TeacherLessonResource
+ Class management (frontend)
+ Content creation (frontend)
+ Assignment manager (frontend)
+Sprint 4: Admin e Otimizações (1 semana)
+ AdminMetricsResource
+ AdminUserResource
+ Índices PostgreSQL
+ Cache Redis
+ Testes automatizados
+🔧 CONFIGURAÇÕES TÉCNICAS IMPORTANTES
+Índices PostgreSQL (Performance Crítica)
+
+CREATE INDEX idx_user_profile_ranking ON user_profile(total_xp DESC, last_activity_date);
+CREATE INDEX idx_user_profile_municipality
+
+ ON user_profile(municipality_code);
+CREATE INDEX idx_attempt_student_lesson ON attempt(student_id, lesson_id);
+CREATE INDEX idx_progress_student_status ON student_lesson_progress(student_id, status);
+CREATE INDEX idx_assignment_class_due ON lesson_assignment(class_room_id, due_date);
+CREATE INDEX idx_question_filters ON question(language, level, skill);
+CREATE INDEX idx_question_topic ON question(topic_id, level);
+CREATE INDEX idx_lesson_filters ON lesson(language, level);
+CREATE INDEX idx_lesson_topic ON lesson(topic_id);
+
+
+Estruturas JSONB
+Question.content:
+
+// MULTIPLE_CHOICE
+{"options": ["opt1", "opt2", "opt3", "opt4"], "correct_index": 2}
+
+// FILL_BLANK
+{"sentence": "I ___ to school", "correct_answers": ["go", "walk"]}
+
+// LISTENING
+{"audio_url": "https://...", "question": "What did he say?", "correct_answer": "Hello"}
+
+// READING_COMPREHENSION
+{"text": "...", "question": "...", "correct_answer": "..."}
+
+// WRITING
+{"prompt": "Describe your day", "sample_answer": "..."}
+
+
+
+// SPEAKING_PLACEHOLDER
+{"prompt": "Say: Hello, how are you?"}
+
+
+Question.assets:
+
+
+[
+  {"type": "image", "url": "https://..."},
+  {"type": "audio", "url": "https://..."}
+]
+
+Achievement.criteria:
+
+{"type": "streak", "value": 7}
+{"type": "xp", "value": 1000}
+{"type": "lesson_level", "value": "ADVANCED"}
+{"type": "lesson_count", "value": 1}
+{"type": "assignment_complete", "value": 1}
+{"type": "perfect_score", "value": 100}
+{"type": "lesson_time", "value": 300}
+
+Attempt.answer:
+
+{"selected_index": 2}  // para múltipla escolha
+{"text": "go"}         // para fill blank
+{"text": "Hello"}      // para listening/writing
+
+Attempt.metadata:
+
+{"confidence": 0.95, "audio_duration": 3.5}
+
+
+📊 DADOS INICIAIS (Seeds)
+1. Authorities
+
 INSERT INTO jhi_authority (name) VALUES ('ROLE_ADMIN');
 INSERT INTO jhi_authority (name) VALUES ('ROLE_USER');
 INSERT INTO jhi_authority (name) VALUES ('ROLE_STUDENT');
 INSERT INTO jhi_authority (name) VALUES ('ROLE_TEACHER');
 
-UserProfile (estende User)
+2. Topics (8 tópicos básicos de inglês)
+
+Greetings (Cumprimentos)
+Numbers (Números)
+Colors (Cores)
+Food (Comida)
+Family (Família)
+Travel (Viagem)
+Work (Trabalho)
+Hobbies (Hobbies)
+
+3. Achievements (10 conquistas básicas)
+
+FIRST_LESSON       - {"type": "lesson_count", "value": 1}
+STREAK_7           - {"type": "streak", "value": 7}
+STREAK_30          - {"type": "streak", "value": 30}
+XP_100             - {"type": "xp", "value": 100}
+XP_1000            - {"type": "xp", "value": 1000}
+XP_5000            - {"type": "xp", "value": 5000}
+FIRST_ADVANCED     - {"type": "lesson_level", "value": "ADVANCED"}
+TEACHER_ASSIGNMENT - {"type": "assignment_complete", "value": 1}
+PERFECT_LESSON     - {"type": "perfect_score", "value": 100}
+SPEED_DEMON        - {"type": "lesson_time", "value": 300}
+
+4. UserProfile padrão para novos usuários
+
+currentLevel: BEGINNER
+totalXp: 0
+currentStreak: 0
+dailyGoalXp: 50
+
+
+🎯 MÉTRICAS DE SUCESSO DO
+MVP
+
+Funcionalidade Core: Aluno consegue completar lição e ganhar XP
+Gamificação: Sistema de streak e conquistas funcionando
+Professor: Consegue criar turma, atribuir lição e ver relatório
+Performance: Ranking carrega em < 500ms
+UX: Feedback imediato em < 200ms
+🚫 FORA DO ESCOPO (Fase 1)
+Chat com IA (voz/texto)
+Aulas ao vivo
+Speech-to-Text real (usar placeholder)
+Cadastro público de usuários
+Múltiplos idiomas (focar apenas inglês)
+App mobile nativo
+📞 PRÓXIMA AÇÃO IMEDIATA
+Começar por: Implementar AnswerValidationService e StudentLessonResource para permitir que alunos completem lições e ganhem XP. Este é o fluxo core da aplicação.
+
+Comandos sugeridos:
+
+# Criar estrutura de serviços customizados
+mkdir -p src/main/java/com/bumbatech/bumbalearning/service/custom
+mkdir -p src/main/java/com/bumbatech/bumbalearning/web/rest/student
+mkdir -p src/main/java/com/bumbatech/bumbalearning/web/rest/teacher
+mkdir -p src/main
+
+/java/com/bumbatech/bumbalearning/web/rest/admin
+
+# Criar estrutura frontend
+mkdir -p src/main/webapp/app/modules/student/dashboard
+mkdir -p src/main/webapp/app/modules/student/lesson
+mkdir -p src/main/webapp/app/modules/teacher
+mkdir -p src/main/webapp/app/modules/admin
+
+
+📝 HISTÓRICO DE MUDANÇAS
+
+v1.0 - Setup Inicial
+✅ Projeto JHipster criado
+✅ Modelo JDL definido e aplicado
+✅ 17 entidades geradas
+✅ CRUD básico funcionando
+
+v2.0 - Próxima Versão (Em Planejamento)
+ Lógica de negócio customizada
+ Interfaces de usuário
+ Sistema de gamificação completo
+ Painel do professor
+ Seeds de dados
+🔗 REFERÊNCIAS TÉCNICAS
+
+Documentação:
+
+JHipster: https://www.jhipster.tech/
+Spring Boot: https://spring.io/projects/spring-boot
+React: https://react.dev/
+PostgreSQL JSONB: https://www.postgresql.org/docs/current/datatype-json.html
+Padrões de Código:
+REST API: Seguir convenções RESTful
+
+DTOs: Usar MapStruct para conversões
+
+Validação: Bean Validation (JSR-380)
+
+Segurança: Spring Security + JWT
+
+Frontend: React Hooks + TypeScript
+
+Última atualização: 2025-01-XX Versão do documento: 2.0
+Responsável: Equipe Bumba Learning
 
-Relacionamento: OneToOne com User
-- municipality_code (String, código IBGE, obrigatório)
-- current_level (enum: BEGINNER, INTERMEDIATE, ADVANCED)
-- total_xp (Integer, default: 0)
-- current_streak (Integer, default: 0)
-- daily_goal_xp (Integer, default: 50)
-- last_activity_date (LocalDate)
 
-Regra de níveis baseada em XP:
-•	BEGINNER: 0-500 XP
-•	INTERMEDIATE: 501-2000 XP
-•	ADVANCED: 2001+ XP
-
-________________________________________
-2. ESTRUTURA DE CONTEÚDO
-Topic (Tema - entidade normalizada)
-- id
-- name (String, ex: "Greetings", "Food", "Travel")
-- description (Text)
-- language (enum: ENGLISH, SPANISH, FRENCH, etc)
-Question (Banco de Questões)
-- id
-- type (enum: MULTIPLE_CHOICE, FILL_BLANK, LISTENING, READING_COMPREHENSION, WRITING, SPEAKING_PLACEHOLDER)
-- language (enum: ENGLISH, SPANISH, etc)
-- skill (enum: READING, WRITING, LISTENING, SPEAKING)
-- level (enum: EASY, INTERMEDIATE, ADVANCED)
-- topic_id (ManyToOne → Topic)
-- prompt (Text, enunciado da questão)
-- content (JSONB, estrutura específica por tipo):
-  * MULTIPLE_CHOICE: {"options": ["opt1", "opt2", "opt3", "opt4"], "correct_index": 2}
-  * FILL_BLANK: {"sentence": "I ___ to school", "correct_answers": ["go", "walk"]}
-  * LISTENING: {"audio_url": "https://...", "question": "What did he say?", "correct_answer": "Hello"}
-  * READING_COMPREHENSION: {"text": "...", "question": "...", "correct_answer": "..."}
-  * WRITING: {"prompt": "Describe your day", "sample_answer": "..."}
-  * SPEAKING_PLACEHOLDER: {"prompt": "Say: Hello, how are you?"}
-- assets (JSONB, array de URLs): [{"type": "image", "url": "..."}, {"type": "audio", "url": "..."}]
-- created_by (ManyToOne → User, professor ou admin que criou)
-- created_at (Instant)
-Observações:
-•	Assets armazenam apenas URLs (CDN/S3) e metadata
-•	Exercícios de fala (SPEAKING) são placeholder na fase 1 (sempre retornam "correto")
-Lesson (Lição - agrupador de questões)
-- id
-- title (String)
-- description (Text)
-- language (enum: ENGLISH, etc)
-- level (enum: EASY, INTERMEDIATE, ADVANCED)
-- topic_id (ManyToOne → Topic)
-- xp_reward (Integer, default: 100) // XP ao completar a lição
-- pass_threshold (Integer, default: 70) // % mínimo de acerto para passar
-- created_by (ManyToOne → User)
-- created_at (Instant)
-LessonQuestion (relacionamento N:N entre Lesson e Question)
-- lesson_id (ManyToOne → Lesson)
-- question_id (ManyToOne → Question)
-- order_index (Integer, ordem da questão na lição)
-Regra: Uma lição típica contém 5-15 questões do mesmo tema/nível
-
-________________________________________
-3. TURMAS E ASSIGNMENTS
-Class (Turma)
-- id
-- name (String, ex: "Turma A - Inglês Básico")
-- language (enum: ENGLISH, fase 1 apenas inglês)
-- description (Text)
-- teacher_id (ManyToOne → User, professor responsável)
-- created_at (Instant)
-ClassMember (Alunos na Turma)
-- id
-- class_id (ManyToOne → Class)
-- student_id (ManyToOne → User)
-- enrolled_at (Instant)
-Regras:
-•	Um aluno pode estar em múltiplas turmas
-•	Uma turma pertence a 1 professor e foca em 1 idioma
-LessonAssignment (Atribuição de Lição para Turma)
-- id
-- class_id (ManyToOne → Class)
-- lesson_id (ManyToOne → Lesson)
-- assigned_by (ManyToOne → User, professor)
-- due_date (Instant, prazo para conclusão)
-- assigned_at (Instant)
-StudentLessonProgress (Progresso Individual do Aluno)
-- id
-- student_id (ManyToOne → User)
-- lesson_id (ManyToOne → Lesson)
-- assignment_id (ManyToOne → LessonAssignment, nullable se for lição recomendada)
-- status (enum: NOT_STARTED, IN_PROGRESS, COMPLETED, FAILED)
-- score (Integer, % de acerto)
-- xp_earned (Integer)
-- completed_at (Instant, nullable)
-- is_late (Boolean, se completou após due_date)
-Regras:
-•	Após prazo, aluno ainda pode completar (mas fica marcado como is_late = true)
-•	Dashboard do professor mostra: no prazo (verde), atrasado (amarelo), não iniciado (vermelho)
-________________________________________
-
-4. SISTEMA DE TENTATIVAS E VALIDAÇÃO
-Attempt (Tentativa de Resposta)
-- id
-- student_id (ManyToOne → User)
-- question_id (ManyToOne → Question)
-- lesson_id (ManyToOne → Lesson)
-- answer (JSONB, resposta do aluno)
-- is_correct (Boolean)
-- time_spent_seconds (Integer)
-- attempted_at (Instant)
-- metadata (JSONB, dados extras como confidence score, etc)
-Fluxo de Execução de Lição:
-1.	Aluno inicia lição → backend retorna questões embaralhadas (mistura inteligente)
-2.	Para cada questão:
-o	Frontend envia resposta → backend valida e retorna feedback imediato
-o	Registra Attempt (correto/incorreto, tempo gasto)
-o	Não permite retry imediato (apenas ao refazer a lição completa)
-3.	Conclusão da lição:
-o	Threshold: 70% de acerto mínimo (configurável em Lesson.pass_threshold)
-o	Se atingir: ganha XP, atualiza streak, marca StudentLessonProgress como COMPLETED
-o	Se não atingir: status FAILED, pode refazer após 1 hora (cooldown)
-Validação de Respostas (backend):
-•	Múltipla escolha: comparação de índice
-•	Completar frase: comparação case-insensitive, trim, aceitar sinônimos da lista correct_answers
-•	Listening/Reading: comparação exata com correct_answer
-•	Escrita livre: comparação com gabarito (aceitar variações pré-definidas)
-•	Fala (STT): placeholder retorna sempre is_correct = true na fase 1
-Mistura Inteligente de Questões:
-•	Embaralhar ordem das questões da lição
-•	Evitar mais de 2 questões consecutivas do mesmo tipo
-•	Intercalar tipos (ex: MULTIPLE_CHOICE → FILL_BLANK → LISTENING)
-________________________________________
-
-5. GAMIFICAÇÃO
-Achievement (Conquistas)
-- id
-- code (String, unique, ex: "STREAK_7", "XP_1000")
-- name (String, ex: "Semana Completa")
-- description (Text)
-- icon_url (String)
-- criteria (JSONB, ex: {"type": "streak", "value": 7})
-Lista Mínima de Conquistas (Fase 1):
-1.	FIRST_LESSON: Primeira lição completa
-2.	STREAK_7: 7 dias consecutivos
-3.	STREAK_30: 30 dias consecutivos
-4.	XP_100: 100 XP total
-5.	XP_1000: 1000 XP total
-6.	XP_5000: 5000 XP total
-7.	FIRST_ADVANCED: Primeira lição avançada completa
-8.	TEACHER_ASSIGNMENT: Primeira atividade do professor completa
-9.	PERFECT_LESSON: Lição com 100% de acerto
-10.	SPEED_DEMON: Lição completa em menos de 5 minutos
-UserAchievement (Conquistas do Usuário)
-- id
-- user_id (ManyToOne → User)
-- achievement_id (ManyToOne → Achievement)
-- unlocked_at (Instant)
-Regras de XP e Streak:
-•	XP por questão correta: 10 XP (independente do tipo/nível)
-•	XP por lição completa: valor definido em Lesson.xp_reward (padrão: 100 XP)
-•	Streak: conta dias consecutivos com pelo menos 1 lição completa
-Timezone: America/Sao_Paulo
-o	Quebra se passar 1 dia sem atividade (comparar last_activity_date em UserProfile)
-•	Meta diária: padrão 50 XP (campo daily_goal_xp em UserProfile, configurável por admin no futuro)
-________________________________________
-
-6. SISTEMA DE RECOMENDAÇÃO
-Recommendation (Histórico e Próxima Sugestão)
-- id
-- student_id (ManyToOne → User)
-- lesson_id (ManyToOne → Lesson)
-- reason (String, ex: "Baseado em performance em 'Greetings'")
-- recommended_at (Instant)
-- was_completed (Boolean)
-Lógica de Recomendação (MVP simplificado):
-1.	Se aluno tem assignments pendentes → priorizar esses (ordenar por due_date)
-2.	Se não tem assignments:
-o	Buscar lições do nível atual do aluno (baseado em UserProfile.current_level)
-o	Filtrar por temas ainda não completados ou com taxa de acerto < 70%
-o	Ordenar por: temas com menos tentativas → temas mais recentes
-3.	Não considerar janela de attempts recentes (simplificação da fase 1)
-________________________________________
-
-7. RANKING
-Ranking (View ou Query Dinâmica)
-Não criar entidade materializada na fase 1 - usar query direta no PostgreSQL
-Estrutura de Ranking:
-•	Ranking Global: top 100 alunos por total_xp (idioma: inglês)
-•	Ranking por Município: top 50 por município (filtro por municipality_code)
-Filtros Combinados:
-•	Município (obrigatório para ranking municipal)
-•	Período: última semana / último mês / todo período (filtrar por last_activity_date)
-•	Turma (apenas para professores visualizando suas turmas)
-Cálculo:
-•	Em tempo real (a cada request de visualização)
-•	Query: SELECT user_id, total_xp, municipality_code FROM user_profile WHERE ... ORDER BY total_xp DESC LIMIT 100
-•	Performance: adicionar índices em (total_xp DESC, last_activity_date) e (municipality_code, total_xp DESC)
-Observações:
-•	Ranking é por idioma (fase 1: apenas inglês)
-•	Níveis das lições (EASY/INTERMEDIATE/ADVANCED) dão o mesmo XP quando completadas
-________________________________________
-
-8. RELATÓRIOS (Fase 1 - Mínimo)
-Professor - Visão de Turma
-Endpoint: GET /api/teacher/classes/{classId}/report
-Retornar: json
-{
-  "class_name": "Turma A",
-  "total_students": 25,
-  "students": [
-    {
-      "student_id": 123,
-      "name": "João Silva",
-      "assignments_completed": 8,
-      "assignments_total": 10,
-      "completion_rate": 80,
-      "total_xp": 450,
-      "last_activity": "2025-10-25T14:30:00Z"
-    }
-  ]
-}
-Professor - Visão de Aluno
-Endpoint: GET /api/teacher/students/{studentId}/report
-Retornar: json
-{
-  "student_name": "João Silva",
-  "total_xp": 450,
-  "current_level": "INTERMEDIATE",
-  "lessons_completed": 12,
-  "accuracy_by_skill": {
-    "READING": 85,
-    "WRITING": 70,
-    "LISTENING": 90,
-    "SPEAKING": 0
-  },
-  "avg_time_per_question_seconds": 45,
-  "recent_lessons": [...]
-}
-Admin - Métricas Globais
-Endpoint: GET /api/admin/metrics
-Retornar: json
-{
-  "total_users": 1500,
-  "active_users_last_week": 850,
-  "lessons_completed_last_week": 3200,
-  "avg_xp_per_user": 320,
-  "distribution_by_level": {
-    "BEGINNER": 60,
-    "INTERMEDIATE": 30,
-    "ADVANCED": 10
-  },
-  "top_municipalities": [
-    {"code": "3550308", "name": "São Paulo", "users": 450},
-    {"code": "3304557", "name": "Rio de Janeiro", "users": 320}
-  ]
-}
-________________________________________
-
-9. CADASTRO DE USUÁRIOS (Fase 1)
-Alunos:
-•	Cadastrados diretamente no banco de dados (script SQL ou admin manual)
-•	Campos obrigatórios: username, email, password_hash, municipality_code
-•	Role padrão: ROLE_STUDENT
-Professores:
-•	Cadastrados por admin via painel
-•	Adicionar alunos às turmas: buscar por email/username (alunos já devem existir)
-________________________________________
-10. APIS ESSENCIAIS (Contratos REST)
-Autenticação
-•	POST /api/authenticate - Login (retorna JWT)
-•	GET /api/account - Dados do usuário logado
-Aluno
-•	GET /api/student/dashboard - Dashboard (XP, streak, nível, conquistas)
-•	GET /api/student/lessons/next - Próxima lição recomendada
-•	GET /api/student/lessons/{id}/start - Iniciar lição (retorna questões embaralhadas)
-•	POST /api/student/lessons/{id}/answer - Enviar resposta de questão
-•	POST /api/student/lessons/{id}/complete - Finalizar lição
-•	GET /api/student/ranking - Ranking (global ou por município)
-Professor
-•	GET /api/teacher/classes - Listar turmas
-•	POST /api/teacher/classes - Criar turma
-•	POST /api/teacher/classes/{id}/members - Adicionar aluno à turma
-•	POST /api/teacher/classes/{id}/assignments - Atribuir lição
-•	GET /api/teacher/classes/{id}/report - Relatório da turma
-•	GET /api/teacher/questions - Listar questões criadas
-•	POST /api/teacher/questions - Criar questão
-Admin
-•	GET /api/admin/users - Listar usuários
-•	POST /api/admin/users - Criar usuário
-•	PUT /api/admin/users/{id}/roles - Alterar roles
-•	GET /api/admin/questions - Banco de questões global
-•	GET /api/admin/metrics - Métricas globais
-•	GET /api/admin/ranking - Ranking com filtros avançados
-________________________________________
-
-________________________________________
-
-Paths do system spring:
-
-Domains
-src/main/java/com/bumbatech/bumbalearning/domain
-
-Repositories
-src/main/java/com/bumbatech/bumbalearning/repository
-
-Services
-src/main/java/com/bumbatech/bumbalearning/service
-src/main/java/com/bumbatech/bumbalearning/service/criteria
-src/main/java/com/bumbatech/bumbalearning/service/dto
-src/main/java/com/bumbatech/bumbalearning/service/impl
-src/main/java/com/bumbatech/bumbalearning/service/mapper
-
-Resources
-src/main/java/com/bumbatech/bumbalearning/web/rest
-src/main/java/com/bumbatech/bumbalearning/web/rest/errors
-
-Paths do sistema react:
-
-## Path to shared
-
-Path to shared layout
-src/main/webapp/app/shared/layout/footer
-src/main/webapp/app/shared/layout/header
-src/main/webapp/app/shared/layout/menus
-src/main/webapp/app/shared/layout/password
-
-Path to shared model
-src/main/webapp/app/shared/model
-
-Path to shared reducers
-src/main/webapp/app/shared/reducers
-
-Path to shared util
-src/main/webapp/app/shared/util
-
-Path to shared error
-src/main/webapp/app/shared/error
-
-## Path to modules
-Path to account
-src/main/webapp/app/modules/account/activate
-src/main/webapp/app/modules/account/password
-src/main/webapp/app/modules/account/password-reset
-src/main/webapp/app/modules/account/register
-src/main/webapp/app/modules/account/settings
-
-Path to login
-src/main/webapp/app/modules/login
-
-Path to home
-src/main/webapp/app/modules/home
-
-Path to jhipster administration
-src/main/webapp/app/modules/administration/configuration
-src/main/webapp/app/modules/administration/docs
-src/main/webapp/app/modules/administration/health
-src/main/webapp/app/modules/administration/logs
-src/main/webapp/app/modules/administration/metrics
-src/main/webapp/app/modules/administration/user-management
-
-
-11. PONTOS DE INTEGRAÇÃO FUTURA (Não Implementar Agora)
-Deixar preparado para:
-•	Chat com IA (voz/texto): adicionar entidade Conversation e Message
-•	Aulas ao vivo: adicionar entidade LiveClass com scheduled_at, meeting_url
-•	Speech-to-Text real: substituir placeholder em SPEAKING_PLACEHOLDER
-
-13. VALIDAÇÕES E REGRAS DE NEGÓCIO
-•	Streak: atualizar em StudentLessonProgress.completed_at (comparar com last_activity_date)
-•	XP: somar em UserProfile.total_xp ao completar lição
-•	Nível: recalcular current_level baseado em total_xp após cada lição
-•	Conquistas: verificar critérios após cada ação (completar lição, ganhar XP, etc)
-•	Prazo de assignment: marcar is_late se completed_at > due_date
-
-________________________________________
-JDL completo
-
-/**
- * Bumba Learning - MVP
- * Modelo de dados JDL para plataforma de aprendizado de idiomas
- * Versão: 2.0
- *
- * Premissas:
- * - PostgreSQL 12+
- * - JHipster 8.x
- */
-
-// ============================================
-// ENUMS
-// ============================================
-
-enum UserLevel {
-    BEGINNER,      // 0-500 XP
-    INTERMEDIATE,  // 501-2000 XP
-    ADVANCED       // 2001+ XP
-}
-
-enum Language {
-    ENGLISH,
-    SPANISH,
-    FRENCH
-}
-
-enum QuestionType {
-    MULTIPLE_CHOICE,
-    FILL_BLANK,
-    LISTENING,
-    READING_COMPREHENSION,
-    WRITING,
-    SPEAKING_PLACEHOLDER
-}
-
-enum Skill {
-    READING,
-    WRITING,
-    LISTENING,
-    SPEAKING
-}
-
-enum DifficultyLevel {
-    EASY,
-    INTERMEDIATE,
-    ADVANCED
-}
-
-enum LessonStatus {
-    NOT_STARTED,
-    IN_PROGRESS,
-    COMPLETED,
-    FAILED
-}
-
-// ============================================
-// ENTIDADE: PERFIL DO USUÁRIO
-// ============================================
-
-/**
- * UserProfile - Estende User do JHipster
- * Relacionamento 1:1 com User
- */
-entity UserProfile {
-    municipalityCode String required maxlength(7) /** Código IBGE do município */
-    currentLevel UserLevel required /** Nível atual baseado em XP */
-    totalXp Integer required min(0) /** XP total acumulado */
-    currentStreak Integer required min(0) /** Dias consecutivos de atividade */
-    dailyGoalXp Integer required min(10) /** Meta diária de XP (padrão: 50) */
-    lastActivityDate LocalDate /** Data da última atividade */
-}
-
-// ============================================
-// ENTIDADES: CONTEÚDO PEDAGÓGICO
-// ============================================
-
-/**
- * Topic - Temas de aprendizado (normalizado para reuso)
- */
-entity Topic {
-    name String required maxlength(100) /** Ex: "Greetings", "Food", "Travel" */
-    language Language required /** Idioma do tema */
-    description String maxlength(500) /** Descrição detalhada do tema */
-}
-
-/**
- * Question - Banco de questões
- * Armazena todos os tipos de atividades
- */
-entity Question {
-    type QuestionType required /** Tipo da questão */
-    language Language required /** Idioma da questão */
-    skill Skill required /** Habilidade trabalhada */
-    level DifficultyLevel required /** Nível de dificuldade */
-    createdAt Instant required /** Data de criação */
-    prompt String required maxlength(2000) /** Enunciado da questão */
-    content TextBlob required /** JSONB - estrutura específica por tipo */
-    assets TextBlob /** JSONB - estrutura específica por tipo */
-}
-
-/**
- * Lesson - Lição (agrupador de 5-15 questões)
- */
-entity Lesson {
-    title String required maxlength(200) /** Título da lição */
-    language Language required /** Idioma da lição */
-    level DifficultyLevel required /** Nível de dificuldade */
-    xpReward Integer required min(0) /** XP ao completar (padrão: 100) */
-    passThreshold Integer required min(0) max(100) /** % mínimo de acerto (padrão: 70) */
-    createdAt Instant required /** Data de criação */
-    description String maxlength(250) /** Descrição da lição */
-}
-
-/**
- * LessonQuestion - Relacionamento N:N entre Lesson e Question
- * Define ordem das questões na lição
- */
-entity LessonQuestion {
-    orderIndex Integer required min(0) /** Ordem da questão na lição */
-}
-
-// ============================================
-// ENTIDADES: TURMAS E ASSIGNMENTS
-// ============================================
-
-/**
- * ClassRoom - Turma gerenciada por professor
- */
-entity ClassRoom {
-    name String required maxlength(200) /** Nome da turma */
-    language Language required /** Idioma da turma (fase 1: apenas inglês) */
-    createdAt Instant required /** Data de criação */
-    description String maxlength(500) /** Descrição da turma */
-}
-
-/**
- * ClassMember - Alunos matriculados na turma
- */
-entity ClassMember {
-    enrolledAt Instant required /** Data de matrícula */
-}
-
-/**
- * LessonAssignment - Atribuição de lição para turma
- */
-entity LessonAssignment {
-    assignedAt Instant required /** Data de atribuição */
-    dueDate Instant required /** Prazo para conclusão */
-}
-
-/**
- * StudentLessonProgress - Progresso individual do aluno em lições
- */
-entity StudentLessonProgress {
-    status LessonStatus required /** Status da lição */
-    score Integer min(0) max(100) /** Percentual de acerto */
-    xpEarned Integer min(0) /** XP ganho nesta lição */
-    completedAt Instant /** Data/hora de conclusão */
-    isLate Boolean /** Se completou após o prazo */
-}
-
-// ============================================
-// ENTIDADES: TENTATIVAS E VALIDAÇÃO
-// ============================================
-
-/**
- * Attempt - Registro de cada tentativa de resposta
- */
-entity Attempt {
-    isCorrect Boolean required /** Se a resposta está correta */
-    timeSpentSeconds Integer required min(0) /** Tempo gasto na questão */
-    attemptedAt Instant required /** Data/hora da tentativa */
-    answer TextBlob required /** JSONB - resposta do aluno */
-    metadata TextBlob /** JSONB - dados extras (confidence, etc) */
-}
-
-// ============================================
-// ENTIDADES: GAMIFICAÇÃO
-// ============================================
-
-/**
- * Achievement - Conquistas disponíveis
- */
-entity Achievement {
-    code String required unique maxlength(50) /** Código único (ex: STREAK_7) */
-    name String required maxlength(100) /** Nome da conquista */
-    iconUrl String maxlength(500) /** URL do ícone */
-    description String maxlength(250) /** Descrição detalhada */
-    criteria TextBlob required /** JSONB - critérios para desbloquear */
-}
-
-/**
- * UserAchievement - Conquistas desbloqueadas pelo usuário
- */
-entity UserAchievement {
-    unlockedAt Instant required /** Data/hora do desbloqueio */
-}
-
-// ============================================
-// ENTIDADES: RECOMENDAÇÃO
-// ============================================
-
-/**
- * Recommendation - Histórico de recomendações de lições
- */
-entity Recommendation {
-    recommendedAt Instant required /** Data/hora da recomendação */
-    wasCompleted Boolean required /** Se o aluno completou a lição */
-    reason String maxlength(500) /** Motivo da recomendação */
-}
-
-// ============================================
-// RELACIONAMENTOS
-// ============================================
-
-// UserProfile → User (1:1)
-relationship OneToOne {
-    UserProfile{user required} to User with builtInEntity
-}
-
-// Question → Topic (N:1)
-relationship ManyToOne {
-    Question{topic(name) required} to Topic
-}
-
-// Question → User (criador) (N:1)
-relationship ManyToOne {
-    Question{createdBy required} to User with builtInEntity
-}
-
-// Lesson → Topic (N:1)
-relationship ManyToOne {
-    Lesson{topic(name) required} to Topic
-}
-
-// Lesson → User (criador) (N:1)
-relationship ManyToOne {
-    Lesson{createdBy required} to User with builtInEntity
-}
-
-// LessonQuestion → Lesson (N:1)
-relationship ManyToOne {
-    LessonQuestion{lesson(title) required} to Lesson
-}
-
-// LessonQuestion → Question (N:1)
-relationship ManyToOne {
-    LessonQuestion{question required} to Question
-}
-
-// ClassRoom → User (professor) (N:1)
-relationship ManyToOne {
-    ClassRoom{teacher required} to User with builtInEntity
-}
-
-// ClassMember → ClassRoom (N:1)
-relationship ManyToOne {
-    ClassMember{classRoom(name) required} to ClassRoom
-}
-
-// ClassMember → User (aluno) (N:1)
-relationship ManyToOne {
-    ClassMember{student required} to User with builtInEntity
-}
-
-// LessonAssignment → ClassRoom (N:1)
-relationship ManyToOne {
-    LessonAssignment{classRoom(name) required} to ClassRoom
-}
-
-// LessonAssignment → Lesson (N:1)
-relationship ManyToOne {
-    LessonAssignment{lesson(title) required} to Lesson
-}
-
-// LessonAssignment → User (professor que atribuiu) (N:1)
-relationship ManyToOne {
-    LessonAssignment{assignedBy required} to User with builtInEntity
-}
-
-// StudentLessonProgress → User (aluno) (N:1)
-relationship ManyToOne {
-    StudentLessonProgress{student required} to User with builtInEntity
-}
-
-// StudentLessonProgress → Lesson (N:1)
-relationship ManyToOne {
-    StudentLessonProgress{lesson(title) required} to Lesson
-}
-
-// StudentLessonProgress → LessonAssignment (N:1, nullable)
-relationship ManyToOne {
-    StudentLessonProgress{assignment} to LessonAssignment
-}
-
-// Attempt → User (aluno) (N:1)
-relationship ManyToOne {
-    Attempt{student required} to User with builtInEntity
-}
-
-// Attempt → Question (N:1)
-relationship ManyToOne {
-    Attempt{question required} to Question
-}
-
-// Attempt → Lesson (N:1)
-relationship ManyToOne {
-    Attempt{lesson(title) required} to Lesson
-}
-
-// UserAchievement → User (N:1)
-relationship ManyToOne {
-    UserAchievement{user required} to User with builtInEntity
-}
-
-// UserAchievement → Achievement (N:1)
-relationship ManyToOne {
-    UserAchievement{achievement(name) required} to Achievement
-}
-
-// Recommendation → User (aluno) (N:1)
-relationship ManyToOne {
-    Recommendation{student required} to User with builtInEntity
-}
-
-// Recommendation → Lesson (N:1)
-relationship ManyToOne {
-    Recommendation{lesson(title) required} to Lesson
-}
-
-// ============================================
-// CONFIGURAÇÕES DE SERVIÇO
-// ============================================
-
-// Gerar serviços com lógica de negócio
-service all with serviceImpl
-
-// Gerar DTOs para todas as entidades
-dto all with mapstruct
-
-// Habilitar paginação onde faz sentido
-paginate Question, Lesson, ClassRoom, Attempt, Recommendation with pagination
-
-// Habilitar filtros para buscas avançadas
-filter UserProfile, Question, Lesson, ClassRoom, StudentLessonProgress, Attempt
-
-// ============================================
-// NOTAS DE IMPLEMENTAÇÃO
-// ============================================
-
-/**
- * CAMPOS JSONB (PostgreSQL):
- *
- * Question.content - Estrutura por tipo:
- * - MULTIPLE_CHOICE: {"options": ["opt1", "opt2", "opt3", "opt4"], "correct_index": 2}
- * - FILL_BLANK: {"sentence": "I ___ to school", "correct_answers": ["go", "walk"]}
- * - LISTENING: {"audio_url": "https://...", "question": "What?", "correct_answer": "Hello"}
- * - READING_COMPREHENSION: {"text": "...", "question": "...", "correct_answer": "..."}
- * - WRITING: {"prompt": "Describe your day", "sample_answer": "..."}
- * - SPEAKING_PLACEHOLDER: {"prompt": "Say: Hello, how are you?"}
- *
- * Question.assets:
- * [{"type": "image", "url": "https://..."}, {"type": "audio", "url": "https://..."}]
- *
- * Achievement.criteria:
- * {"type": "streak", "value": 7}
- * {"type": "xp", "value": 1000}
- * {"type": "lesson_type", "value": "ADVANCED"}
- *
- * Attempt.answer:
- * {"selected_index": 2} // para múltipla escolha
- * {"text": "go"} // para fill blank
- * {"text": "Hello"} // para listening/writing
- *
- * Attempt.metadata:
- * {"confidence": 0.95, "audio_duration": 3.5}
- */
-
-/**
- * ÍNDICES RECOMENDADOS (adicionar manualmente no PostgreSQL):
- *
- * -- Performance de ranking
- * CREATE INDEX idx_user_profile_xp ON user_profile(total_xp DESC);
- * CREATE INDEX idx_user_profile_municipality ON user_profile(municipality_code);
- * CREATE INDEX idx_user_profile_activity ON user_profile(last_activity_date);
- * CREATE INDEX idx_user_profile_ranking ON user_profile(total_xp DESC, last_activity_date);
- *
- * -- Performance de queries de tentativas
- * CREATE INDEX idx_attempt_student_lesson ON attempt(student_id, lesson_id);
- * CREATE INDEX idx_attempt_question ON attempt(question_id);
- * CREATE INDEX idx_attempt_timestamp ON attempt(attempted_at);
- *
- * -- Performance de progresso
- * CREATE INDEX idx_progress_student_status ON student_lesson_progress(student_id, status);
- * CREATE INDEX idx_progress_assignment ON student_lesson_progress(assignment_id);
- * CREATE INDEX idx_progress_completed ON student_lesson_progress(completed_at);
- *
- * -- Performance de assignments
- * CREATE INDEX idx_assignment_class_due ON lesson_assignment(class_id, due_date);
- * CREATE INDEX idx_assignment_lesson ON lesson_assignment(lesson_id);
- *
- * -- Performance de questões
- * CREATE INDEX idx_question_filters ON question(language, level, skill);
- * CREATE INDEX idx_question_topic ON question(topic_id, level);
- *
- * -- Performance de lições
- * CREATE INDEX idx_lesson_filters ON lesson(language, level);
- * CREATE INDEX idx_lesson_topic ON lesson(topic_id);
- */
-
-/**
- * REGRAS DE NEGÓCIO A IMPLEMENTAR NO BACKEND:
- *
- * 1. Atualização de Nível (UserProfile.currentLevel):
- *    - Recalcular após cada lição completa baseado em totalXp
- *    - BEGINNER: 0-500 XP
- *    - INTERMEDIATE: 501-2000 XP
- *    - ADVANCED: 2001+ XP
- *
- * 2. Atualização de Streak (UserProfile.currentStreak):
- *    - Incrementar se lastActivityDate = ontem
- *    - Resetar para 1 se lastActivityDate < ontem
- *    - Manter se lastActivityDate = hoje
- *    - Timezone: America/Sao_Paulo
- *
- * 3. Validação de Respostas (Attempt):
- *    - MULTIPLE_CHOICE: comparar índice
- *    - FILL_BLANK: case-insensitive, trim, aceitar qualquer correct_answer
- *    - LISTENING/READING: comparação exata com correct_answer
- *    - WRITING: comparação com sample_answer (aceitar variações)
- *    - SPEAKING_PLACEHOLDER: sempre retornar isCorrect = true
- *
- * 4. Conclusão de Lição (StudentLessonProgress):
- *    - Calcular score = (acertos / total_questões) * 100
- *    - Se score >= passThreshold:
- *      * status = COMPLETED
- *      * xpEarned = lesson.xpReward
- *      * Atualizar UserProfile.totalXp
- *      * Atualizar UserProfile.currentStreak
- *      * Verificar conquistas
- *    - Se score < passThreshold:
- *      * status = FAILED
- *      * Permitir retry após 1 hora
- *
- * 5. Verificação de Conquistas (UserAchievement):
- *    - Após cada ação relevante, verificar critérios de Achievement
- *    - Se critério atendido e não existe UserAchievement: criar registro
- *
- * 6. Recomendação de Lições:
- *    - Prioridade 1: LessonAssignment pendentes (status != COMPLETED)
- *    - Prioridade 2: Lições do nível atual não completadas
- *    - Prioridade 3: Lições de temas com taxa de acerto < 70%
- *    - Ordenar por: menos tentativas → mais recentes
- *
- * 7. Mistura Inteligente de Questões:
- *    - Embaralhar LessonQuestion.orderIndex
- *    - Evitar mais de 2 questões consecutivas do mesmo tipo
- *    - Algoritmo: shuffle + reordenar se houver 3+ consecutivas
- *
- * 8. Marcação de Atraso (StudentLessonProgress.isLate):
- *    - Se completedAt > assignment.dueDate: isLate = true
- *    - Se assignment é null (lição recomendada): isLate = false
- */
-
-/**
- * DADOS INICIAIS (Seeds):
- *
- * 1. Achievement - 10 conquistas básicas:
- *    - FIRST_LESSON: {"type": "lesson_count", "value": 1}
- *    - STREAK_7: {"type": "streak", "value": 7}
- *    - STREAK_30: {"type": "streak", "value": 30}
- *    - XP_100: {"type": "xp", "value": 100}
- *    - XP_1000: {"type": "xp", "value": 1000}
- *    - XP_5000: {"type": "xp", "value": 5000}
- *    - FIRST_ADVANCED: {"type": "lesson_level", "value": "ADVANCED"}
- *    - TEACHER_ASSIGNMENT: {"type": "assignment_complete", "value": 1}
- *    - PERFECT_LESSON: {"type": "perfect_score", "value": 100}
- *    - SPEED_DEMON: {"type": "lesson_time", "value": 300}
- *
- * 2. Topic - Temas básicos de inglês:
- *    - Greetings (Cumprimentos)
- *    - Numbers (Números)
- *    - Colors (Cores)
- *    - Food (Comida)
- *    - Family (Família)
- *    - Travel (Viagem)
- *    - Work (Trabalho)
- *    - Hobbies (Hobbies)
- *
- * 3. UserProfile padrão para novos usuários:
- *    - currentLevel: BEGINNER
- *    - totalXp: 0
- *    - currentStreak: 0
- *    - dailyGoalXp: 50
- */
-
-/**
- * ENDPOINTS REST SUGERIDOS:
- *
- * Autenticação:
- * POST   /api/authenticate
- * GET    /api/account
- *
- * Aluno:
- * GET    /api/student/dashboard
- * GET    /api/student/lessons/next
- * GET    /api/student/lessons/{id}/start
- * POST   /api/student/lessons/{lessonId}/questions/{questionId}/answer
- * POST   /api/student/lessons/{id}/complete
- * GET    /api/student/ranking
- * GET    /api/student/achievements
- *
- * Professor:
- * GET    /api/teacher/classes
- * POST   /api/teacher/classes
- * GET    /api/teacher/classes/{id}
- * POST   /api/teacher/classes/{id}/members
- * DELETE /api/teacher/classes/{classId}/members/{memberId}
- * POST   /api/teacher/classes/{id}/assignments
- * GET    /api/teacher/classes/{id}/report
- * GET    /api/teacher/students/{id}/report
- * GET    /api/teacher/questions
- * POST   /api/teacher/questions
- * PUT    /api/teacher/questions/{id}
- * DELETE /api/teacher/questions/{id}
- * GET    /api/teacher/lessons
- * POST   /api/teacher/lessons
- *
- * Admin:
- * GET    /api/admin/users
- * POST   /api/admin/users
- * PUT    /api/admin/users/{id}
- * DELETE /api/admin/users/{id}
- * PUT    /api/admin/users/{id}/roles
- * GET    /api/admin/questions
- * PUT    /api/admin/questions/{id}
- * DELETE /api/admin/questions/{id}
- * GET    /api/admin/lessons
- * GET    /api/admin/topics
- * POST   /api/admin/topics
- * GET    /api/admin/metrics
- * GET    /api/admin/ranking
- * GET    /api/admin/achievements
- * POST   /api/admin/achievements
- */
-
-## Passos criados:
-1. criação do projeto Jhipster
-2. criação do modelo de dados JDL
-3. execução do modelo de dados e criação das entidades.
-
-
-## 📝 Próximos Passos Sugeridos
-1. Implementar endpoints REST customizados
-2. Criar serviços de validação de respostas
-3. Implementar lógica de XP/Streak/Níveis
-4. Desenvolver sistema de recomendação
-5. Criar telas React para aluno/professor/admin
-6. Implementar seeds de dados iniciais

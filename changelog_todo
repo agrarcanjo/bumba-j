@@ -1,0 +1,345 @@
+
+### **Em Desenvolvimento:**
+- XpService - Serviço para calcular e atualizar XP dos usuários
+- StreakService - Serviço para gerenciar streak de dias consecutivos
+
+
+## 🚀 PRÓXIMAS ATIVIDADES PRIORITÁRIAS
+
+### **FASE 1: Backend - Lógica de Negócio Customizada**
+
+#### **1.1 Endpoints Customizados para Aluno**
+**Prioridade: CRÍTICA**
+
+Criar em `src/main/java/com/bumbatech/bumbalearning/web/rest/`:
+
+```java
+// Student
+
+DashboardResource.java
+GET /api/student/dashboard
+- Retorna: XP total, streak, nível, conquistas, meta diária
+
+// StudentLessonResource.java
+GET /api/student/lessons/next
+- Implementa lógica de recomendação
+
+GET /api/student/lessons/{id}/start
+- Retorna questões embaralhadas (mistura inteligente)
+
+POST /api/student/lessons/{lessonId}/questions/{questionId}/answer
+- Valida resposta e retorna feedback imediato
+- Registra Attempt
+
+POST /api/student/lessons/{id}/complete
+- Calcula score, atualiza XP/streak/nível
+- Verifica conquistas
+
+// StudentRankingResource.java
+GET /api/student/ranking?municipality={code}&period={week|month|all}
+- Query otimizada com índices
+
+
+1.2 Serviços de Validação
+Prioridade: CRÍTICA
+
+Criar em src/main/java/com/bumbatech/bumbalearning/service/:
+
+- validateMultipleChoice()
+- validateFillBlank()
+- validateListening()
+- validateReading()
+- validateWriting()
+- validateSpeaking() // placeholder
+
+// XpService.java
+- calculateXp
+
+ForQuestion()
+- updateUserXp()
+- recalculateLevel()
+
+// StreakService.java
+- updateStreak()
+- checkStreakBreak()
+
+// AchievementCheckService.java
+- checkAllAchievements()
+- unlockAchievement()
+
+1.3 Endpoints para Professor
+Prioridade: ALTA
+
+GET /api/teacher/classes/{id}/report
+- Relatório de turma com progresso dos alunos
+
+GET /api/teacher/students/{id}/report
+- Relatório individual detalhado
+
+// TeacherQuestionResource.java
+POST /api/teacher/questions
+- Criar questão customizada
+
+// TeacherLessonResource.java
+POST /api/teacher/lessons
+- Criar lição customizada
+
+1.4 Endpoints para Admin
+Prioridade: MÉDIA
+
+GET /api/admin/metrics
+- Métricas globais da plataforma
+
+// AdminUserResource.java
+PUT /api/admin/users/{id}/roles
+- Gerenciar roles de usuários
+
+
+1.5 Seeds de Dados Iniciais
+Prioridade: ALTA
+
+Criar em src/main/resources/config/liquibase/:
+
+-- data/topics.csv (8 tópicos básicos de inglês)
+-- data/sample_questions.csv (20-30 questões exemplo)
+-- data/sample_lessons.csv (5-10 lições exemplo)
+
+
+FASE 2: Frontend - Interfaces de Usuário
+2.1 Dashboard do Aluno
+Prioridade: CRÍTICA
+
+Criar em src/main/webapp/app/modules/student/:
+
+dashboard/
+├── student-dashboard.tsx       # Visão geral (XP, streak, nível)
+├── student-achievements.tsx    # Grid de conquistas
+├── student-ranking.tsx         # Ranking global/municipal
+└── student-profile.tsx         # Perfil e configurações
+
+Componentes:
+
+Card de XP e progresso de nível
+Contador de streak com animação
+Lista de conquistas (desbloqueadas/bloqueadas)
+Gráfico de atividade semanal
+
+2.2 Sistema de Lições
+Prioridade: CRÍTICA
+
+lesson/
+├── lesson-list.tsx             # Lista de lições disponíveis
+├── lesson-player.tsx           # Player de lição (questões)
+├── question-types/
+│   ├── multiple-choice.tsx
+│   ├── fill-blank.tsx
+│   ├──listening.tsx
+│   ├── reading.tsx
+│   └── writing.tsx
+└── lesson-result.tsx           # Resultado final da lição
+
+Features:
+
+Barra de progresso da lição
+Feedback imediato (correto/incorreto)
+Animações de transição entre questões
+Modal de resultado com XP ganho
+
+2.3 Painel do Professor
+Prioridade: ALTA
+
+teacher/
+├── class-management/
+│   ├── class-list.tsx
+│   ├── class-detail.tsx
+│   ├── class-report.tsx
+│   └── student-report.tsx
+├── content-creation/
+│   ├── question-creator.tsx
+│   └── lesson-creator.tsx
+└── assignment/
+    └── assignment-manager.tsx
+
+
+Features:
+
+Tabela de alunos com status (no prazo/atrasado/não iniciado)
+Gráficos de progresso da turma
+Formulário de criação de questões (todos os tipos)
+Atribuição de lições com prazo
+
+2.4 Painel do Admin
+Prioridade: MÉDIA
+
+admin/
+├── metrics-dashboard.tsx       # Métricas globais
+├── user-management.tsx         # Gestão de usuários
+├── content-moderation.tsx      # Moderação de questões
+└── achievement-manager.tsx     # Criar/editar conquistas
+
+
+FASE 3: Otimizações e Melhorias
+
+3.1 Performance
+Prioridade: ALTA
+
+ Adicionar índices no PostgreSQL (conforme documentado)
+ Implementar cache Redis para ranking
+ Otimizar queries N+1 com fetch joins
+ Implementar paginação em todas as listas
+
+3.2 UX/UI
+Prioridade: MÉDIA
+
+ Animações de feedback (correto/incorreto)
+ Sons de feedback (opcional)
+ Modo escuro
+ Responsividade mobile-first
+ Loading states e skeleton screens
+
+
+📋 CHECKLIST DE IMPLEMENTAÇÃO
+
+Sprint 1: Core do Aluno (2 semanas)
+
+ XpService + StreakService
+ StudentLessonResource (start/answer/complete)
+ Student
+DashboardResource
+
+ Seeds de dados (achievements, topics, questions)
+ Dashboard do aluno (frontend)
+ Lesson player (frontend)
+
+Sprint 2: Sistema de Gamificação (1 semana)
+ AchievementCheckService
+ StudentRankingResource
+ Ranking component (frontend)
+ Achievements component (frontend)
+ Animações de feedback
+
+Sprint 3: Painel do Professor (2 semanas)
+
+ TeacherClassResource (reports)
+ TeacherQuestionResource
+ TeacherLessonResource
+ Class management (frontend)
+ Content creation (frontend)
+ Assignment manager (frontend)
+
+Sprint 4: Admin e Otimizações (1 semana)
+
+ AdminMetricsResource
+ AdminUserResource
+ Índices PostgreSQL
+ Cache Redis
+ Testes automatizados
+
+🔧 CONFIGURAÇÕES TÉCNICAS IMPORTANTES
+
+Índices PostgreSQL (Performance Crítica)
+
+CREATE INDEX idx_user_profile_ranking ON user_profile(total_xp DESC, last_activity_date);
+CREATE INDEX idx_user_profile_municipality
+
+ ON user_profile(municipality_code);
+CREATE INDEX idx_attempt_student_lesson ON attempt(student_id, lesson_id);
+CREATE INDEX idx_progress_student_status ON student_lesson_progress(student_id, status);
+CREATE INDEX idx_assignment_class_due ON lesson_assignment(class_room_id, due_date);
+CREATE INDEX idx_question_filters ON question(language, level, skill);
+CREATE INDEX idx_question_topic ON question(topic_id, level);
+CREATE INDEX idx_lesson_filters ON lesson(language, level);
+CREATE INDEX idx_lesson_topic ON lesson(topic_id);
+
+
+Estruturas JSONB
+Question.content:
+
+// MULTIPLE_CHOICE
+{"options": ["opt1", "opt2", "opt3", "opt4"], "correct_index": 2}
+
+// FILL_BLANK
+{"sentence": "I ___ to school", "correct_answers": ["go", "walk"]}
+
+// LISTENING
+{"audio_url": "https://...", "question": "What did he say?", "correct_answer": "Hello"}
+
+// READING_COMPREHENSION
+{"text": "...", "question": "...", "correct_answer": "..."}
+
+// WRITING
+{"prompt": "Describe your day", "sample_answer": "..."}
+
+
+
+// SPEAKING_PLACEHOLDER
+{"prompt": "Say: Hello, how are you?"}
+
+
+Question.assets:
+
+
+[
+  {"type": "image", "url": "https://..."},
+  {"type": "audio", "url": "https://..."}
+]
+
+Achievement.criteria:
+
+{"type": "streak", "value": 7}
+{"type": "xp", "value": 1000}
+{"type": "lesson_level", "value": "ADVANCED"}
+{"type": "lesson_count", "value": 1}
+{"type": "assignment_complete", "value": 1}
+{"type": "perfect_score", "value": 100}
+{"type": "lesson_time", "value": 300}
+
+Attempt.answer:
+
+{"selected_index": 2}  // para múltipla escolha
+{"text": "go"}         // para fill blank
+{"text": "Hello"}      // para listening/writing
+
+Attempt.metadata:
+
+{"confidence": 0.95, "audio_duration": 3.5}
+
+
+📊 DADOS INICIAIS (Seeds)
+1. Authorities
+
+INSERT INTO jhi_authority (name) VALUES ('ROLE_ADMIN');
+INSERT INTO jhi_authority (name) VALUES ('ROLE_USER');
+INSERT INTO jhi_authority (name) VALUES ('ROLE_STUDENT');
+INSERT INTO jhi_authority (name) VALUES ('ROLE_TEACHER');
+
+2. Topics (8 tópicos básicos de inglês)
+
+Greetings (Cumprimentos)
+Numbers (Números)
+Colors (Cores)
+Food (Comida)
+Family (Família)
+Travel (Viagem)
+Work (Trabalho)
+Hobbies (Hobbies)
+
+3. Achievements (10 conquistas básicas)
+
+FIRST_LESSON       - {"type": "lesson_count", "value": 1}
+STREAK_7           - {"type": "streak", "value": 7}
+STREAK_30          - {"type": "streak", "value": 30}
+XP_100             - {"type": "xp", "value": 100}
+XP_1000            - {"type": "xp", "value": 1000}
+XP_5000            - {"type": "xp", "value": 5000}
+FIRST_ADVANCED     - {"type": "lesson_level", "value": "ADVANCED"}
+TEACHER_ASSIGNMENT - {"type": "assignment_complete", "value": 1}
+PERFECT_LESSON     - {"type": "perfect_score", "value": 100}
+SPEED_DEMON        - {"type": "lesson_time", "value": 300}
+
+4. UserProfile padrão para novos usuários
+
+currentLevel: BEGINNER
+totalXp: 0
+currentStreak: 0
+dailyGoalXp: 50

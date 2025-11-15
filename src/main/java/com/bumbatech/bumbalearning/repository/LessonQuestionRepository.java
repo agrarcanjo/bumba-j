@@ -1,6 +1,7 @@
 package com.bumbatech.bumbalearning.repository;
 
 import com.bumbatech.bumbalearning.domain.LessonQuestion;
+import com.bumbatech.bumbalearning.domain.Question;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -37,4 +38,7 @@ public interface LessonQuestionRepository extends JpaRepository<LessonQuestion, 
 
     @Query("select lessonQuestion from LessonQuestion lessonQuestion left join fetch lessonQuestion.lesson where lessonQuestion.id =:id")
     Optional<LessonQuestion> findOneWithToOneRelationships(@Param("id") Long id);
+
+    @Query("select lq.question from LessonQuestion lq join lq.question q where lq.lesson.id = :lessonId")
+    List<Question> findByLessonId(@Param("lessonId") Long lessonId);
 }

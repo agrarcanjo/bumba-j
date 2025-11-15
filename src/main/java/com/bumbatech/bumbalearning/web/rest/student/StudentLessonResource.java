@@ -1,15 +1,7 @@
 package com.bumbatech.bumbalearning.web.rest.student;
 
-import com.bumbatech.bumbalearning.domain.Attempt;
-import com.bumbatech.bumbalearning.domain.Lesson;
-import com.bumbatech.bumbalearning.domain.Question;
-import com.bumbatech.bumbalearning.domain.User;
-import com.bumbatech.bumbalearning.domain.UserAchievement;
-import com.bumbatech.bumbalearning.domain.UserProfile;
-import com.bumbatech.bumbalearning.repository.AttemptRepository;
-import com.bumbatech.bumbalearning.repository.LessonRepository;
-import com.bumbatech.bumbalearning.repository.QuestionRepository;
-import com.bumbatech.bumbalearning.repository.UserRepository;
+import com.bumbatech.bumbalearning.domain.*;
+import com.bumbatech.bumbalearning.repository.*;
 import com.bumbatech.bumbalearning.security.SecurityUtils;
 import com.bumbatech.bumbalearning.service.custom.AchievementCheckService;
 import com.bumbatech.bumbalearning.service.custom.AnswerValidationService;
@@ -42,6 +34,7 @@ public class StudentLessonResource {
 
     private final LessonRepository lessonRepository;
     private final QuestionRepository questionRepository;
+    private final LessonQuestionRepository lessonQuestionRepositorye;
     private final AttemptRepository attemptRepository;
     private final UserRepository userRepository;
     private final AnswerValidationService answerValidationService;
@@ -55,6 +48,7 @@ public class StudentLessonResource {
     public StudentLessonResource(
         LessonRepository lessonRepository,
         QuestionRepository questionRepository,
+        LessonQuestionRepository lessonQuestionRepositorye,
         AttemptRepository attemptRepository,
         UserRepository userRepository,
         AnswerValidationService answerValidationService,
@@ -67,6 +61,7 @@ public class StudentLessonResource {
     ) {
         this.lessonRepository = lessonRepository;
         this.questionRepository = questionRepository;
+        this.lessonQuestionRepositorye = lessonQuestionRepositorye;
         this.attemptRepository = attemptRepository;
         this.userRepository = userRepository;
         this.answerValidationService = answerValidationService;
@@ -110,7 +105,7 @@ public class StudentLessonResource {
             .findById(id)
             .orElseThrow(() -> new BadRequestAlertException("Lesson not found", "lesson", "lessonnotfound"));
 
-        List<Question> questions = questionRepository.findByLessonId(id);
+        List<Question> questions = lessonQuestionRepositorye.findByLessonId(id);
 
         List<QuestionDTO> questionDTOs = questions.stream().map(questionMapper::toDto).collect(Collectors.toList());
 

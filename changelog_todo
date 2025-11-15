@@ -5,7 +5,8 @@ v2.2 - Próxima Versão (Em Desenvolvimento)
 ✅ StreakService - Gerenciar streak de dias consecutivos (CONCLUÍDO)
 ✅ AchievementCheckService - Verificar e desbloquear conquistas (CONCLUÍDO)
 ✅ StudentLessonResource - Endpoints para lições do aluno (CONCLUÍDO)
-🔄 DashboardResource - Endpoint para dashboard do aluno (PRÓXIMO)
+✅ DashboardResource - Endpoint para dashboard do aluno (CONCLUÍDO)
+🔄 StudentRankingResource - Endpoint para ranking de alunos (PRÓXIMO)
 ⏳ Seeds de dados iniciais (conquistas, tópicos, questões exemplo)
 ⏳ Interfaces de usuário (frontend)
 
@@ -16,8 +17,7 @@ v3.0 - Futuro (Planejado)
 
 
 📞 PRÓXIMA AÇÃO IMEDIATA
-Implementar DashboardResource para fornecer endpoint que retorna dados consolidados do dashboard do aluno (XP total, streak, nível, conquistas, meta diária, progresso).
-
+Implementar StudentRankingResource para fornecer endpoint de ranking de alunos por município e período.
 ### **FASE 1: Backend - Lógica de Negócio Customizada**
 
 #### **1.1 Endpoints Customizados para Aluno**
@@ -29,16 +29,17 @@ Implementar DashboardResource para fornecer endpoint que retorna dados consolida
 - POST /api/student/lessons/{lessonId}/questions/{questionId}/answer - Valida resposta e registra tentativa
 - POST /api/student/lessons/{id}/complete - Calcula score, atualiza XP/streak/nível e verifica conquistas
 
-🔄 DashboardResource.java (PRÓXIMO)
+✅ DashboardResource.java (CONCLUÍDO)
 GET /api/student/dashboard
 - Retorna: XP total, streak, nível, conquistas desbloqueadas, meta diária, progresso para próximo nível
 - Dados consolidados do perfil do usuário
 - Lista de conquistas recentes
 - Estatísticas de lições completadas
 
-⏳ StudentRankingResource.java
+⏳ StudentRankingResource.java (PRÓXIMO)
 GET /api/student/ranking?municipality={code}&period={week|month|all}
 - Query otimizada com índices
+- Ranking por município e período
 - Ranking por município e período
 
 

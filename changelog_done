@@ -47,6 +47,19 @@ Não é necessário criar novos testes unitários no momento.
     - AchievementRepository.findByCode()
     - UserAchievementRepository.existsByUserIdAndAchievementId()
     - StudentLessonProgressRepository.countCompletedLessonsByUserId()
+12. ✅ **DashboardResource implementado** - Endpoint para dashboard do aluno (v2.2 - 2025-01-XX)
+  - GET /api/student/dashboard - Retorna dados consolidados do dashboard do aluno
+  - Retorna: XP total, streak atual, nível, XP para próximo nível, progresso para próximo nível
+  - Retorna: meta diária (50 XP), progresso diário calculado dinamicamente
+  - Retorna: total de lições completadas, total de questões respondidas, respostas corretas, taxa de acerto
+  - Retorna: lista das 5 conquistas mais recentes desbloqueadas
+  - DashboardDTO criado com todos os campos necessários
+  - Métodos adicionados aos repositories:
+    - AttemptRepository.countDistinctLessonsByUserId()
+    - AttemptRepository.countByStudentId()
+    - AttemptRepository.countByStudentIdAndIsCorrect()
+    - AttemptRepository.findByUserIdAndAttemptedAtBetween()
+    - UserAchievementRepository.findByUserId() com paginação
 
 
 

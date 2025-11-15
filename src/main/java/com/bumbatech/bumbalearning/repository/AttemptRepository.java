@@ -1,6 +1,7 @@
 package com.bumbatech.bumbalearning.repository;
 
 import com.bumbatech.bumbalearning.domain.Attempt;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -40,4 +41,18 @@ public interface AttemptRepository extends JpaRepository<Attempt, Long>, JpaSpec
 
     @Query("select a from Attempt a where a.student.id = :studentId and a.lesson.id = :lessonId")
     List<Attempt> findByStudentIdAndLessonId(@Param("studentId") Long studentId, @Param("lessonId") Long lessonId);
+
+    @Query("select count(distinct a.lesson.id) from Attempt a where a.student.id = :userId")
+    Long countDistinctLessonsByUserId(@Param("userId") Long userId);
+
+    Long countByStudentId(Long studentId);
+
+    Long countByStudentIdAndIsCorrect(Long studentId, Boolean isCorrect);
+
+    @Query("select a from Attempt a where a.student.id = :userId and a.attemptedAt between :startDate and :endDate")
+    List<Attempt> findByUserIdAndAttemptedAtBetween(
+        @Param("userId") Long userId,
+        @Param("startDate") Instant startDate,
+        @Param("endDate") Instant endDate
+    );
 }

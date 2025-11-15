@@ -44,4 +44,10 @@ public interface UserAchievementRepository extends JpaRepository<UserAchievement
         "select case when count(ua) > 0 then true else false end from UserAchievement ua where ua.user.id = :userId and ua.achievement.id = :achievementId"
     )
     boolean existsByUserIdAndAchievementId(@Param("userId") Long userId, @Param("achievementId") Long achievementId);
+
+    @Query(
+        value = "select ua from UserAchievement ua left join fetch ua.achievement where ua.user.id = :userId order by ua.unlockedAt desc",
+        countQuery = "select count(ua) from UserAchievement ua where ua.user.id = :userId"
+    )
+    Page<UserAchievement> findByUserId(@Param("userId") Long userId, Pageable pageable);
 }

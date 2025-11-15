@@ -1,6 +1,7 @@
 De acordo com os arquivos changelog_context, changelog_done e changelog_todo, entenda o contexto e execute a próxima ação imediata conforme TODO.
 Após implementação, atualize os arquivos de changelog_done com as atividades concluídas, changelog_context (caso necessário)
-e o changelog_todo com as ações feitas e defina a próxima atividade.
+e o changelog_todo com as ações feitas e defina a próxima atividade. Não é necessário criar testes unitários agora e também executar a aplicação para testes.
+Foque na atividade.
 
 # 📚 BUMBA LEARNING - CHANGELOG
 

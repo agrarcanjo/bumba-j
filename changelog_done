@@ -73,6 +73,25 @@ Não é necessário criar novos testes unitários no momento.
     - findTopUsersByMunicipalityAndPeriod() - Ranking por município e período
     - countByMunicipality() - Conta usuários por município
     - countByMunicipalityAndPeriod() - Conta usuários por município e período
+14. ✅ **DataSeeder implementado** - Seeds de dados iniciais para popular banco de dados (v2.2 - 2025-01-XX)
+  - Conquistas (15 achievements):
+    - FIRST_LESSON, LESSON_MASTER_10, LESSON_MASTER_50, LESSON_MASTER_100
+    - XP_COLLECTOR_100, XP_COLLECTOR_1000, XP_COLLECTOR_5000, XP_COLLECTOR_10000
+    - STREAK_WARRIOR_7, STREAK_WARRIOR_30, STREAK_WARRIOR_100
+    - PERFECT_SCORE, SPEED_LEARNER, VOCABULARY_MASTER, GRAMMAR_EXPERT
+  - Tópicos (3 topics):
+    - Vocabulário Básico (VOCABULARY)
+    - Gramática Fundamental (GRAMMAR)
+    - Compreensão Auditiva (LISTENING)
+  - Lições (13 lessons):
+    - 5 lições de vocabulário (Saudações, Números/Cores, Família, Comidas, Animais)
+    - 5 lições de gramática (To Be, Pronomes, Artigos, Presente Simples, Plural)
+    - 3 lições de listening (Conversas Básicas, Números/Horários, Direções)
+  - Questões (35 questions):
+    - 25 questões de múltipla escolha
+    - 10 questões de preencher lacunas
+    - Distribuídas nas lições de vocabulário e gramática
+  - Executa automaticamente na inicialização da aplicação via @PostConstruct
 
 
 

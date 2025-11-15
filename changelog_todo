@@ -7,8 +7,8 @@ v2.2 - Próxima Versão (Em Desenvolvimento)
 ✅ StudentLessonResource - Endpoints para lições do aluno (CONCLUÍDO)
 ✅ DashboardResource - Endpoint para dashboard do aluno (CONCLUÍDO)
 ✅ StudentRankingResource - Endpoint para ranking de alunos (CONCLUÍDO)
-🔄 Seeds de dados iniciais (conquistas, tópicos, questões exemplo) (PRÓXIMO)
-⏳ Interfaces de usuário (frontend)
+✅ Seeds de dados iniciais (conquistas, tópicos, questões exemplo) (CONCLUÍDO)
+🔄 Interfaces de usuário (frontend) (PRÓXIMO)
 
 v3.0 - Futuro (Planejado)
 ⏳ Painel do professor
@@ -17,7 +17,7 @@ v3.0 - Futuro (Planejado)
 
 
 📞 PRÓXIMA AÇÃO IMEDIATA
-Criar seeds de dados iniciais (conquistas, tópicos, questões exemplo) para popular o banco de dados com dados de teste.
+Desenvolver interfaces de usuário (frontend) para os endpoints implementados.
 ### **FASE 1: Backend - Lógica de Negócio Customizada**
 
 #### **1.1 Endpoints Customizados para Aluno**

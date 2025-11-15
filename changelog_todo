@@ -6,8 +6,8 @@ v2.2 - Próxima Versão (Em Desenvolvimento)
 ✅ AchievementCheckService - Verificar e desbloquear conquistas (CONCLUÍDO)
 ✅ StudentLessonResource - Endpoints para lições do aluno (CONCLUÍDO)
 ✅ DashboardResource - Endpoint para dashboard do aluno (CONCLUÍDO)
-🔄 StudentRankingResource - Endpoint para ranking de alunos (PRÓXIMO)
-⏳ Seeds de dados iniciais (conquistas, tópicos, questões exemplo)
+✅ StudentRankingResource - Endpoint para ranking de alunos (CONCLUÍDO)
+🔄 Seeds de dados iniciais (conquistas, tópicos, questões exemplo) (PRÓXIMO)
 ⏳ Interfaces de usuário (frontend)
 
 v3.0 - Futuro (Planejado)
@@ -17,7 +17,7 @@ v3.0 - Futuro (Planejado)
 
 
 📞 PRÓXIMA AÇÃO IMEDIATA
-Implementar StudentRankingResource para fornecer endpoint de ranking de alunos por município e período.
+Criar seeds de dados iniciais (conquistas, tópicos, questões exemplo) para popular o banco de dados com dados de teste.
 ### **FASE 1: Backend - Lógica de Negócio Customizada**
 
 #### **1.1 Endpoints Customizados para Aluno**
@@ -36,11 +36,12 @@ GET /api/student/dashboard
 - Lista de conquistas recentes
 - Estatísticas de lições completadas
 
-⏳ StudentRankingResource.java (PRÓXIMO)
+✅ StudentRankingResource.java (CONCLUÍDO)
 GET /api/student/ranking?municipality={code}&period={week|month|all}
 - Query otimizada com índices
 - Ranking por município e período
-- Ranking por município e período
+- Retorna top 50 usuários ordenados por XP e streak
+- Indica posição do usuário atual no ranking
 
 
 #### **1.2 Serviços de Gamificação**

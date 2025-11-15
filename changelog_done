@@ -60,6 +60,19 @@ Não é necessário criar novos testes unitários no momento.
     - AttemptRepository.countByStudentIdAndIsCorrect()
     - AttemptRepository.findByUserIdAndAttemptedAtBetween()
     - UserAchievementRepository.findByUserId() com paginação
+13. ✅ **StudentRankingResource implementado** - Endpoint para ranking de alunos (v2.2 - 2025-01-XX)
+  - GET /api/student/ranking?municipality={code}&period={week|month|all} - Retorna ranking de alunos
+  - Ranking por município (usa município do usuário se não especificado)
+  - Filtro por período: week (7 dias), month (30 dias), all (todos os tempos)
+  - Retorna top 50 usuários ordenados por XP total e streak
+  - Indica posição do usuário atual no ranking
+  - Retorna total de usuários no ranking
+  - RankingDTO e RankingEntryDTO criados
+  - Métodos adicionados ao UserProfileRepository:
+    - findTopUsersByMunicipality() - Ranking geral por município
+    - findTopUsersByMunicipalityAndPeriod() - Ranking por município e período
+    - countByMunicipality() - Conta usuários por município
+    - countByMunicipalityAndPeriod() - Conta usuários por município e período
 
 
 

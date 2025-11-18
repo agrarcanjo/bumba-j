@@ -92,6 +92,26 @@ Não é necessário criar novos testes unitários no momento.
     - 10 questões de preencher lacunas
     - Distribuídas nas lições de vocabulário e gramática
   - Executa automaticamente na inicialização da aplicação via @PostConstruct
+15. ✅ **Dashboard do Aluno (Frontend) implementado** - Página de dashboard para visualização de progresso (v2.3 - 2025-01-XX)
+  - Componentes compartilhados criados:
+    - XpBadge - Badge para exibir XP do usuário
+    - StreakIndicator - Badge para exibir streak de dias consecutivos
+    - LevelBadge - Badge para exibir nível do usuário (Iniciante/Intermediário/Avançado)
+    - ProgressBar - Barra de progresso customizada com label e percentual
+  - Serviço API criado:
+    - dashboard.service.ts - Serviço para consumir endpoint GET /api/student/dashboard
+    - Interface IDashboardData com todos os campos do dashboard
+    - Interface IAchievement para conquistas
+  - Página StudentDashboard criada:
+    - Exibe XP total, streak atual e nível em cards destacados
+    - Mostra progresso para próximo nível com barra de progresso
+    - Exibe meta diária (50 XP) e progresso diário
+    - Estatísticas: lições completadas, questões respondidas, respostas corretas, taxa de acerto
+    - Lista das 5 conquistas mais recentes desbloqueadas
+    - Loading state com spinner durante carregamento
+    - Tratamento de erros com mensagem amigável
+  - Rota /student/dashboard adicionada ao sistema de rotas
+  - Rota protegida com autenticação (AUTHORITIES.USER)
 
 
 

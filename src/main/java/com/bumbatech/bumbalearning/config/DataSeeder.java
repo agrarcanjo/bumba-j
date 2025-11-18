@@ -4,6 +4,7 @@ import com.bumbatech.bumbalearning.domain.*;
 import com.bumbatech.bumbalearning.domain.enumeration.*;
 import com.bumbatech.bumbalearning.repository.*;
 import jakarta.annotation.PostConstruct;
+import java.time.Instant;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,17 +20,23 @@ public class DataSeeder {
     private final TopicRepository topicRepository;
     private final LessonRepository lessonRepository;
     private final QuestionRepository questionRepository;
+    private final LessonQuestionRepository lessonQuestionRepository;
+    private final UserRepository userRepository;
 
     public DataSeeder(
         AchievementRepository achievementRepository,
         TopicRepository topicRepository,
         LessonRepository lessonRepository,
-        QuestionRepository questionRepository
+        QuestionRepository questionRepository,
+        LessonQuestionRepository lessonQuestionRepository,
+        UserRepository userRepository
     ) {
         this.achievementRepository = achievementRepository;
         this.topicRepository = topicRepository;
         this.lessonRepository = lessonRepository;
         this.questionRepository = questionRepository;
+        this.lessonQuestionRepository = lessonQuestionRepository;
+        this.userRepository = userRepository;
     }
 
     @PostConstruct
@@ -176,209 +183,423 @@ public class DataSeeder {
     private void seedTopicsAndLessons() {
         LOG.info("Seeding topics and lessons...");
 
-        Topic vocabularyTopic = createTopic(
-            "Vocabulário Básico",
-            "Aprenda palavras e expressões essenciais do inglês",
-            TopicCategory.VOCABULARY,
-            1
-        );
+        User systemUser = userRepository
+            .findOneByLogin("system")
+            .orElseGet(() -> {
+                User user = userRepository.findOneByLogin("admin").orElse(null);
+                if (user == null) {
+                    LOG.warn("No system or admin user found. Creating a temporary system user.");
+                    user = new User();
+                    user.setLogin("system");
+                    user.setPassword("$2a$10$mE.qmcV0mFU5NcKh73TZx.z4ueI/.bDWbj0T1BYyqP481kGGarKLG");
+                    user.setFirstName("System");
+                    user.setLastName("User");
+                    user.setEmail("system@localhost");
+                    user.setActivated(true);
+                    user.setLangKey("pt-br");
+                    user = userRepository.save(user);
+                }
+                return user;
+            });
+
+        Topic vocabularyTopic = createTopic("Vocabulário Básico", "Aprenda palavras e expressões essenciais do inglês", Language.ENGLISH);
         topicRepository.save(vocabularyTopic);
 
-        Topic grammarTopic = createTopic(
-            "Gramática Fundamental",
-            "Domine as estruturas básicas da língua inglesa",
-            TopicCategory.GRAMMAR,
-            2
-        );
+        Topic grammarTopic = createTopic("Gramática Fundamental", "Domine as estruturas básicas da língua inglesa", Language.ENGLISH);
         topicRepository.save(grammarTopic);
 
-        Topic listeningTopic = createTopic(
-            "Compreensão Auditiva",
-            "Desenvolva sua habilidade de entender inglês falado",
-            TopicCategory.LISTENING,
-            3
-        );
+        Topic listeningTopic = createTopic("Compreensão Auditiva", "Desenvolva sua habilidade de entender inglês falado", Language.ENGLISH);
         topicRepository.save(listeningTopic);
 
-        seedVocabularyLessons(vocabularyTopic);
-        seedGrammarLessons(grammarTopic);
-        seedListeningLessons(listeningTopic);
+        seedVocabularyLessons(vocabularyTopic, systemUser);
+        seedGrammarLessons(grammarTopic, systemUser);
+        seedListeningLessons(listeningTopic, systemUser);
 
         LOG.info("Seeded topics and lessons");
     }
 
-    private Topic createTopic(String name, String description, TopicCategory category, Integer displayOrder) {
+    private Topic createTopic(String name, String description, Language language) {
         Topic topic = new Topic();
         topic.setName(name);
         topic.setDescription(description);
-        topic.setCategory(category);
-        topic.setDisplayOrder(displayOrder);
+        topic.setLanguage(language);
         return topic;
     }
 
-    private void seedVocabularyLessons(Topic topic) {
-        List<Lesson> lessons = List.of(
-            createLesson(topic, "Saudações e Apresentações", "Aprenda a cumprimentar e se apresentar em inglês", DifficultyLevel.EASY, 1),
-            createLesson(topic, "Números e Cores", "Vocabulário essencial de números e cores", DifficultyLevel.EASY, 2),
-            createLesson(topic, "Família e Relacionamentos", "Palavras para descrever família e relações", DifficultyLevel.EASY, 3),
-            createLesson(topic, "Comidas e Bebidas", "Vocabulário de alimentos e bebidas comuns", DifficultyLevel.EASY, 4),
-            createLesson(topic, "Animais Domésticos", "Nomes de animais de estimação e da fazenda", DifficultyLevel.EASY, 5)
+    private void seedVocabularyLessons(Topic topic, User creator) {
+        Lesson lesson1 = createLesson(
+            topic,
+            creator,
+            "Saudações e Apresentações",
+            "Aprenda a cumprimentar e se apresentar em inglês",
+            DifficultyLevel.EASY,
+            Language.ENGLISH
+        );
+        Lesson lesson2 = createLesson(
+            topic,
+            creator,
+            "Números e Cores",
+            "Vocabulário essencial de números e cores",
+            DifficultyLevel.EASY,
+            Language.ENGLISH
+        );
+        Lesson lesson3 = createLesson(
+            topic,
+            creator,
+            "Família e Relacionamentos",
+            "Palavras para descrever família e relações",
+            DifficultyLevel.EASY,
+            Language.ENGLISH
+        );
+        Lesson lesson4 = createLesson(
+            topic,
+            creator,
+            "Comidas e Bebidas",
+            "Vocabulário de alimentos e bebidas comuns",
+            DifficultyLevel.EASY,
+            Language.ENGLISH
+        );
+        Lesson lesson5 = createLesson(
+            topic,
+            creator,
+            "Animais Domésticos",
+            "Nomes de animais de estimação e da fazenda",
+            DifficultyLevel.EASY,
+            Language.ENGLISH
         );
 
-        lessonRepository.saveAll(lessons);
+        lessonRepository.saveAll(List.of(lesson1, lesson2, lesson3, lesson4, lesson5));
 
-        seedVocabularyQuestions(lessons.get(0));
-        seedNumbersQuestions(lessons.get(1));
+        seedVocabularyQuestions(lesson1, topic, creator);
+        seedNumbersQuestions(lesson2, topic, creator);
     }
 
-    private void seedGrammarLessons(Topic topic) {
-        List<Lesson> lessons = List.of(
-            createLesson(topic, "Verbo To Be - Presente", "Aprenda o verbo to be no presente", DifficultyLevel.EASY, 1),
-            createLesson(topic, "Pronomes Pessoais", "Domine os pronomes pessoais em inglês", DifficultyLevel.EASY, 2),
-            createLesson(topic, "Artigos A e An", "Quando usar os artigos indefinidos", DifficultyLevel.EASY, 3),
-            createLesson(topic, "Presente Simples", "Estrutura e uso do presente simples", DifficultyLevel.INTERMEDIATE, 4),
-            createLesson(topic, "Plural dos Substantivos", "Regras para formar o plural", DifficultyLevel.EASY, 5)
+    private void seedGrammarLessons(Topic topic, User creator) {
+        Lesson lesson1 = createLesson(
+            topic,
+            creator,
+            "Verbo To Be - Presente",
+            "Aprenda o verbo to be no presente",
+            DifficultyLevel.EASY,
+            Language.ENGLISH
+        );
+        Lesson lesson2 = createLesson(
+            topic,
+            creator,
+            "Pronomes Pessoais",
+            "Domine os pronomes pessoais em inglês",
+            DifficultyLevel.EASY,
+            Language.ENGLISH
+        );
+        Lesson lesson3 = createLesson(
+            topic,
+            creator,
+            "Artigos A e An",
+            "Quando usar os artigos indefinidos",
+            DifficultyLevel.EASY,
+            Language.ENGLISH
+        );
+        Lesson lesson4 = createLesson(
+            topic,
+            creator,
+            "Presente Simples",
+            "Estrutura e uso do presente simples",
+            DifficultyLevel.INTERMEDIATE,
+            Language.ENGLISH
+        );
+        Lesson lesson5 = createLesson(
+            topic,
+            creator,
+            "Plural dos Substantivos",
+            "Regras para formar o plural",
+            DifficultyLevel.EASY,
+            Language.ENGLISH
         );
 
-        lessonRepository.saveAll(lessons);
+        lessonRepository.saveAll(List.of(lesson1, lesson2, lesson3, lesson4, lesson5));
 
-        seedToBeQuestions(lessons.get(0));
+        seedToBeQuestions(lesson1, topic, creator);
     }
 
-    private void seedListeningLessons(Topic topic) {
-        List<Lesson> lessons = List.of(
-            createLesson(topic, "Conversas Básicas", "Pratique ouvir diálogos simples do dia a dia", DifficultyLevel.EASY, 1),
-            createLesson(topic, "Números e Horários", "Compreenda números e expressões de tempo", DifficultyLevel.EASY, 2),
-            createLesson(topic, "Direções e Localizações", "Entenda instruções de direção", DifficultyLevel.INTERMEDIATE, 3)
+    private void seedListeningLessons(Topic topic, User creator) {
+        Lesson lesson1 = createLesson(
+            topic,
+            creator,
+            "Conversas Básicas",
+            "Pratique ouvir diálogos simples do dia a dia",
+            DifficultyLevel.EASY,
+            Language.ENGLISH
+        );
+        Lesson lesson2 = createLesson(
+            topic,
+            creator,
+            "Números e Horários",
+            "Compreenda números e expressões de tempo",
+            DifficultyLevel.EASY,
+            Language.ENGLISH
+        );
+        Lesson lesson3 = createLesson(
+            topic,
+            creator,
+            "Direções e Localizações",
+            "Entenda instruções de direção",
+            DifficultyLevel.INTERMEDIATE,
+            Language.ENGLISH
         );
 
-        lessonRepository.saveAll(lessons);
+        lessonRepository.saveAll(List.of(lesson1, lesson2, lesson3));
     }
 
-    private Lesson createLesson(Topic topic, String title, String description, DifficultyLevel difficulty, Integer displayOrder) {
+    private Lesson createLesson(
+        Topic topic,
+        User creator,
+        String title,
+        String description,
+        DifficultyLevel difficulty,
+        Language language
+    ) {
         Lesson lesson = new Lesson();
         lesson.setTopic(topic);
+        lesson.setCreatedBy(creator);
         lesson.setTitle(title);
         lesson.setDescription(description);
-        lesson.setDifficulty(difficulty);
-        lesson.setDisplayOrder(displayOrder);
+        lesson.setLevel(difficulty);
+        lesson.setLanguage(language);
+        lesson.setXpReward(100);
+        lesson.setPassThreshold(70);
+        lesson.setCreatedAt(Instant.now());
         return lesson;
     }
 
-    private void seedVocabularyQuestions(Lesson lesson) {
-        List<Question> questions = List.of(
-            createMultipleChoiceQuestion(
-                lesson,
-                "Como se diz 'Olá' em inglês?",
-                "Hello",
-                List.of("Goodbye", "Hello", "Thank you", "Please"),
-                1,
-                1
-            ),
-            createMultipleChoiceQuestion(
-                lesson,
-                "Qual é a tradução de 'Good morning'?",
-                "Bom dia",
-                List.of("Boa noite", "Bom dia", "Boa tarde", "Até logo"),
-                1,
-                2
-            ),
-            createFillBlankQuestion(lesson, "Complete: 'My name ___ John'", "is", "My name ___ John", List.of("is", "am"), 3),
-            createMultipleChoiceQuestion(
-                lesson,
-                "Como se diz 'Obrigado' em inglês?",
-                "Thank you",
-                List.of("Sorry", "Please", "Thank you", "Excuse me"),
-                1,
-                4
-            ),
-            createMultipleChoiceQuestion(
-                lesson,
-                "Qual é a tradução de 'Goodbye'?",
-                "Tchau/Adeus",
-                List.of("Olá", "Tchau/Adeus", "Por favor", "Desculpe"),
-                1,
-                5
+    private void seedVocabularyQuestions(Lesson lesson, Topic topic, User creator) {
+        Question q1 = createMultipleChoiceQuestion(
+            topic,
+            creator,
+            "Como se diz 'Olá' em inglês?",
+            "{\"options\":[\"Goodbye\",\"Hello\",\"Thank you\",\"Please\"],\"correctIndex\":1}",
+            Language.ENGLISH,
+            Skill.READING,
+            DifficultyLevel.EASY
+        );
+        Question q2 = createMultipleChoiceQuestion(
+            topic,
+            creator,
+            "Qual é a tradução de 'Good morning'?",
+            "{\"options\":[\"Boa noite\",\"Bom dia\",\"Boa tarde\",\"Até logo\"],\"correctIndex\":1}",
+            Language.ENGLISH,
+            Skill.READING,
+            DifficultyLevel.EASY
+        );
+        Question q3 = createFillBlankQuestion(
+            topic,
+            creator,
+            "Complete: 'My name ___ John'",
+            "{\"sentence\":\"My name ___ John\",\"correctAnswer\":\"is\",\"acceptedAnswers\":[\"is\"]}",
+            Language.ENGLISH,
+            Skill.WRITING,
+            DifficultyLevel.EASY
+        );
+        Question q4 = createMultipleChoiceQuestion(
+            topic,
+            creator,
+            "Como se diz 'Obrigado' em inglês?",
+            "{\"options\":[\"Sorry\",\"Please\",\"Thank you\",\"Excuse me\"],\"correctIndex\":2}",
+            Language.ENGLISH,
+            Skill.READING,
+            DifficultyLevel.EASY
+        );
+        Question q5 = createMultipleChoiceQuestion(
+            topic,
+            creator,
+            "Qual é a tradução de 'Goodbye'?",
+            "{\"options\":[\"Olá\",\"Tchau/Adeus\",\"Por favor\",\"Desculpe\"],\"correctIndex\":1}",
+            Language.ENGLISH,
+            Skill.READING,
+            DifficultyLevel.EASY
+        );
+
+        questionRepository.saveAll(List.of(q1, q2, q3, q4, q5));
+
+        lessonQuestionRepository.saveAll(
+            List.of(
+                createLessonQuestion(lesson, q1, 0),
+                createLessonQuestion(lesson, q2, 1),
+                createLessonQuestion(lesson, q3, 2),
+                createLessonQuestion(lesson, q4, 3),
+                createLessonQuestion(lesson, q5, 4)
             )
         );
-
-        questionRepository.saveAll(questions);
     }
 
-    private void seedNumbersQuestions(Lesson lesson) {
-        List<Question> questions = List.of(
-            createMultipleChoiceQuestion(lesson, "Qual é o número 'five' em português?", "5", List.of("3", "4", "5", "6"), 1, 1),
-            createMultipleChoiceQuestion(
-                lesson,
-                "Como se escreve o número 10 em inglês?",
-                "ten",
-                List.of("nine", "ten", "eleven", "twelve"),
-                1,
-                2
-            ),
-            createFillBlankQuestion(lesson, "Complete: 'One, two, ___'", "three", "One, two, ___", List.of("three", "3"), 3),
-            createMultipleChoiceQuestion(
-                lesson,
-                "Qual é a cor 'red' em português?",
-                "Vermelho",
-                List.of("Azul", "Verde", "Vermelho", "Amarelo"),
-                1,
-                4
-            ),
-            createMultipleChoiceQuestion(lesson, "Como se diz 'azul' em inglês?", "blue", List.of("black", "blue", "brown", "white"), 1, 5)
+    private void seedNumbersQuestions(Lesson lesson, Topic topic, User creator) {
+        Question q1 = createMultipleChoiceQuestion(
+            topic,
+            creator,
+            "Qual é o número 'five' em português?",
+            "{\"options\":[\"3\",\"4\",\"5\",\"6\"],\"correctIndex\":2}",
+            Language.ENGLISH,
+            Skill.READING,
+            DifficultyLevel.EASY
+        );
+        Question q2 = createMultipleChoiceQuestion(
+            topic,
+            creator,
+            "Como se escreve o número 10 em inglês?",
+            "{\"options\":[\"nine\",\"ten\",\"eleven\",\"twelve\"],\"correctIndex\":1}",
+            Language.ENGLISH,
+            Skill.READING,
+            DifficultyLevel.EASY
+        );
+        Question q3 = createFillBlankQuestion(
+            topic,
+            creator,
+            "Complete: 'One, two, ___'",
+            "{\"sentence\":\"One, two, ___\",\"correctAnswer\":\"three\",\"acceptedAnswers\":[\"three\",\"3\"]}",
+            Language.ENGLISH,
+            Skill.READING,
+            DifficultyLevel.EASY
+        );
+        Question q4 = createMultipleChoiceQuestion(
+            topic,
+            creator,
+            "Qual é a cor 'red' em português?",
+            "{\"options\":[\"Azul\",\"Verde\",\"Vermelho\",\"Amarelo\"],\"correctIndex\":2}",
+            Language.ENGLISH,
+            Skill.READING,
+            DifficultyLevel.EASY
+        );
+        Question q5 = createMultipleChoiceQuestion(
+            topic,
+            creator,
+            "Como se diz 'azul' em inglês?",
+            "{\"options\":[\"black\",\"blue\",\"brown\",\"white\"],\"correctIndex\":1}",
+            Language.ENGLISH,
+            Skill.READING,
+            DifficultyLevel.EASY
         );
 
-        questionRepository.saveAll(questions);
+        questionRepository.saveAll(List.of(q1, q2, q3, q4, q5));
+
+        lessonQuestionRepository.saveAll(
+            List.of(
+                createLessonQuestion(lesson, q1, 0),
+                createLessonQuestion(lesson, q2, 1),
+                createLessonQuestion(lesson, q3, 2),
+                createLessonQuestion(lesson, q4, 3),
+                createLessonQuestion(lesson, q5, 4)
+            )
+        );
     }
 
-    private void seedToBeQuestions(Lesson lesson) {
-        List<Question> questions = List.of(
-            createMultipleChoiceQuestion(lesson, "Complete: 'I ___ a student'", "am", List.of("is", "am", "are", "be"), 1, 1),
-            createMultipleChoiceQuestion(lesson, "Complete: 'She ___ happy'", "is", List.of("am", "is", "are", "be"), 1, 2),
-            createMultipleChoiceQuestion(lesson, "Complete: 'They ___ friends'", "are", List.of("am", "is", "are", "be"), 1, 3),
-            createFillBlankQuestion(lesson, "Complete: 'You ___ welcome'", "are", "You ___ welcome", List.of("are", "'re"), 4),
-            createMultipleChoiceQuestion(lesson, "Complete: 'He ___ a teacher'", "is", List.of("am", "is", "are", "be"), 1, 5)
+    private void seedToBeQuestions(Lesson lesson, Topic topic, User creator) {
+        Question q1 = createMultipleChoiceQuestion(
+            topic,
+            creator,
+            "Complete: 'I ___ a student'",
+            "{\"options\":[\"is\",\"am\",\"are\",\"be\"],\"correctIndex\":1}",
+            Language.ENGLISH,
+            Skill.WRITING,
+            DifficultyLevel.EASY
+        );
+        Question q2 = createMultipleChoiceQuestion(
+            topic,
+            creator,
+            "Complete: 'She ___ happy'",
+            "{\"options\":[\"am\",\"is\",\"are\",\"be\"],\"correctIndex\":1}",
+            Language.ENGLISH,
+            Skill.WRITING,
+            DifficultyLevel.EASY
+        );
+        Question q3 = createMultipleChoiceQuestion(
+            topic,
+            creator,
+            "Complete: 'They ___ friends'",
+            "{\"options\":[\"am\",\"is\",\"are\",\"be\"],\"correctIndex\":2}",
+            Language.ENGLISH,
+            Skill.WRITING,
+            DifficultyLevel.EASY
+        );
+        Question q4 = createFillBlankQuestion(
+            topic,
+            creator,
+            "Complete: 'You ___ welcome'",
+            "{\"sentence\":\"You ___ welcome\",\"correctAnswer\":\"are\",\"acceptedAnswers\":[\"are\",\"'re\"]}",
+            Language.ENGLISH,
+            Skill.WRITING,
+            DifficultyLevel.EASY
+        );
+        Question q5 = createMultipleChoiceQuestion(
+            topic,
+            creator,
+            "Complete: 'He ___ a teacher'",
+            "{\"options\":[\"am\",\"is\",\"are\",\"be\"],\"correctIndex\":1}",
+            Language.ENGLISH,
+            Skill.WRITING,
+            DifficultyLevel.EASY
         );
 
-        questionRepository.saveAll(questions);
+        questionRepository.saveAll(List.of(q1, q2, q3, q4, q5));
+
+        lessonQuestionRepository.saveAll(
+            List.of(
+                createLessonQuestion(lesson, q1, 0),
+                createLessonQuestion(lesson, q2, 1),
+                createLessonQuestion(lesson, q3, 2),
+                createLessonQuestion(lesson, q4, 3),
+                createLessonQuestion(lesson, q5, 4)
+            )
+        );
     }
 
     private Question createMultipleChoiceQuestion(
-        Lesson lesson,
-        String questionText,
-        String correctAnswer,
-        List<String> options,
-        Integer points,
-        Integer displayOrder
+        Topic topic,
+        User creator,
+        String prompt,
+        String content,
+        Language language,
+        Skill skill,
+        DifficultyLevel level
     ) {
         Question question = new Question();
-        question.setLesson(lesson);
-        question.setQuestionType(QuestionType.MULTIPLE_CHOICE);
-        question.setQuestionText(questionText);
-        question.setCorrectAnswer(correctAnswer);
-        question.setOptions(String.join("|", options));
-        question.setPoints(points);
-        question.setDisplayOrder(displayOrder);
+        question.setTopic(topic);
+        question.setCreatedBy(creator);
+        question.setType(QuestionType.MULTIPLE_CHOICE);
+        question.setPrompt(prompt);
+        question.setContent(content);
+        question.setLanguage(language);
+        question.setSkill(skill);
+        question.setLevel(level);
+        question.setCreatedAt(Instant.now());
         return question;
     }
 
     private Question createFillBlankQuestion(
-        Lesson lesson,
-        String questionText,
-        String correctAnswer,
-        String blankText,
-        List<String> acceptedAnswers,
-        Integer displayOrder
+        Topic topic,
+        User creator,
+        String prompt,
+        String content,
+        Language language,
+        Skill skill,
+        DifficultyLevel level
     ) {
         Question question = new Question();
-        question.setLesson(lesson);
-        question.setQuestionType(QuestionType.FILL_BLANK);
-        question.setQuestionText(questionText);
-        question.setCorrectAnswer(correctAnswer);
-        question.setBlankText(blankText);
-        question.setAcceptedAnswers(String.join("|", acceptedAnswers));
-        question.setPoints(1);
-        question.setDisplayOrder(displayOrder);
+        question.setTopic(topic);
+        question.setCreatedBy(creator);
+        question.setType(QuestionType.FILL_BLANK);
+        question.setPrompt(prompt);
+        question.setContent(content);
+        question.setLanguage(language);
+        question.setSkill(skill);
+        question.setLevel(level);
+        question.setCreatedAt(Instant.now());
         return question;
+    }
+
+    private LessonQuestion createLessonQuestion(Lesson lesson, Question question, Integer orderIndex) {
+        LessonQuestion lessonQuestion = new LessonQuestion();
+        lessonQuestion.setLesson(lesson);
+        lessonQuestion.setQuestion(question);
+        lessonQuestion.setOrderIndex(orderIndex);
+        return lessonQuestion;
     }
 }

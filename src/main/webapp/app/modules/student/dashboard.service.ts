@@ -12,7 +12,8 @@ export interface IAchievement {
 export interface IDashboardData {
   totalXp: number;
   currentStreak: number;
-  level: string;
+  currentLevel: string;
+  userName: string;
   xpForNextLevel: number;
   progressToNextLevel: number;
   dailyGoal: number;

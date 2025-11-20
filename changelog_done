@@ -8,7 +8,12 @@ Não é necessário criar novos testes unitários no momento.
 3. ✅ Todas as entidades do domínio geradas (17 entidades)
 4. ✅ Repositories, Services, DTOs e Mappers gerados automaticamente
 5. ✅ Resources REST básicos (CRUD) criados para todas as entidades
-6. ✅ Estrutura de autenticação e autorização (User, Authority)
+6. ✅ Estrutura de autenticação e autorização (User, Authority) e criação de roles específicas para estudantes e professores:
+   - 'ROLE_ADMIN'
+   - 'ROLE_USER'
+   - 'ROLE_STUDENT'
+   - 'ROLE_TEACHER'
+   - 'ROLE_ANONYMOUS'
 7. ✅ **AnswerValidationService implementado** - Serviço para validação de respostas de questões (v2.1 - 2025-01-XX)
   - Validação de múltipla escolha (comparação de índice)
   - Validação de preencher lacunas (case-insensitive, aceita sinônimos)
@@ -111,7 +116,9 @@ Não é necessário criar novos testes unitários no momento.
     - Loading state com spinner durante carregamento
     - Tratamento de erros com mensagem amigável
   - Rota /student/dashboard adicionada ao sistema de rotas
-  - Rota protegida com autenticação (AUTHORITIES.USER)
+  - Rota protegida com autenticação (AUTHORITIES.ROLE_STUDENT)
+
+
 
 
 

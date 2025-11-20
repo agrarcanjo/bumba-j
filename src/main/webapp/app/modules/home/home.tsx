@@ -1,14 +1,23 @@
 import './home.scss';
 
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Translate } from 'react-jhipster';
 import { Alert, Col, Row } from 'reactstrap';
 
 import { useAppSelector } from 'app/config/store';
+import { AUTHORITIES } from 'app/config/constants';
 
 export const Home = () => {
   const account = useAppSelector(state => state.authentication.account);
+  const isAuthenticated = useAppSelector(state => state.authentication.isAuthenticated);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated && account?.authorities?.includes(AUTHORITIES.ROLE_STUDENT)) {
+      navigate('/student/dashboard');
+    }
+  }, [isAuthenticated, account, navigate]);
 
   return (
     <Row>

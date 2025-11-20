@@ -79,7 +79,7 @@ public class DashboardResource {
         dashboard.setUserId(user.getId());
         dashboard.setUserName(user.getFirstName() != null ? user.getFirstName() : user.getLogin());
 
-        Integer totalXp = profile.getTotalXp() != null ? profile.getTotalXp() : 0;
+        int totalXp = profile.getTotalXp() != null ? profile.getTotalXp() : 0;
         dashboard.setTotalXp(totalXp);
         dashboard.setCurrentLevel(profile.getCurrentLevel());
 

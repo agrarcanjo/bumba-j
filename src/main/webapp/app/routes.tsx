@@ -62,7 +62,7 @@ const AppRoutes = () => {
         <Route
           path="student/dashboard"
           element={
-            <PrivateRoute hasAnyAuthorities={[AUTHORITIES.USER]}>
+            <PrivateRoute hasAnyAuthorities={[AUTHORITIES.ROLE_STUDENT]}>
               <StudentDashboard />
             </PrivateRoute>
           }

@@ -4,12 +4,14 @@ import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { login } from 'app/shared/reducers/authentication';
 import LoginModal from './login-modal';
+import { AUTHORITIES } from 'app/config/constants';
 
 export const Login = () => {
   const dispatch = useAppDispatch();
   const isAuthenticated = useAppSelector(state => state.authentication.isAuthenticated);
   const loginError = useAppSelector(state => state.authentication.loginError);
   const showModalLogin = useAppSelector(state => state.authentication.showModalLogin);
+  const account = useAppSelector(state => state.authentication.account);
   const [showModal, setShowModal] = useState(showModalLogin);
   const navigate = useNavigate();
   const pageLocation = useLocation();
@@ -26,9 +28,14 @@ export const Login = () => {
   };
 
   const { from } = pageLocation.state || { from: { pathname: '/', search: pageLocation.search } };
+
   if (isAuthenticated) {
+    if (account?.authorities?.includes(AUTHORITIES.ROLE_STUDENT)) {
+      return <Navigate to="/student/dashboard" replace />;
+    }
     return <Navigate to={from} replace />;
   }
+
   return <LoginModal showModal={showModal} handleLogin={handleLogin} handleClose={handleClose} loginError={loginError} />;
 };
 

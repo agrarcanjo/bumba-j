@@ -3,12 +3,16 @@ package com.bumbatech.bumbalearning.config;
 import com.bumbatech.bumbalearning.domain.*;
 import com.bumbatech.bumbalearning.domain.enumeration.*;
 import com.bumbatech.bumbalearning.repository.*;
+import com.bumbatech.bumbalearning.security.AuthoritiesConstants;
 import jakarta.annotation.PostConstruct;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 @Configuration
@@ -22,6 +26,8 @@ public class DataSeeder {
     private final QuestionRepository questionRepository;
     private final LessonQuestionRepository lessonQuestionRepository;
     private final UserRepository userRepository;
+    private final AuthorityRepository authorityRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public DataSeeder(
         AchievementRepository achievementRepository,
@@ -29,7 +35,9 @@ public class DataSeeder {
         LessonRepository lessonRepository,
         QuestionRepository questionRepository,
         LessonQuestionRepository lessonQuestionRepository,
-        UserRepository userRepository
+        UserRepository userRepository,
+        AuthorityRepository authorityRepository,
+        PasswordEncoder passwordEncoder
     ) {
         this.achievementRepository = achievementRepository;
         this.topicRepository = topicRepository;
@@ -37,12 +45,16 @@ public class DataSeeder {
         this.questionRepository = questionRepository;
         this.lessonQuestionRepository = lessonQuestionRepository;
         this.userRepository = userRepository;
+        this.authorityRepository = authorityRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostConstruct
     @Transactional
     public void seedData() {
         LOG.info("Starting data seeding...");
+
+        seedTestUsers();
 
         if (achievementRepository.count() == 0) {
             seedAchievements();
@@ -53,6 +65,46 @@ public class DataSeeder {
         }
 
         LOG.info("Data seeding completed!");
+    }
+
+    private void seedTestUsers() {
+        LOG.info("Seeding test users...");
+
+        if (userRepository.findOneByLogin("student").isEmpty()) {
+            User student = new User();
+            student.setLogin("student");
+            student.setPassword(passwordEncoder.encode("student"));
+            student.setFirstName("Student");
+            student.setLastName("Test");
+            student.setEmail("student@localhost");
+            student.setActivated(true);
+            student.setLangKey("pt-br");
+
+            Set<Authority> studentAuthorities = new HashSet<>();
+            authorityRepository.findById(AuthoritiesConstants.STUDENT).ifPresent(studentAuthorities::add);
+            student.setAuthorities(studentAuthorities);
+
+            userRepository.save(student);
+            LOG.info("Created test user 'student' with password 'student'");
+        }
+
+        if (userRepository.findOneByLogin("teacher").isEmpty()) {
+            User teacher = new User();
+            teacher.setLogin("teacher");
+            teacher.setPassword(passwordEncoder.encode("teacher"));
+            teacher.setFirstName("Teacher");
+            teacher.setLastName("Test");
+            teacher.setEmail("teacher@localhost");
+            teacher.setActivated(true);
+            teacher.setLangKey("pt-br");
+
+            Set<Authority> teacherAuthorities = new HashSet<>();
+            authorityRepository.findById(AuthoritiesConstants.TEACHER).ifPresent(teacherAuthorities::add);
+            teacher.setAuthorities(teacherAuthorities);
+
+            userRepository.save(teacher);
+            LOG.info("Created test user 'teacher' with password 'teacher'");
+        }
     }
 
     private void seedAchievements() {

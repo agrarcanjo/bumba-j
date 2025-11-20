@@ -49,7 +49,7 @@ export const StudentDashboard: React.FC = () => {
 
   return (
     <Container className="mt-4">
-      <h2 className="mb-4">Meu Dashboard</h2>
+      <h2 className="mb-4">{dashboard.userName}</h2>
 
       <Row className="mb-4">
         <Col md={4}>
@@ -72,7 +72,7 @@ export const StudentDashboard: React.FC = () => {
           <Card>
             <CardBody className="text-center">
               <CardTitle tag="h5">Nível</CardTitle>
-              <LevelBadge level={dashboard.level} size="lg" />
+              <LevelBadge level={dashboard.currentLevel} size="lg" />
             </CardBody>
           </Card>
         </Col>

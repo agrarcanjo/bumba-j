@@ -70,7 +70,7 @@ export const LessonPlayer: React.FC = () => {
     setShowFeedback(false);
     setFeedback(null);
 
-    if (currentQuestionIndex < lesson!.questions.length - 1) {
+    if (lesson && currentQuestionIndex < lesson.questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
       await handleCompleteLesson();

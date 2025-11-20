@@ -115,10 +115,44 @@ Não é necessário criar novos testes unitários no momento.
     - Lista das 5 conquistas mais recentes desbloqueadas
     - Loading state com spinner durante carregamento
     - Tratamento de erros com mensagem amigável
+    - Botão "Começar Lição" que busca próxima lição e redireciona para player
   - Rota /student/dashboard adicionada ao sistema de rotas
   - Rota protegida com autenticação (AUTHORITIES.ROLE_STUDENT)
-
-
-
-
-
+16. ✅ **Player de Lição (Frontend) implementado** - Interface completa para alunos completarem lições (v2.3 - 2025-01-XX)
+  - Serviço API expandido (lesson.service.ts):
+    - getNextLesson() - Busca próxima lição recomendada
+    - startLesson() - Inicia lição e retorna questões
+    - submitAnswer() - Envia resposta e recebe feedback
+    - completeLesson() - Finaliza lição e retorna resultados
+    - Interfaces: INextLesson, IQuestion, ILessonStart, IAnswerResponse, ILessonComplete, IAchievementUnlocked
+  - Componentes criados:
+    - QuestionRenderer - Renderiza questões por tipo (MULTIPLE_CHOICE, FILL_BLANK, LISTENING, READING, WRITING, SPEAKING)
+      - Suporte a múltipla escolha com radio buttons
+      - Input de texto para preencher lacunas
+      - Player de áudio para questões de listening
+      - Exibição de imagens para questões de reading
+      - Textarea para questões de writing
+      - Placeholder para questões de speaking (em desenvolvimento)
+    - FeedbackModal - Modal de feedback imediato após resposta
+      - Exibe se resposta está correta ou incorreta
+      - Mostra resposta correta quando erro
+      - Exibe explicação quando disponível
+      - Botão para avançar para próxima questão
+    - ResultScreen - Tela de resultados ao completar lição
+      - Exibe pontuação final, XP ganho e taxa de acerto
+      - Mostra total de questões corretas/erradas
+      - Lista conquistas desbloqueadas durante a lição
+      - Botão para voltar ao dashboard
+  - Página LessonPlayer criada:
+    - Exibe título e descrição da lição
+    - Barra de progresso mostrando questão atual (X de Y)
+    - Renderização dinâmica de questões por tipo
+    - Envio de respostas com feedback imediato
+    - Desabilita submit durante processamento
+    - Navegação automática entre questões
+    - Finalização automática ao completar todas as questões
+    - Loading states e tratamento de erros
+    - Mantém estado local das respostas
+  - Rota /student/lesson/:id adicionada ao sistema de rotas
+  - Rota protegida com autenticação (AUTHORITIES.ROLE_STUDENT)
+  - Integração completa com endpoints do backend

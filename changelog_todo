@@ -1,7 +1,7 @@
 ## 🚀 PRÓXIMAS ATIVIDADES PRIORITÁRIAS - MVP
 
 ### 📞 PRÓXIMA AÇÃO IMEDIATA
-Desenvolver interfaces de usuário (frontend) para os endpoints implementados, com foco no fluxo principal do aluno (MVP): dashboard, player de lição, ranking, conquistas e perfil.
+Desenvolver página de Ranking de alunos (/student/ranking) com integração ao endpoint GET /api/student/ranking, permitindo filtros por período (semana/mês/todos) e exibindo top 50 usuários com destaque para posição do usuário atual.
 
 ---
 
@@ -10,40 +10,40 @@ Prioridade: CRÍTICA — Entregar um fluxo completo de aluno que permita: inicia
 
 Observação: todas as rotas cliente devem consumir os endpoints já implementados no backend.
 
-1) Dashboard do Aluno — /student/dashboard
-- Integração: GET /api/student/dashboard
-- Itens obrigatórios:
-  - XP total, nível atual e progresso para o próximo nível (visual + número)
-  - Streak atual com ícone/tooltip
-  - Meta diária (default 50 XP) e progresso do dia
-  - Cards rápidos: lições completadas, questões respondidas, taxa de acerto
-  - Lista das 5 conquistas mais recentes (com ícone e data)
-  - CTA primário "Começar Lição" que chama GET /api/student/lessons/next e redireciona para /student/lesson/:id
-- Requisitos técnicos:
-  - Skeletons para carregamento
-  - Tratamento de erros (toast / aviso)
-  - Responsividade (mobile-first)
+1) ✅ Dashboard do Aluno — /student/dashboard
+- ✅ Integração: GET /api/student/dashboard
+- ✅ Itens obrigatórios:
+  - ✅ XP total, nível atual e progresso para o próximo nível (visual + número)
+  - ✅ Streak atual com ícone/tooltip
+  - ✅ Meta diária (default 50 XP) e progresso do dia
+  - ✅ Cards rápidos: lições completadas, questões respondidas, taxa de acerto
+  - ✅ Lista das 5 conquistas mais recentes (com ícone e data)
+  - ✅ CTA primário "Começar Lição" que chama GET /api/student/lessons/next e redireciona para /student/lesson/:id
+- ✅ Requisitos técnicos:
+  - ✅ Skeletons para carregamento
+  - ✅ Tratamento de erros (toast / aviso)
+  - ✅ Responsividade (mobile-first)
 
-2) Player de Lição — /student/lesson/:id
-- Integração:
-  - GET /api/student/lessons/{id}/start
-  - POST /api/student/lessons/{lessonId}/questions/{questionId}/answer
-  - POST /api/student/lessons/{id}/complete
-- Fluxo obrigatório:
-  - Exibir uma questão por vez com barra de progresso (Questão X de Y)
-  - Renderizar tipos: MULTIPLE_CHOICE, FILL_BLANK, LISTENING, READING, WRITING (SPEAKING → placeholder)
-  - Enviar resposta e exibir feedback imediato (verde/vermelho) com animação leve
-  - Desabilitar submit repetido; permitir avançar com botão "Próxima"
-  - Ao fim, chamar endpoint de complete e abrir ResultScreen com: score, XP ganho, conquistas desbloqueadas
-- Componentes críticos:
-  - QuestionRenderer (renderiza por tipo)
-  - ProgressBar (questões)
-  - FeedbackModal/Toast
-  - ResultScreen (modal/página com resumo e CTA "Voltar ao Dashboard")
-- Requisitos técnicos:
-  - Manter estado local por lição (respostas, tempo, score parcial)
-  - Timeout/erro de rede: salvar tentativas localmente e retry
-  - Acessibilidade básica (labels, foco, teclado)
+2) ✅ Player de Lição — /student/lesson/:id
+- ✅ Integração:
+  - ✅ GET /api/student/lessons/{id}/start
+  - ✅ POST /api/student/lessons/{lessonId}/questions/{questionId}/answer
+  - ✅ POST /api/student/lessons/{id}/complete
+- ✅ Fluxo obrigatório:
+  - ✅ Exibir uma questão por vez com barra de progresso (Questão X de Y)
+  - ✅ Renderizar tipos: MULTIPLE_CHOICE, FILL_BLANK, LISTENING, READING, WRITING (SPEAKING → placeholder)
+  - ✅ Enviar resposta e exibir feedback imediato (verde/vermelho) com animação leve
+  - ✅ Desabilitar submit repetido; permitir avançar com botão "Próxima"
+  - ✅ Ao fim, chamar endpoint de complete e abrir ResultScreen com: score, XP ganho, conquistas desbloqueadas
+- ✅ Componentes críticos:
+  - ✅ QuestionRenderer (renderiza por tipo)
+  - ✅ ProgressBar (questões)
+  - ✅ FeedbackModal/Toast
+  - ✅ ResultScreen (modal/página com resumo e CTA "Voltar ao Dashboard")
+- ✅ Requisitos técnicos:
+  - ✅ Manter estado local por lição (respostas, tempo, score parcial)
+  - ✅ Timeout/erro de rede: salvar tentativas localmente e retry
+  - ✅ Acessibilidade básica (labels, foco, teclado)
 
 3) Ranking — /student/ranking
 - Integração: GET /api/student/ranking?municipality={code}&period={week|month|all}
@@ -82,22 +82,22 @@ Observação: todas as rotas cliente devem consumir os endpoints já implementad
 - Tema básico: light, responsivo
 
 7) Componentes compartilhados (implementação no MVP)
-- XpBadge
-- StreakIndicator
-- LevelBadge
+- ✅ XpBadge
+- ✅ StreakIndicator
+- ✅ LevelBadge
 - AchievementCard
-- ProgressBar
-- QuestionRenderer (extensível)
-- FeedbackToast / FeedbackModal
-- ResultScreen
+- ✅ ProgressBar
+- ✅ QuestionRenderer (extensível)
+- ✅ FeedbackToast / FeedbackModal
+- ✅ ResultScreen
 
 8) Critérios de aceitação do MVP (frontend)
-- Aluno inicia lição, responde questões e finaliza → vê resultado com XP ganho e conquistas desbloqueadas
-- Dashboard exibe dados essenciais (XP, streak, meta diária)
-- Ranking carrega dados do backend e mostra posição do usuário
-- Conquistas exibem estado e progressos básicos
-- Responsividade e loading states implementados
-- Erros de rede são tratados e exibidos ao usuário
+- ✅ Aluno inicia lição, responde questões e finaliza → vê resultado com XP ganho e conquistas desbloqueadas
+- ✅ Dashboard exibe dados essenciais (XP, streak, meta diária)
+- [ ] Ranking carrega dados do backend e mostra posição do usuário
+- [ ] Conquistas exibem estado e progressos básicos
+- ✅ Responsividade e loading states implementados
+- ✅ Erros de rede são tratados e exibidos ao usuário
 
 Tempo estimado: 2–3 semanas (1 time frontend focado)
 
@@ -167,14 +167,14 @@ Prioridade: BAIXA
 ---
 
 ## CHECKLIST FINAL (MVP)
-- [ ] Dashboard funcional
-- [ ] Player de lição completo (tipos essenciais)
-- [ ] Resultado da lição com XP e conquistas
+- [x] Dashboard funcional
+- [x] Player de lição completo (tipos essenciais)
+- [x] Resultado da lição com XP e conquistas
 - [ ] Ranking por município
 - [ ] Página de conquistas
 - [ ] Perfil do aluno com edição de meta diária
-- [ ] Componentes reutilizáveis e loading states
-- [ ] Tratamento de erros e responsividade
+- [x] Componentes reutilizáveis e loading states
+- [x] Tratamento de erros e responsividade
 - [ ] Deploy em homologação e smoke tests
 
 Métricas de sucesso pós-deploy:

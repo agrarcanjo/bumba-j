@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Card, CardBody, CardTitle, Alert, Spinner } from 'reactstrap';
+import { Container, Row, Col, Card, CardBody, CardTitle, Alert, Spinner, Button } from 'reactstrap';
+import { useNavigate } from 'react-router-dom';
 import { getDashboard, IDashboardData } from './dashboard.service';
+import { getNextLesson } from './lesson.service';
 import { XpBadge, StreakIndicator, LevelBadge, ProgressBar } from 'app/shared/components';
 
 export const StudentDashboard: React.FC = () => {
   const [dashboard, setDashboard] = useState<IDashboardData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [loadingLesson, setLoadingLesson] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadDashboard();
@@ -23,6 +27,19 @@ export const StudentDashboard: React.FC = () => {
       console.error('Error loading dashboard:', err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleStartLesson = async () => {
+    try {
+      setLoadingLesson(true);
+      const nextLesson = await getNextLesson();
+      navigate(`/student/lesson/${nextLesson.id}`);
+    } catch (err) {
+      setError('Erro ao buscar próxima lição. Por favor, tente novamente.');
+      console.error('Error loading next lesson:', err);
+    } finally {
+      setLoadingLesson(false);
     }
   };
 
@@ -49,7 +66,12 @@ export const StudentDashboard: React.FC = () => {
 
   return (
     <Container className="mt-4">
-      <h2 className="mb-4">{dashboard.userName}</h2>
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h2>{dashboard.userName}</h2>
+        <Button color="primary" size="lg" onClick={handleStartLesson} disabled={loadingLesson}>
+          {loadingLesson ? <Spinner size="sm" /> : '🎯 Começar Lição'}
+        </Button>
+      </div>
 
       <Row className="mb-4">
         <Col md={4}>

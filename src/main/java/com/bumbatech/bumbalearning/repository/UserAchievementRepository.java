@@ -50,4 +50,7 @@ public interface UserAchievementRepository extends JpaRepository<UserAchievement
         countQuery = "select count(ua) from UserAchievement ua where ua.user.id = :userId"
     )
     Page<UserAchievement> findByUserId(@Param("userId") Long userId, Pageable pageable);
+
+    @Query("select ua from UserAchievement ua left join fetch ua.achievement where ua.user.id = :userId")
+    List<UserAchievement> findByUserId(@Param("userId") Long userId);
 }

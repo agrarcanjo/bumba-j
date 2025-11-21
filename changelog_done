@@ -178,5 +178,40 @@ Não é necessário criar novos testes unitários no momento.
   - Rota protegida com autenticação (AUTHORITIES.ROLE_STUDENT)
   - Integração completa com endpoint GET /api/student/ranking
   - Navegação entre páginas:
-    - Dashboard possui botão "🏆 Ver Ranking" para acessar página de ranking
+    - Dashboard possui botões "🏆 Conquistas" e "📊 Ranking" para navegação
     - Ranking possui botão "← Voltar ao Dashboard" para retornar ao dashboard
+18. ✅ **Conquistas do Aluno (Backend + Frontend) implementado** - Sistema completo de conquistas com progresso (v2.3 - 2025-01-XX)
+  - Backend - StudentAchievementResource criado:
+    - GET /api/student/achievements - Retorna todas as conquistas com status de desbloqueio
+    - Calcula progresso atual vs meta para cada conquista
+    - Suporta conquistas incrementais (lições, XP, streak)
+    - StudentAchievementDTO com campos: id, code, name, description, iconUrl, unlocked, unlockedAt, current, target
+    - Método calculateProgress() para calcular progresso baseado no tipo de conquista
+    - UserAchievementRepository.findByUserId(Long) adicionado (sem paginação)
+  - Frontend - Serviço API criado (achievements.service.ts):
+    - getStudentAchievements() - Busca todas as conquistas do aluno
+    - Interface IStudentAchievement com todos os campos necessários
+  - Frontend - Componentes criados:
+    - AchievementCard - Card de conquista com visual diferenciado para desbloqueadas/bloqueadas
+      - Conquistas desbloqueadas: coloridas com borda verde e badge de sucesso
+      - Conquistas bloqueadas: cinza com barra de progresso (current/target)
+      - Exibe data de desbloqueio quando aplicável
+      - Ícone em grayscale para conquistas bloqueadas
+    - AchievementModal - Modal com detalhes completos da conquista
+      - Descrição detalhada da conquista
+      - Progresso visual com barra de percentual
+      - Data e hora de desbloqueio para conquistas desbloqueadas
+      - Mensagem motivacional para conquistas bloqueadas
+  - Frontend - Página StudentAchievements criada:
+    - Grid responsivo de cards de conquistas (4 colunas em desktop)
+    - Filtros: Todas, Desbloqueadas, Bloqueadas
+    - Contador de conquistas desbloqueadas vs total
+    - Click no card abre modal com detalhes
+    - Loading state com spinner durante carregamento
+    - Tratamento de erros com botão de retry
+    - Empty state quando filtro não retorna resultados
+    - Botão "← Voltar ao Dashboard" para navegação
+  - Rota /student/achievements adicionada ao sistema de rotas
+  - Rota protegida com autenticação (AUTHORITIES.ROLE_STUDENT)
+  - Integração completa com endpoint GET /api/student/achievements
+  - Dashboard atualizado com botão "🏆 Conquistas" para acesso rápido

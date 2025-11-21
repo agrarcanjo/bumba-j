@@ -69,8 +69,11 @@ export const StudentDashboard: React.FC = () => {
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2>{dashboard.userName}</h2>
         <div className="d-flex gap-2">
+          <Button color="secondary" outline onClick={() => navigate('/student/achievements')}>
+            🏆 Conquistas
+          </Button>
           <Button color="secondary" outline onClick={() => navigate('/student/ranking')}>
-            🏆 Ver Ranking
+            📊 Ranking
           </Button>
           <Button color="primary" size="lg" onClick={handleStartLesson} disabled={loadingLesson}>
             {loadingLesson ? <Spinner size="sm" /> : '🎯 Começar Lição'}

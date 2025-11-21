@@ -15,7 +15,7 @@ import PrivateRoute from 'app/shared/auth/private-route';
 import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
 import PageNotFound from 'app/shared/error/page-not-found';
 import { AUTHORITIES } from 'app/config/constants';
-import { StudentDashboard, LessonPlayer, StudentRanking } from 'app/modules/student';
+import { StudentDashboard, LessonPlayer, StudentRanking, StudentAchievements } from 'app/modules/student';
 
 const loading = <div>loading ...</div>;
 
@@ -80,6 +80,14 @@ const AppRoutes = () => {
           element={
             <PrivateRoute hasAnyAuthorities={[AUTHORITIES.ROLE_STUDENT, AUTHORITIES.USER]}>
               <StudentRanking />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="student/achievements"
+          element={
+            <PrivateRoute hasAnyAuthorities={[AUTHORITIES.ROLE_STUDENT]}>
+              <StudentAchievements />
             </PrivateRoute>
           }
         />

@@ -1,7 +1,7 @@
 ## 🚀 PRÓXIMAS ATIVIDADES PRIORITÁRIAS - MVP
 
 ### 📞 PRÓXIMA AÇÃO IMEDIATA
-Desenvolver página de Conquistas (/student/achievements) com grid de cards mostrando todas as conquistas (desbloqueadas e bloqueadas), progresso incremental e modal com descrição detalhada ao clicar.
+Desenvolver página de Perfil do Aluno (/student/profile) com visualização de dados pessoais, estatísticas, edição de meta diária e histórico de atividades.
 
 ---
 
@@ -56,14 +56,14 @@ Observação: todas as rotas cliente devem consumir os endpoints já implementad
   - ✅ Paginação/infinite scroll (se necessário)
   - ✅ Skeletons e mensagens de empty state
 
-4) Conquistas — /student/achievements
-- Integração: utilizar dados de /api/student/dashboard e endpoints de achievements quando disponíveis
-- Funcionalidades:
-  - Grid de cards com todas as conquistas
-  - Visual: desbloqueadas (coloridas + data), bloqueadas (cinza + critério)
-  - Each card should show progress if achievement is incremental (e.g., 8/10 lessons)
-  - Modal com descrição detalhada ao clicar
-- Reuso de componentes: AchievementCard
+4) ✅ Conquistas — /student/achievements
+- ✅ Integração: GET /api/student/achievements
+- ✅ Funcionalidades:
+  - ✅ Grid de cards com todas as conquistas
+  - ✅ Visual: desbloqueadas (coloridas + data), bloqueadas (cinza + critério)
+  - ✅ Progresso incremental para conquistas (e.g., 8/10 lessons)
+  - ✅ Modal com descrição detalhada ao clicar
+- ✅ Reuso de componentes: AchievementCard, AchievementModal
 
 5) Perfil do Aluno — /student/profile
 - Funcionalidades:
@@ -170,8 +170,8 @@ Prioridade: BAIXA
 - [x] Dashboard funcional
 - [x] Player de lição completo (tipos essenciais)
 - [x] Resultado da lição com XP e conquistas
-- [ ] Ranking por município
-- [ ] Página de conquistas
+- [x] Ranking por município
+- [x] Página de conquistas
 - [ ] Perfil do aluno com edição de meta diária
 - [x] Componentes reutilizáveis e loading states
 - [x] Tratamento de erros e responsividade

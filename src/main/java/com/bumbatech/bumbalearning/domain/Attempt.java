@@ -47,15 +47,13 @@ public class Attempt implements Serializable {
     /**
      * JSONB - resposta do aluno
      */
-    @Lob
-    @Column(name = "answer", nullable = false)
+    @Column(name = "answer", nullable = false, length = 2000)
     private String answer;
 
     /**
      * JSONB - dados extras (confidence, etc)
      */
-    @Lob
-    @Column(name = "metadata")
+    @Column(name = "metadata", length = 2000)
     private String metadata;
 
     @ManyToOne(optional = false)

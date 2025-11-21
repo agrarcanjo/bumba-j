@@ -1,7 +1,7 @@
 ## 🚀 PRÓXIMAS ATIVIDADES PRIORITÁRIAS - MVP
 
 ### 📞 PRÓXIMA AÇÃO IMEDIATA
-Desenvolver página de Ranking de alunos (/student/ranking) com integração ao endpoint GET /api/student/ranking, permitindo filtros por período (semana/mês/todos) e exibindo top 50 usuários com destaque para posição do usuário atual.
+Desenvolver página de Conquistas (/student/achievements) com grid de cards mostrando todas as conquistas (desbloqueadas e bloqueadas), progresso incremental e modal com descrição detalhada ao clicar.
 
 ---
 
@@ -45,16 +45,16 @@ Observação: todas as rotas cliente devem consumir os endpoints já implementad
   - ✅ Timeout/erro de rede: salvar tentativas localmente e retry
   - ✅ Acessibilidade básica (labels, foco, teclado)
 
-3) Ranking — /student/ranking
-- Integração: GET /api/student/ranking?municipality={code}&period={week|month|all}
-- Funcionalidades mínimas:
-  - Tabela top 50 (Posição, Nome, XP, Nível, Streak)
-  - Destaque da linha do usuário atual com posição visível
-  - Filtro por período (semana/mês/todos)
-  - Exibir total de participantes e tempo de última atualização
-- UX:
-  - Paginação/infinite scroll (se necessário)
-  - Skeletons e mensagens de empty state
+3) ✅ Ranking — /student/ranking
+- ✅ Integração: GET /api/student/ranking?municipality={code}&period={week|month|all}
+- ✅ Funcionalidades mínimas:
+  - ✅ Tabela top 50 (Posição, Nome, XP, Nível, Streak)
+  - ✅ Destaque da linha do usuário atual com posição visível
+  - ✅ Filtro por período (semana/mês/todos)
+  - ✅ Exibir total de participantes e tempo de última atualização
+- ✅ UX:
+  - ✅ Paginação/infinite scroll (se necessário)
+  - ✅ Skeletons e mensagens de empty state
 
 4) Conquistas — /student/achievements
 - Integração: utilizar dados de /api/student/dashboard e endpoints de achievements quando disponíveis
@@ -94,7 +94,7 @@ Observação: todas as rotas cliente devem consumir os endpoints já implementad
 8) Critérios de aceitação do MVP (frontend)
 - ✅ Aluno inicia lição, responde questões e finaliza → vê resultado com XP ganho e conquistas desbloqueadas
 - ✅ Dashboard exibe dados essenciais (XP, streak, meta diária)
-- [ ] Ranking carrega dados do backend e mostra posição do usuário
+- ✅ Ranking carrega dados do backend e mostra posição do usuário
 - [ ] Conquistas exibem estado e progressos básicos
 - ✅ Responsividade e loading states implementados
 - ✅ Erros de rede são tratados e exibidos ao usuário

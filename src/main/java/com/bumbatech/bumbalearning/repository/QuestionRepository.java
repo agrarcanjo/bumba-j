@@ -39,4 +39,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long>, JpaSp
 
     @Query("select question from Question question left join fetch question.topic where question.id =:id")
     Optional<Question> findOneWithToOneRelationships(@Param("id") Long id);
+
+    @Query("select distinct q from Question q left join fetch q.topic left join fetch q.createdBy where q.id in :ids")
+    List<Question> findAllByIdWithRelationships(@Param("ids") List<Long> ids);
 }

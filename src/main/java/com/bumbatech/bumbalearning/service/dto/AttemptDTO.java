@@ -30,11 +30,9 @@ public class AttemptDTO implements Serializable {
     private Instant attemptedAt;
 
     @Schema(description = "JSONB - resposta do aluno", requiredMode = Schema.RequiredMode.REQUIRED)
-    @Lob
     private String answer;
 
     @Schema(description = "JSONB - dados extras (confidence, etc)")
-    @Lob
     private String metadata;
 
     @NotNull

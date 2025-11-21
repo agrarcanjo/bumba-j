@@ -156,3 +156,24 @@ Não é necessário criar novos testes unitários no momento.
   - Rota /student/lesson/:id adicionada ao sistema de rotas
   - Rota protegida com autenticação (AUTHORITIES.ROLE_STUDENT)
   - Integração completa com endpoints do backend
+17. ✅ **Ranking de Alunos (Frontend) implementado** - Página de ranking com filtros e destaque do usuário (v2.3 - 2025-01-XX)
+  - Serviço API criado (ranking.service.ts):
+    - getRanking() - Busca ranking de alunos com filtros de período e município
+    - Interface IRankingData com lista de entradas e metadados
+    - Interface IRankingEntry com dados de cada aluno no ranking
+    - Type RankingPeriod para filtros (week, month, all)
+  - Página StudentRanking criada:
+    - Exibe top 50 alunos ordenados por XP e streak
+    - Filtros por período: Semana, Mês, Todos
+    - Tabela com colunas: Posição, Nome, XP, Nível, Streak
+    - Destaque visual para top 3 com medalhas (🥇🥈🥉)
+    - Linha do usuário atual destacada em azul com badge "Você"
+    - Exibe total de participantes e última atualização
+    - Loading state com spinner durante carregamento
+    - Tratamento de erros com botão de retry
+    - Empty state quando não há dados
+    - Alert especial quando usuário está fora do top 50
+    - Reutiliza componentes: XpBadge, StreakIndicator, LevelBadge
+  - Rota /student/ranking adicionada ao sistema de rotas
+  - Rota protegida com autenticação (AUTHORITIES.ROLE_STUDENT)
+  - Integração completa com endpoint GET /api/student/ranking

@@ -74,16 +74,14 @@ public class Question implements Serializable {
     private String prompt;
 
     /**
-     * JSONB - estrutura específica por tipo
+     * String - estrutura específica por tipo
      */
-    @Lob
     @Column(name = "content", nullable = false)
     private String content;
 
     /**
-     * JSONB - estrutura específica por tipo
+     * String - estrutura específica por tipo
      */
-    @Lob
     @Column(name = "assets")
     private String assets;
 

@@ -46,11 +46,9 @@ public class QuestionDTO implements Serializable {
     private String prompt;
 
     @Schema(description = "JSONB - estrutura específica por tipo", requiredMode = Schema.RequiredMode.REQUIRED)
-    @Lob
     private String content;
 
     @Schema(description = "JSONB - estrutura específica por tipo")
-    @Lob
     private String assets;
 
     @NotNull

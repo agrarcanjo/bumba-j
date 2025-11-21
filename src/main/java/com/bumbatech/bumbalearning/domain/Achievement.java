@@ -53,8 +53,7 @@ public class Achievement implements Serializable {
     /**
      * JSONB - critérios para desbloquear
      */
-    @Lob
-    @Column(name = "criteria", nullable = false)
+    @Column(name = "criteria", nullable = false, length = 2000)
     private String criteria;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

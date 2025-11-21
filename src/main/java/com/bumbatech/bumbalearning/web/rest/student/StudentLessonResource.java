@@ -105,7 +105,9 @@ public class StudentLessonResource {
             .findById(id)
             .orElseThrow(() -> new BadRequestAlertException("Lesson not found", "lesson", "lessonnotfound"));
 
-        List<Question> questions = lessonQuestionRepositorye.findByLessonId(id);
+        List<Long> questionIds = lessonQuestionRepositorye.findQuestionIdsByLessonId(id);
+
+        List<Question> questions = questionRepository.findAllByIdWithRelationships(questionIds);
 
         List<QuestionDTO> questionDTOs = questions.stream().map(questionMapper::toDto).collect(Collectors.toList());
 

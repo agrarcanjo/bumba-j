@@ -39,6 +39,6 @@ public interface LessonQuestionRepository extends JpaRepository<LessonQuestion, 
     @Query("select lessonQuestion from LessonQuestion lessonQuestion left join fetch lessonQuestion.lesson where lessonQuestion.id =:id")
     Optional<LessonQuestion> findOneWithToOneRelationships(@Param("id") Long id);
 
-    @Query("select lq.question from LessonQuestion lq join lq.question q where lq.lesson.id = :lessonId")
-    List<Question> findByLessonId(@Param("lessonId") Long lessonId);
+    @Query("select lq.question.id from LessonQuestion lq where lq.lesson.id = :lessonId order by lq.orderIndex")
+    List<Long> findQuestionIdsByLessonId(@Param("lessonId") Long lessonId);
 }

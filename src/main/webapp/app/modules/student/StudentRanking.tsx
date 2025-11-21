@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, CardBody, CardTitle, Alert, Spinner, Table, ButtonGroup, Button, Badge } from 'reactstrap';
+import { useNavigate } from 'react-router-dom';
 import { getRanking, IRankingData, RankingPeriod } from './ranking.service';
 import { XpBadge, StreakIndicator, LevelBadge } from 'app/shared/components';
 
 export const StudentRanking: React.FC = () => {
+  const navigate = useNavigate();
   const [ranking, setRanking] = useState<IRankingData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -69,7 +71,13 @@ export const StudentRanking: React.FC = () => {
   return (
     <Container className="mt-4">
       <div className="d-flex justify-content-between align-items-center mb-4">
+        <div className="d-flex align-items-center gap-2">
+          <Button color="link" onClick={() => navigate('/student/dashboard')} className="p-0 text-decoration-none">
+            ← Voltar ao Dashboard
+          </Button>
+        </div>
         <h2>🏆 Ranking de Alunos</h2>
+        <div style={{ width: '150px' }}></div>
       </div>
 
       <Row className="mb-4">

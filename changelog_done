@@ -177,3 +177,6 @@ Não é necessário criar novos testes unitários no momento.
   - Rota /student/ranking adicionada ao sistema de rotas
   - Rota protegida com autenticação (AUTHORITIES.ROLE_STUDENT)
   - Integração completa com endpoint GET /api/student/ranking
+  - Navegação entre páginas:
+    - Dashboard possui botão "🏆 Ver Ranking" para acessar página de ranking
+    - Ranking possui botão "← Voltar ao Dashboard" para retornar ao dashboard

@@ -68,9 +68,14 @@ export const StudentDashboard: React.FC = () => {
     <Container className="mt-4">
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2>{dashboard.userName}</h2>
-        <Button color="primary" size="lg" onClick={handleStartLesson} disabled={loadingLesson}>
-          {loadingLesson ? <Spinner size="sm" /> : '🎯 Começar Lição'}
-        </Button>
+        <div className="d-flex gap-2">
+          <Button color="secondary" outline onClick={() => navigate('/student/ranking')}>
+            🏆 Ver Ranking
+          </Button>
+          <Button color="primary" size="lg" onClick={handleStartLesson} disabled={loadingLesson}>
+            {loadingLesson ? <Spinner size="sm" /> : '🎯 Começar Lição'}
+          </Button>
+        </div>
       </div>
 
       <Row className="mb-4">

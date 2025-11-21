@@ -106,8 +106,8 @@ export const StudentRanking: React.FC = () => {
               </div>
 
               <div className="mb-3 text-muted small">
-                <div>Total de participantes: {ranking.totalParticipants}</div>
-                <div>Última atualização: {formatLastUpdated(ranking.lastUpdated)}</div>
+                <div>Total de participantes: {ranking.totalUsers}</div>
+                <div>Última atualização: </div>
               </div>
             </CardBody>
           </Card>
@@ -118,7 +118,7 @@ export const StudentRanking: React.FC = () => {
         <Col md={12}>
           <Card>
             <CardBody>
-              {ranking.entries.length === 0 ? (
+              {ranking.rankings && ranking.rankings.length === 0 ? (
                 <Alert color="info">Nenhum dado de ranking disponível para o período selecionado.</Alert>
               ) : (
                 <div className="table-responsive">
@@ -135,19 +135,19 @@ export const StudentRanking: React.FC = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {ranking.entries.map(entry => (
+                      {ranking.rankings.map(entry => (
                         <tr
                           key={entry.userId}
                           className={entry.isCurrentUser ? 'table-primary' : ''}
                           style={entry.isCurrentUser ? { fontWeight: 'bold' } : {}}
                         >
                           <td className="text-center">
-                            {entry.position <= 3 ? (
-                              <Badge color={entry.position === 1 ? 'warning' : entry.position === 2 ? 'secondary' : 'danger'} pill>
-                                {entry.position === 1 ? '🥇' : entry.position === 2 ? '🥈' : '🥉'} {entry.position}
+                            {entry.rank <= 3 ? (
+                              <Badge color={entry.rank === 1 ? 'warning' : entry.rank === 2 ? 'secondary' : 'danger'} pill>
+                                {entry.rank === 1 ? '🥇' : entry.rank === 2 ? '🥈' : '🥉'} {entry.rank}
                               </Badge>
                             ) : (
-                              <span className="text-muted">#{entry.position}</span>
+                              <span className="text-muted">#{entry.rank}</span>
                             )}
                           </td>
                           <td>
@@ -178,11 +178,11 @@ export const StudentRanking: React.FC = () => {
         </Col>
       </Row>
 
-      {ranking.currentUserPosition > 50 && (
+      {ranking.currentUserRank > 50 && (
         <Row className="mt-3">
           <Col md={12}>
             <Alert color="info">
-              <strong>Sua posição atual: #{ranking.currentUserPosition}</strong>
+              <strong>Sua posição atual: #{ranking.currentUserRank}</strong>
               <div className="small mt-1">Continue praticando para subir no ranking!</div>
             </Alert>
           </Col>

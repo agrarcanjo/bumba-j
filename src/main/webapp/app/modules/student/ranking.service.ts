@@ -1,20 +1,21 @@
 import axios from 'axios';
 
 export interface IRankingEntry {
-  position: number;
   userId: number;
   userName: string;
   totalXp: number;
   currentLevel: string;
+  municipalityCode: string;
+  rank: number;
   currentStreak: number;
   isCurrentUser: boolean;
 }
 
 export interface IRankingData {
-  entries: IRankingEntry[];
-  currentUserPosition: number;
-  totalParticipants: number;
-  lastUpdated: string;
+  rankings: IRankingEntry[];
+  currentUserRank: number;
+  totalUsers: number;
+  municipalityCode: string;
 }
 
 export type RankingPeriod = 'week' | 'month' | 'all';

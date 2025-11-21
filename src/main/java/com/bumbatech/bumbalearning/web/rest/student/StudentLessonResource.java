@@ -7,7 +7,6 @@ import com.bumbatech.bumbalearning.service.custom.AchievementCheckService;
 import com.bumbatech.bumbalearning.service.custom.AnswerValidationService;
 import com.bumbatech.bumbalearning.service.custom.StreakService;
 import com.bumbatech.bumbalearning.service.custom.XpService;
-import com.bumbatech.bumbalearning.service.dto.AttemptDTO;
 import com.bumbatech.bumbalearning.service.dto.LessonDTO;
 import com.bumbatech.bumbalearning.service.dto.QuestionDTO;
 import com.bumbatech.bumbalearning.service.mapper.AttemptMapper;

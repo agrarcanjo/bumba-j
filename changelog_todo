@@ -27,23 +27,23 @@ Observação: todas as rotas cliente devem consumir os endpoints já implementad
 2) ✅ Player de Lição — /student/lesson/:id
 - ✅ Integração: (StudentLessonResource)
   - ✅ GET /api/student/lessons/{id}/start (lesson.service.ts)
-  -  POST /api/student/lessons/{lessonId}/questions/{questionId}/answer
-  -  POST /api/student/lessons/{id}/complete
-- Fluxo obrigatório: (LessonPlayer.tsx)
-  - Exibir uma questão por vez com barra de progresso (Questão X de Y)
-  - Renderizar tipos: MULTIPLE_CHOICE, FILL_BLANK, LISTENING, READING, WRITING (SPEAKING → placeholder)
-  - Enviar resposta e exibir feedback imediato (verde/vermelho) com animação leve
-  - Desabilitar submit repetido; permitir avançar com botão "Próxima"
-  - Ao fim, chamar endpoint de complete e abrir ResultScreen com: score, XP ganho, conquistas desbloqueadas
-- Componentes críticos:
-  - QuestionRenderer (renderiza por tipo)
-  - ProgressBar (questões)
-  - FeedbackModal/Toast
-  - ResultScreen (modal/página com resumo e CTA "Voltar ao Dashboard")
-- Requisitos técnicos:
-  - Manter estado local por lição (respostas, tempo, score parcial)
-  - Timeout/erro de rede: salvar tentativas localmente e retry
-  - Acessibilidade básica (labels, foco, teclado)
+  - ✅  POST /api/student/lessons/{lessonId}/questions/{questionId}/answer
+  - ✅  POST /api/student/lessons/{id}/complete
+- ✅ Fluxo obrigatório: (LessonPlayer.tsx)
+  - ✅ Exibir uma questão por vez com barra de progresso (Questão X de Y)
+  - ✅ Renderizar tipos: MULTIPLE_CHOICE, FILL_BLANK, LISTENING, READING, WRITING (SPEAKING → placeholder)
+  - ✅ Enviar resposta e exibir feedback imediato (verde/vermelho) com animação leve
+  - ✅ Desabilitar submit repetido; permitir avançar com botão "Próxima"
+  - ✅ Ao fim, chamar endpoint de complete e abrir ResultScreen com: score, XP ganho, conquistas desbloqueadas
+- ✅ Componentes críticos:
+  - ✅ QuestionRenderer (renderiza por tipo)
+  - ✅ ProgressBar (questões)
+  - ✅ FeedbackModal/Toast
+  - ✅ ResultScreen (modal/página com resumo e CTA "Voltar ao Dashboard")
+- ✅ Requisitos técnicos:
+  - ✅ Manter estado local por lição (respostas, tempo, score parcial)
+  - ✅ Timeout/erro de rede: salvar tentativas localmente e retry
+  - ✅ Acessibilidade básica (labels, foco, teclado)
 
 3) ✅ Ranking — /student/ranking
 - ✅ Integração: GET /api/student/ranking?municipality={code}&period={week|month|all}

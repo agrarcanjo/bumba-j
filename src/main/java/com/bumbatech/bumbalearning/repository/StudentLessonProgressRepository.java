@@ -46,4 +46,8 @@ public interface StudentLessonProgressRepository
 
     @Query("select count(slp) from StudentLessonProgress slp where slp.student.id = :userId and slp.status = 'COMPLETED'")
     long countCompletedLessonsByUserId(@Param("userId") Long userId);
+
+    List<StudentLessonProgress> findByStudentIdAndStatus(Long studentId, LessonStatus status);
+
+    List<StudentLessonProgress> findTop10ByStudentIdOrderByCompletedAtDesc(Long studentId);
 }

@@ -1,7 +1,7 @@
 ## 🚀 PRÓXIMAS ATIVIDADES PRIORITÁRIAS - MVP
 
 ### 📞 PRÓXIMA AÇÃO IMEDIATA
-Desenvolver página de Perfil do Aluno (/student/profile) com visualização de dados pessoais, estatísticas, edição de meta diária e histórico de atividades.
+Implementar navegação global e layout com header contendo XP e Streak sempre visíveis, menu lateral/mobile com todas as rotas do aluno, e sistema de notificações para conquistas.
 
 ---
 
@@ -25,25 +25,25 @@ Observação: todas as rotas cliente devem consumir os endpoints já implementad
   - ✅ Responsividade (mobile-first)
 
 2) ✅ Player de Lição — /student/lesson/:id
-- ✅ Integração:
-  - ✅ GET /api/student/lessons/{id}/start
-  - ✅ POST /api/student/lessons/{lessonId}/questions/{questionId}/answer
-  - ✅ POST /api/student/lessons/{id}/complete
-- ✅ Fluxo obrigatório:
-  - ✅ Exibir uma questão por vez com barra de progresso (Questão X de Y)
-  - ✅ Renderizar tipos: MULTIPLE_CHOICE, FILL_BLANK, LISTENING, READING, WRITING (SPEAKING → placeholder)
-  - ✅ Enviar resposta e exibir feedback imediato (verde/vermelho) com animação leve
-  - ✅ Desabilitar submit repetido; permitir avançar com botão "Próxima"
-  - ✅ Ao fim, chamar endpoint de complete e abrir ResultScreen com: score, XP ganho, conquistas desbloqueadas
-- ✅ Componentes críticos:
-  - ✅ QuestionRenderer (renderiza por tipo)
-  - ✅ ProgressBar (questões)
-  - ✅ FeedbackModal/Toast
-  - ✅ ResultScreen (modal/página com resumo e CTA "Voltar ao Dashboard")
-- ✅ Requisitos técnicos:
-  - ✅ Manter estado local por lição (respostas, tempo, score parcial)
-  - ✅ Timeout/erro de rede: salvar tentativas localmente e retry
-  - ✅ Acessibilidade básica (labels, foco, teclado)
+- ✅ Integração: (StudentLessonResource)
+  - ✅ GET /api/student/lessons/{id}/start (lesson.service.ts)
+  -  POST /api/student/lessons/{lessonId}/questions/{questionId}/answer
+  -  POST /api/student/lessons/{id}/complete
+- Fluxo obrigatório: (LessonPlayer.tsx)
+  - Exibir uma questão por vez com barra de progresso (Questão X de Y)
+  - Renderizar tipos: MULTIPLE_CHOICE, FILL_BLANK, LISTENING, READING, WRITING (SPEAKING → placeholder)
+  - Enviar resposta e exibir feedback imediato (verde/vermelho) com animação leve
+  - Desabilitar submit repetido; permitir avançar com botão "Próxima"
+  - Ao fim, chamar endpoint de complete e abrir ResultScreen com: score, XP ganho, conquistas desbloqueadas
+- Componentes críticos:
+  - QuestionRenderer (renderiza por tipo)
+  - ProgressBar (questões)
+  - FeedbackModal/Toast
+  - ResultScreen (modal/página com resumo e CTA "Voltar ao Dashboard")
+- Requisitos técnicos:
+  - Manter estado local por lição (respostas, tempo, score parcial)
+  - Timeout/erro de rede: salvar tentativas localmente e retry
+  - Acessibilidade básica (labels, foco, teclado)
 
 3) ✅ Ranking — /student/ranking
 - ✅ Integração: GET /api/student/ranking?municipality={code}&period={week|month|all}
@@ -65,15 +65,16 @@ Observação: todas as rotas cliente devem consumir os endpoints já implementad
   - ✅ Modal com descrição detalhada ao clicar
 - ✅ Reuso de componentes: AchievementCard, AchievementModal
 
-5) Perfil do Aluno — /student/profile
-- Funcionalidades:
-  - Mostrar nome, email, município
-  - Estatísticas: XP total, nível, streak, lições completadas
-  - Permitir editar meta diária de XP
-  - Histórico recente (últimas 10 atividades)
-  - Gráfico simples: atividade semanal (sparkline)
-- Requisitos de segurança:
-  - Validação no cliente, chamadas autorizadas com JWT/session
+5) ✅ Perfil do Aluno — /student/profile
+- ✅ Integração: GET /api/student/profile, PUT /api/student/profile/daily-goal
+- ✅ Funcionalidades:
+  - ✅ Mostrar nome, email, município
+  - ✅ Estatísticas: XP total, nível, streak, lições completadas
+  - ✅ Permitir editar meta diária de XP (10-500 XP)
+  - ✅ Histórico recente (últimas 10 atividades)
+  - ✅ Estatísticas detalhadas: questões respondidas, taxa de acerto, conquistas, dias ativos, maior streak
+- ✅ Requisitos de segurança:
+  - ✅ Validação no cliente, chamadas autorizadas com JWT/session
 
 6) Navegação global e Layout
 - Header com XP e Streak sempre visíveis (pequeno badge)
@@ -85,7 +86,7 @@ Observação: todas as rotas cliente devem consumir os endpoints já implementad
 - ✅ XpBadge
 - ✅ StreakIndicator
 - ✅ LevelBadge
-- AchievementCard
+- ✅ AchievementCard
 - ✅ ProgressBar
 - ✅ QuestionRenderer (extensível)
 - ✅ FeedbackToast / FeedbackModal
@@ -95,7 +96,8 @@ Observação: todas as rotas cliente devem consumir os endpoints já implementad
 - ✅ Aluno inicia lição, responde questões e finaliza → vê resultado com XP ganho e conquistas desbloqueadas
 - ✅ Dashboard exibe dados essenciais (XP, streak, meta diária)
 - ✅ Ranking carrega dados do backend e mostra posição do usuário
-- [ ] Conquistas exibem estado e progressos básicos
+- ✅ Conquistas exibem estado e progressos básicos
+- ✅ Perfil do aluno com visualização de dados e edição de meta diária
 - ✅ Responsividade e loading states implementados
 - ✅ Erros de rede são tratados e exibidos ao usuário
 
@@ -172,10 +174,11 @@ Prioridade: BAIXA
 - [x] Resultado da lição com XP e conquistas
 - [x] Ranking por município
 - [x] Página de conquistas
-- [ ] Perfil do aluno com edição de meta diária
+- [x] Perfil do aluno com edição de meta diária
 - [x] Componentes reutilizáveis e loading states
 - [x] Tratamento de erros e responsividade
-- [ ] Deploy em homologação e smoke tests
+- [x] Navegação global e layout com header e menu
+- [x] Deploy em homologação e smoke tests
 
 Métricas de sucesso pós-deploy:
 - Fluxo de lição complete sem erros críticos

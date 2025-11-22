@@ -215,3 +215,41 @@ Não é necessário criar novos testes unitários no momento.
   - Rota protegida com autenticação (AUTHORITIES.ROLE_STUDENT)
   - Integração completa com endpoint GET /api/student/achievements
   - Dashboard atualizado com botão "🏆 Conquistas" para acesso rápido
+19. ✅ **Perfil do Aluno (Frontend) implementado** - Página de perfil com visualização de dados e edição de meta diária (v2.3 - 2025-01-XX)
+  - Serviço API criado (profile.service.ts):
+    - getProfile() - Busca dados completos do perfil do aluno
+    - updateDailyGoal() - Atualiza meta diária de XP (validação: 10-500 XP)
+    - Interface IStudentProfile com dados pessoais, estatísticas e atividades recentes
+    - Interface IProfileStatistics com estatísticas detalhadas
+    - Interface IRecentActivity para histórico de atividades
+  - Página StudentProfile criada:
+    - Seção de dados pessoais: avatar com inicial, nome completo, email, município
+    - Estatísticas gerais: XP total, nível atual, streak atual (com badges reutilizados)
+    - Card de meta diária com edição inline:
+      - Exibe meta atual com botão de editar
+      - Formulário de edição com validação (10-500 XP)
+      - Botões de salvar e cancelar
+      - Loading state durante salvamento
+    - Estatísticas detalhadas:
+      - Lições completadas
+      - Questões respondidas
+      - Respostas corretas
+      - Taxa de acerto (%)
+      - Conquistas desbloqueadas
+      - Dias ativos
+      - Maior streak
+    - Histórico de atividades recentes (últimas 10):
+      - Tipo de atividade
+      - Descrição
+      - Data formatada (pt-BR)
+      - XP ganho (quando aplicável)
+    - Loading state com spinner durante carregamento
+    - Tratamento de erros com botão de retry
+    - Botão "← Voltar ao Dashboard" para navegação
+  - Rota /student/profile adicionada ao sistema de rotas
+  - Rota protegida com autenticação (AUTHORITIES.ROLE_STUDENT)
+  - Integração completa com endpoints:
+    - GET /api/student/profile
+    - PUT /api/student/profile/daily-goal
+  - Dashboard atualizado com botão "👤 Perfil" para acesso rápido
+  - Reutilização de componentes: XpBadge, StreakIndicator, LevelBadge

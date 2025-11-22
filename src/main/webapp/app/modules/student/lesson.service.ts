@@ -6,13 +6,32 @@ export interface INextLesson {
   description: string;
 }
 
+export interface IQuestionContent {
+  options?: string[];
+  correctIndex?: number;
+  sentence?: string;
+  correctAnswer?: string;
+  acceptedAnswers?: string[];
+  audioUrl?: string;
+  imageUrl?: string;
+}
+
 export interface IQuestion {
   id: number;
   type: 'MULTIPLE_CHOICE' | 'FILL_BLANK' | 'LISTENING' | 'READING' | 'WRITING' | 'SPEAKING';
-  questionText: string;
-  options?: string[];
-  audioUrl?: string;
-  imageUrl?: string;
+  prompt: string;
+  content: string;
+  assets?: string;
+  parsedContent?: IQuestionContent;
+}
+
+export interface ILessonDTO {
+  lesson: {
+    id: number;
+    title: string;
+    description: string;
+  };
+  questions: IQuestion[];
 }
 
 export interface ILessonStart {
@@ -47,14 +66,37 @@ export interface IAchievementUnlocked {
 
 const apiUrl = 'api/student/lessons';
 
+const parseQuestionContent = (question: IQuestion): IQuestion => {
+  try {
+    const parsedContent = JSON.parse(question.content) as IQuestionContent;
+    return {
+      ...question,
+      parsedContent,
+    };
+  } catch (error) {
+    console.error('Error parsing question content:', error);
+    return question;
+  }
+};
+
 export const getNextLesson = async (): Promise<INextLesson> => {
   const response = await axios.get<INextLesson>(`${apiUrl}/next`);
   return response.data;
 };
 
 export const startLesson = async (lessonId: number): Promise<ILessonStart> => {
-  const response = await axios.get<ILessonStart>(`${apiUrl}/${lessonId}/start`);
-  return response.data;
+  const response = await axios.get<ILessonDTO>(`${apiUrl}/${lessonId}/start`);
+  const data = response.data;
+
+  const questionsWithParsedContent = data.questions.map(parseQuestionContent);
+
+  return {
+    lessonId: data.lesson.id,
+    title: data.lesson.title,
+    description: data.lesson.description,
+    questions: questionsWithParsedContent,
+    totalQuestions: questionsWithParsedContent.length,
+  };
 };
 
 export const submitAnswer = async (lessonId: number, questionId: number, answer: string): Promise<IAnswerResponse> => {

@@ -19,7 +19,7 @@ export const QuestionRenderer: React.FC<QuestionRendererProps> = ({ question, on
 
   const renderMultipleChoice = () => (
     <FormGroup>
-      {question.options?.map((option, index) => (
+      {question.parsedContent?.options?.map((option, index) => (
         <div key={index} className="mb-2">
           <Label check>
             <Input
@@ -39,6 +39,7 @@ export const QuestionRenderer: React.FC<QuestionRendererProps> = ({ question, on
 
   const renderFillBlank = () => (
     <FormGroup>
+      <Label className="mb-3">{question.parsedContent?.sentence}</Label>
       <Input
         type="text"
         value={answer}
@@ -51,10 +52,10 @@ export const QuestionRenderer: React.FC<QuestionRendererProps> = ({ question, on
 
   const renderListening = () => (
     <div>
-      {question.audioUrl && (
+      {question.parsedContent?.audioUrl && (
         <div className="mb-3">
           <audio controls className="w-100">
-            <source src={question.audioUrl} type="audio/mpeg" />
+            <source src={question.parsedContent.audioUrl} type="audio/mpeg" />
             Seu navegador não suporta o elemento de áudio.
           </audio>
         </div>
@@ -73,9 +74,9 @@ export const QuestionRenderer: React.FC<QuestionRendererProps> = ({ question, on
 
   const renderReading = () => (
     <div>
-      {question.imageUrl && (
+      {question.parsedContent?.imageUrl && (
         <div className="mb-3 text-center">
-          <img src={question.imageUrl} alt="Reading material" className="img-fluid" style={{ maxHeight: '300px' }} />
+          <img src={question.parsedContent.imageUrl} alt="Reading material" className="img-fluid" style={{ maxHeight: '300px' }} />
         </div>
       )}
       <FormGroup>
@@ -132,7 +133,7 @@ export const QuestionRenderer: React.FC<QuestionRendererProps> = ({ question, on
 
   return (
     <div>
-      <h4 className="mb-4">{question.questionText}</h4>
+      <h4 className="mb-4">{question.prompt}</h4>
       {renderQuestion()}
       {question.type !== 'SPEAKING' && (
         <Button color="primary" onClick={handleSubmit} disabled={disabled || !answer.trim()} className="mt-3">

@@ -49,6 +49,8 @@ public interface AttemptRepository extends JpaRepository<Attempt, Long>, JpaSpec
 
     Long countByStudentIdAndIsCorrect(Long studentId, Boolean isCorrect);
 
+    List<Attempt> findByStudentId(Long studentId);
+
     @Query("select a from Attempt a where a.student.id = :userId and a.attemptedAt between :startDate and :endDate")
     List<Attempt> findByUserIdAndAttemptedAtBetween(
         @Param("userId") Long userId,

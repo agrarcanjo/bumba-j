@@ -53,4 +53,6 @@ public interface UserAchievementRepository extends JpaRepository<UserAchievement
 
     @Query("select ua from UserAchievement ua left join fetch ua.achievement where ua.user.id = :userId")
     List<UserAchievement> findByUserId(@Param("userId") Long userId);
+
+    long countByUserId(Long userId);
 }

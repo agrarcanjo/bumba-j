@@ -10,11 +10,36 @@ interface QuestionRendererProps {
 
 export const QuestionRenderer: React.FC<QuestionRendererProps> = ({ question, onSubmit, disabled }) => {
   const [answer, setAnswer] = useState('');
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   const handleSubmit = () => {
-    if (answer.trim()) {
-      onSubmit(answer);
+    let formattedAnswer = '';
+
+    switch (question.type) {
+      case 'MULTIPLE_CHOICE':
+        if (selectedIndex !== null) {
+          formattedAnswer = JSON.stringify({ selected_index: selectedIndex });
+        }
+        break;
+      case 'FILL_BLANK':
+      case 'LISTENING':
+      case 'READING':
+      case 'WRITING':
+        if (answer.trim()) {
+          formattedAnswer = JSON.stringify({ text: answer.trim() });
+        }
+        break;
+      default:
+        formattedAnswer = answer;
     }
+
+    if (formattedAnswer) {
+      onSubmit(formattedAnswer);
+    }
+  };
+
+  const handleOptionSelect = (index: number) => {
+    setSelectedIndex(index);
   };
 
   const renderMultipleChoice = () => (
@@ -25,9 +50,9 @@ export const QuestionRenderer: React.FC<QuestionRendererProps> = ({ question, on
             <Input
               type="radio"
               name="answer"
-              value={option}
-              checked={answer === option}
-              onChange={e => setAnswer(e.target.value)}
+              value={index}
+              checked={selectedIndex === index}
+              onChange={() => handleOptionSelect(index)}
               disabled={disabled}
             />{' '}
             {option}
@@ -131,12 +156,19 @@ export const QuestionRenderer: React.FC<QuestionRendererProps> = ({ question, on
     }
   };
 
+  const isAnswerValid = () => {
+    if (question.type === 'MULTIPLE_CHOICE') {
+      return selectedIndex !== null;
+    }
+    return answer.trim().length > 0;
+  };
+
   return (
     <div>
       <h4 className="mb-4">{question.prompt}</h4>
       {renderQuestion()}
       {question.type !== 'SPEAKING' && (
-        <Button color="primary" onClick={handleSubmit} disabled={disabled || !answer.trim()} className="mt-3">
+        <Button color="primary" onClick={handleSubmit} disabled={disabled || !isAnswerValid()} className="mt-3">
           Enviar Resposta
         </Button>
       )}

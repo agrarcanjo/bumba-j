@@ -1,6 +1,7 @@
 package com.bumbatech.bumbalearning.web.rest.student;
 
 import com.bumbatech.bumbalearning.domain.*;
+import com.bumbatech.bumbalearning.domain.enumeration.QuestionType;
 import com.bumbatech.bumbalearning.repository.*;
 import com.bumbatech.bumbalearning.security.SecurityUtils;
 import com.bumbatech.bumbalearning.service.custom.AchievementCheckService;
@@ -13,6 +14,8 @@ import com.bumbatech.bumbalearning.service.mapper.AttemptMapper;
 import com.bumbatech.bumbalearning.service.mapper.LessonMapper;
 import com.bumbatech.bumbalearning.service.mapper.QuestionMapper;
 import com.bumbatech.bumbalearning.web.rest.errors.BadRequestAlertException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import java.time.Instant;
 import java.util.HashMap;
@@ -155,7 +158,31 @@ public class StudentLessonResource {
         attempt = attemptRepository.save(attempt);
 
         Map<String, Object> response = new HashMap<>();
-        response.put("isCorrect", isCorrect);
+        response.put("correct", isCorrect);
+
+        if (!isCorrect) {
+            try {
+                JsonNode questionContent = new ObjectMapper().readTree(question.getContent());
+                if (question.getType() == QuestionType.MULTIPLE_CHOICE) {
+                    int correctIndex = questionContent.has("correctIndex")
+                        ? questionContent.get("correctIndex").asInt()
+                        : questionContent.get("correct_index").asInt();
+                    JsonNode options = questionContent.get("options");
+                    if (options != null && options.isArray() && correctIndex < options.size()) {
+                        response.put("correctAnswer", options.get(correctIndex).asText());
+                    }
+                } else if (question.getType() == QuestionType.FILL_BLANK) {
+                    if (questionContent.has("correctAnswer")) {
+                        response.put("correctAnswer", questionContent.get("correctAnswer").asText());
+                    } else if (questionContent.has("correct_answer")) {
+                        response.put("correctAnswer", questionContent.get("correct_answer").asText());
+                    }
+                }
+            } catch (Exception e) {
+                LOG.warn("Could not parse correct answer from question content", e);
+            }
+        }
+
         response.put("attempt", attemptMapper.toDto(attempt));
 
         return ResponseEntity.ok(response);

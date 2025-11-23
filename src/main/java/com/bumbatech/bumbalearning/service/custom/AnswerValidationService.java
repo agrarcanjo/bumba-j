@@ -49,8 +49,12 @@ public class AnswerValidationService {
         JsonNode questionContent = objectMapper.readTree(question.getContent());
         JsonNode studentAnswer = objectMapper.readTree(answerJson);
 
-        int correctIndex = questionContent.get("correct_index").asInt();
-        int selectedIndex = studentAnswer.get("selected_index").asInt();
+        int correctIndex = questionContent.has("correctIndex")
+            ? questionContent.get("correctIndex").asInt()
+            : questionContent.get("correct_index").asInt();
+        int selectedIndex = studentAnswer.has("selectedIndex")
+            ? studentAnswer.get("selectedIndex").asInt()
+            : studentAnswer.get("selected_index").asInt();
 
         return correctIndex == selectedIndex;
     }
@@ -61,14 +65,25 @@ public class AnswerValidationService {
 
         String studentText = studentAnswer.get("text").asText().trim().toLowerCase();
 
-        JsonNode correctAnswersNode = questionContent.get("correct_answers");
-        if (correctAnswersNode.isArray()) {
+        JsonNode correctAnswersNode = questionContent.has("acceptedAnswers")
+            ? questionContent.get("acceptedAnswers")
+            : questionContent.get("correct_answers");
+
+        if (correctAnswersNode != null && correctAnswersNode.isArray()) {
             for (JsonNode correctAnswer : correctAnswersNode) {
                 String correct = correctAnswer.asText().trim().toLowerCase();
                 if (studentText.equals(correct)) {
                     return true;
                 }
             }
+        }
+
+        String correctAnswer = questionContent.has("correctAnswer")
+            ? questionContent.get("correctAnswer").asText()
+            : (questionContent.has("correct_answer") ? questionContent.get("correct_answer").asText() : null);
+
+        if (correctAnswer != null) {
+            return studentText.equals(correctAnswer.trim().toLowerCase());
         }
 
         return false;

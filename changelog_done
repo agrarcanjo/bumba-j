@@ -253,3 +253,30 @@ Não é necessário criar novos testes unitários no momento.
     - PUT /api/student/profile/daily-goal
   - Dashboard atualizado com botão "👤 Perfil" para acesso rápido
   - Reutilização de componentes: XpBadge, StreakIndicator, LevelBadge
+20. ✅ **BUG FIX: Correção de validação de respostas no LessonPlayer** (v2.3 - 2025-01-XX)
+  - Problema identificado: Todas as respostas estavam sendo marcadas como incorretas
+  - Causa raiz: Incompatibilidade entre formato de dados do frontend e backend
+  - Correções no Frontend (lesson.service.ts):
+    - Interface IQuestion atualizada para usar `prompt` (não `questionText`)
+    - Campo `content` mantido como string JSON do backend
+    - Adicionado campo `parsedContent` com tipo `IQuestionContent` para dados parseados
+    - Função `parseQuestionContent()` criada para converter JSON string em objeto
+    - `startLesson()` agora transforma resposta do backend no formato esperado
+  - Correções no Frontend (QuestionRenderer.tsx):
+    - Atualizado para usar `question.prompt` em vez de `question.questionText`
+    - Acesso a opções via `question.parsedContent?.options`
+    - FILL_BLANK mostra `question.parsedContent?.sentence`
+    - Formatação de respostas corrigida:
+      - MULTIPLE_CHOICE: envia `{"selected_index": number}` (índice da opção)
+      - FILL_BLANK/LISTENING/READING/WRITING: envia `{"text": "resposta"}`
+  - Correções no Backend (AnswerValidationService.java):
+    - `validateMultipleChoice()` aceita tanto `correctIndex` (camelCase) quanto `correct_index` (snake_case)
+    - `validateFillBlank()` aceita tanto `acceptedAnswers`/`correctAnswer` quanto `correct_answers`/`correct_answer`
+  - Correções no Backend (StudentLessonResource.java):
+    - Import de `QuestionType` adicionado
+    - Resposta do endpoint `/answer` atualizada:
+      - Campo `correct` (boolean) em vez de `isCorrect`
+      - Campo `correctAnswer` adicionado quando resposta está incorreta
+      - Para MULTIPLE_CHOICE: retorna texto da opção correta
+      - Para FILL_BLANK: retorna resposta correta esperada
+  - Resultado: Sistema de validação de respostas funcionando corretamente para todos os tipos de questão

@@ -1,5 +1,6 @@
 export { default as StudentDashboard } from './StudentDashboard';
 export { default as LessonPlayer } from './LessonPlayer';
+export { default as Lessons } from './Lessons';
 export { StudentRanking } from './StudentRanking';
 export { StudentAchievements } from './StudentAchievements';
 export { StudentProfile } from './StudentProfile';

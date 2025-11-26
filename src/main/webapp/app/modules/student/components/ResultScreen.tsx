@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Card, CardBody, Row, Col, Badge } from 'reactstrap';
+import { Badge, Button, Card, CardBody, Col, Modal, ModalBody, ModalFooter, ModalHeader, Row } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
 import { ILessonComplete } from '../lesson.service';
 
@@ -59,14 +59,18 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ isOpen, result }) =>
               <h5 className="mb-3">🏆 Conquistas Desbloqueadas!</h5>
               {result.achievements.map(achievement => (
                 <div key={achievement.id} className="d-flex align-items-center mb-3">
-                  {achievement.iconUrl && (
-                    <img src={achievement.iconUrl} alt={achievement.name} style={{ width: '40px', height: '40px', marginRight: '15px' }} />
+                  {achievement.user.iconUrl && (
+                    <img
+                      src={achievement.user.iconUrl}
+                      alt={achievement.user.name}
+                      style={{ width: '40px', height: '40px', marginRight: '15px' }}
+                    />
                   )}
                   <div>
                     <Badge color="warning" className="mb-1">
-                      {achievement.name}
+                      {achievement.user.name}
                     </Badge>
-                    <p className="mb-0 small text-muted">{achievement.description}</p>
+                    <p className="mb-0 small text-muted">{achievement.user.description}</p>
                   </div>
                 </div>
               ))}

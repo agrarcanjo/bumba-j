@@ -1,0 +1,32 @@
+.sidebar-toggle-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  @media (min-width: 769px) {
+    display: none;
+  }
+}
+
+#app-header {
+  .navbar {
+    padding: 0.5rem 1rem;
+  }
+
+  .header-stats {
+    @media (max-width: 768px) {
+      order: -1;
+      margin-right: auto;
+      margin-left: 0.5rem;
+    }
+  }
+}

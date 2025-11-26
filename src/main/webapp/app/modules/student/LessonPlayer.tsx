@@ -85,6 +85,17 @@ export const LessonPlayer: React.FC = () => {
       const completionResult = await completeLesson(lesson.lessonId);
       setResult(completionResult);
       setShowResult(true);
+
+      if (completionResult.newAchievements && completionResult.newAchievements.length > 0) {
+        completionResult.newAchievements.forEach((achievement, index) => {
+          setTimeout(() => {
+            const event = new CustomEvent('achievement-unlocked', {
+              detail: achievement,
+            });
+            window.dispatchEvent(event);
+          }, index * 6000);
+        });
+      }
     } catch (err) {
       setError('Erro ao finalizar lição. Por favor, tente novamente.');
       console.error('Error completing lesson:', err);

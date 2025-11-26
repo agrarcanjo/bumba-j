@@ -1,0 +1,20 @@
+.student-layout {
+  display: flex;
+  min-height: 100vh;
+  padding-top: 56px;
+
+  .student-content {
+    flex: 1;
+    transition: margin-left 0.3s ease;
+
+    @media (min-width: 769px) {
+      margin-left: 280px;
+    }
+
+    &.sidebar-open {
+      @media (max-width: 768px) {
+        overflow: hidden;
+      }
+    }
+  }
+}

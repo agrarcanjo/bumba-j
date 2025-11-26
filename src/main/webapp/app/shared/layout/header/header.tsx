@@ -5,10 +5,13 @@ import { Storage, Translate } from 'react-jhipster';
 import { Collapse, Nav, Navbar, NavbarToggler } from 'reactstrap';
 import LoadingBar from 'react-redux-loading-bar';
 
-import { useAppDispatch } from 'app/config/store';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { setLocale } from 'app/shared/reducers/locale';
-import { AccountMenu, AdminMenu, EntitiesMenu, LocaleMenu } from '../menus';
+import { AccountMenu, AdminMenu } from '../menus';
 import { Brand, Home } from './header-components';
+import HeaderStats from './HeaderStats';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 export interface IHeaderProps {
   isAuthenticated: boolean;
@@ -17,10 +20,13 @@ export interface IHeaderProps {
   isInProduction: boolean;
   isOpenAPIEnabled: boolean;
   currentLocale: string;
+  onToggleSidebar?: () => void;
 }
 
 const Header = (props: IHeaderProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const account = useAppSelector(state => state.authentication.account);
+  const isStudent = account?.authorities?.includes('ROLE_STUDENT');
 
   const dispatch = useAppDispatch();
 
@@ -41,21 +47,23 @@ const Header = (props: IHeaderProps) => {
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
-  /* jhipster-needle-add-element-to-menu - JHipster will add new menu items here */
-
   return (
     <div id="app-header">
       {renderDevRibbon()}
       <LoadingBar className="loading-bar" />
       <Navbar data-cy="navbar" dark expand="md" fixed="top" className="bg-primary">
+        {isStudent && props.onToggleSidebar && (
+          <button className="sidebar-toggle-btn" onClick={props.onToggleSidebar} aria-label="Toggle sidebar">
+            <FontAwesomeIcon icon={faBars} />
+          </button>
+        )}
         <NavbarToggler aria-label="Menu" onClick={toggleMenu} />
         <Brand />
         <Collapse isOpen={menuOpen} navbar>
           <Nav id="header-tabs" className="ms-auto" navbar>
             <Home />
-            {props.isAuthenticated && <EntitiesMenu />}
             {props.isAuthenticated && props.isAdmin && <AdminMenu showOpenAPI={props.isOpenAPIEnabled} />}
-            <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />
+            {props.isAuthenticated && isStudent && <HeaderStats />}
             <AccountMenu isAuthenticated={props.isAuthenticated} />
           </Nav>
         </Collapse>

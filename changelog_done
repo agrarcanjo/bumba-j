@@ -280,3 +280,70 @@ Não é necessário criar novos testes unitários no momento.
       - Para MULTIPLE_CHOICE: retorna texto da opção correta
       - Para FILL_BLANK: retorna resposta correta esperada
   - Resultado: Sistema de validação de respostas funcionando corretamente para todos os tipos de questão
+21. ✅ **Navegação Global e Layout implementados** - Sistema completo de navegação com header refatorado, sidebar e notificações (v2.4 - 2025-01-XX)
+  - Componentes criados:
+    - HeaderStats.tsx - Exibe XP e Streak no header
+      - Badge de XP com ícone de estrela (amarelo)
+      - Badge de Streak com ícone de fogo (laranja)
+      - Busca dados do dashboard automaticamente
+      - Tooltips informativos
+      - Responsivo para mobile
+    - StudentSidebar.tsx - Menu lateral de navegação
+      - Menu com 5 itens: Dashboard, Lições, Ranking, Conquistas, Perfil
+      - Ícones FontAwesome para cada item
+      - Destaque visual do item ativo
+      - Overlay para fechar em mobile
+      - Sempre visível em desktop (>768px)
+      - Slide-in animation em mobile
+    - AchievementNotification.tsx - Sistema de notificações
+      - Notificação animada no canto superior direito
+      - Gradiente roxo com ícone de troféu dourado
+      - Exibe nome e descrição da conquista
+      - Auto-fecha após 5 segundos
+      - Botão manual de fechar
+      - Animações de pulse e bounce
+    - StudentLayout.tsx - Layout wrapper para alunos
+      - Integra sidebar e notificações
+      - Gerencia estado de abertura do sidebar
+      - Escuta eventos de conquistas desbloqueadas
+      - Ajusta padding do conteúdo baseado no sidebar
+      - Fecha sidebar automaticamente ao mudar de rota
+  - Header refatorado (header.tsx):
+    - Removido EntitiesMenu (menu de entidades)
+    - Removido LocaleMenu (seletor de idioma)
+    - Adicionado HeaderStats para alunos autenticados
+    - Adicionado botão de toggle do sidebar (mobile)
+    - Detecta se usuário é aluno (ROLE_STUDENT)
+    - Passa função de toggle para o App
+  - App.tsx atualizado:
+    - Integrado StudentLayout envolvendo todo o conteúdo
+    - Gerencia função de toggle do sidebar
+    - Padding dinâmico baseado no tipo de usuário
+    - Passa toggle para o Header
+  - Página de Lições criada (Lessons.tsx):
+    - Lista todas as lições disponíveis
+    - Cards com título, descrição, dificuldade e tempo estimado
+    - Badge de dificuldade colorido (Fácil/Intermediário/Avançado)
+    - Badge de "Concluída" para lições já completadas
+    - Botão "Começar Lição" ou "Revisar Lição"
+    - Grid responsivo (3 colunas desktop, 2 tablet, 1 mobile)
+    - Loading state e tratamento de erros
+    - Empty state quando não há lições
+  - LessonPlayer atualizado:
+    - Dispara eventos de conquistas desbloqueadas
+    - Notificações aparecem automaticamente após completar lição
+    - Delay de 6 segundos entre múltiplas notificações
+  - Rotas atualizadas:
+    - Adicionada rota /student/lessons
+    - Rota protegida com ROLE_STUDENT
+    - Exportação do componente Lessons no index.ts
+  - Estilos criados:
+    - header-stats.scss - Badges de XP e Streak
+    - student-sidebar.scss - Menu lateral responsivo
+    - achievement-notification.scss - Notificações animadas
+    - student-layout.scss - Layout wrapper
+    - lessons.scss - Página de lições
+    - header.scss atualizado com estilos do botão de toggle
+  - Utilitário criado:
+    - achievement-notification-util.ts - Helper para disparar notificações
+  - Resultado: Sistema completo de navegação e layout para alunos com UX moderna e responsiva

@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { IUser } from 'app/shared/model/user.model';
+import { IAchievement } from 'app/shared/model/achievement.model';
 
 export interface INextLesson {
   id: number;
@@ -54,9 +56,17 @@ export interface ILessonComplete {
   achievements: IAchievementUnlocked[];
   totalQuestions: number;
   correctAnswers: number;
+  newAchievements: IUserAchievement[];
 }
 
 export interface IAchievementUnlocked {
+  id: number;
+  unlockedAt: string;
+  user: IUserAchievement;
+  achievement: IAchievement;
+}
+
+export interface IUserAchievement {
   id: number;
   code: string;
   name: string;

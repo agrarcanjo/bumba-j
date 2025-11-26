@@ -2,7 +2,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './app.scss';
 import 'app/config/dayjs';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card } from 'reactstrap';
 import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
@@ -16,11 +16,13 @@ import { hasAnyAuthority } from 'app/shared/auth/private-route';
 import ErrorBoundary from 'app/shared/error/error-boundary';
 import { AUTHORITIES } from 'app/config/constants';
 import AppRoutes from 'app/routes';
+import StudentLayout from 'app/shared/layout/student/StudentLayout';
 
 const baseHref = document.querySelector('base').getAttribute('href').replace(/\/$/, '');
 
 export const App = () => {
   const dispatch = useAppDispatch();
+  const [toggleSidebarFn, setToggleSidebarFn] = useState<(() => void) | null>(null);
 
   useEffect(() => {
     dispatch(getSession());
@@ -33,8 +35,11 @@ export const App = () => {
   const ribbonEnv = useAppSelector(state => state.applicationProfile.ribbonEnv);
   const isInProduction = useAppSelector(state => state.applicationProfile.inProduction);
   const isOpenAPIEnabled = useAppSelector(state => state.applicationProfile.isOpenAPIEnabled);
+  const account = useAppSelector(state => state.authentication.account);
+  const isStudent = account?.authorities?.includes('ROLE_STUDENT');
 
-  const paddingTop = '60px';
+  const paddingTop = isStudent ? '0px' : '60px';
+
   return (
     <BrowserRouter basename={baseHref}>
       <div className="app-container" style={{ paddingTop }}>
@@ -47,16 +52,19 @@ export const App = () => {
             ribbonEnv={ribbonEnv}
             isInProduction={isInProduction}
             isOpenAPIEnabled={isOpenAPIEnabled}
+            onToggleSidebar={toggleSidebarFn}
           />
         </ErrorBoundary>
-        <div className="container-fluid view-container" id="app-view-container">
-          <Card className="jh-card">
-            <ErrorBoundary>
-              <AppRoutes />
-            </ErrorBoundary>
-          </Card>
-          <Footer />
-        </div>
+        <StudentLayout onToggleSidebar={setToggleSidebarFn}>
+          <div className="container-fluid view-container" id="app-view-container">
+            <Card className="jh-card">
+              <ErrorBoundary>
+                <AppRoutes />
+              </ErrorBoundary>
+            </Card>
+            <Footer />
+          </div>
+        </StudentLayout>
       </div>
     </BrowserRouter>
   );

@@ -77,10 +77,11 @@ Observação: todas as rotas cliente devem consumir os endpoints já implementad
   - ✅ Validação no cliente, chamadas autorizadas com JWT/session
 
 6) Navegação global e Layout
-- Header com XP e Streak sempre visíveis (pequeno badge)
-- Menu lateral / mobile com rotas: Dashboard, Lição (quando aplicável), Ranking, Conquistas, Perfil
-- Notificações para conquistas (tray/mini-modal)
-- Tema básico: light, responsivo
+- ✅ Refatorar header padrão do jhipster, (remover botão de 'Entidades', 'Internacionalização') e melhorar 'Início' e 'Conta'
+- ✅ Header moderno com XP e Streak sempre visíveis (pequeno badge).
+- ✅ Menu lateral / mobile com rotas: Dashboard, Lição (quando aplicável), Ranking, Conquistas, Perfil
+- ✅ Notificações para conquistas (tray/mini-modal)
+- ✅ Tema básico: light, responsivo
 
 7) Componentes compartilhados (implementação no MVP)
 - ✅ XpBadge

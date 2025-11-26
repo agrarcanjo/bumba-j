@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTachometerAlt, faBook, faTrophy, faMedal, faUser, faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
+import { faBook, faMedal, faTachometerAlt, faTimes, faTrophy, faUser } from '@fortawesome/free-solid-svg-icons';
 import './student-sidebar.scss';
 
 interface StudentSidebarProps {

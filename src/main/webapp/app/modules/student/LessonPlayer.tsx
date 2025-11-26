@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Container, Card, CardBody, Alert, Spinner, Progress } from 'reactstrap';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Alert, Card, CardBody, Container, Progress, Spinner } from 'reactstrap';
 import { FeedbackModal, QuestionRenderer, ResultScreen } from 'app/modules/student/components';
 import {
   completeLesson,
@@ -13,7 +13,6 @@ import {
 
 export const LessonPlayer: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
   const [lesson, setLesson] = useState<ILessonStart | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [loading, setLoading] = useState(true);

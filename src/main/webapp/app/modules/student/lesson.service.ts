@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { IUser } from 'app/shared/model/user.model';
 import { IAchievement } from 'app/shared/model/achievement.model';
 
 export interface INextLesson {

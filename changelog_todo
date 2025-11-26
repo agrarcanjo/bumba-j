@@ -4,12 +4,9 @@
 Implementar navegação global e layout com header contendo XP e Streak sempre visíveis, menu lateral/mobile com todas as rotas do aluno, e sistema de notificações para conquistas.
 
 ---
-
-## FASE A — MVP: Frontend do Aluno (Entrega mínima viável)
-Prioridade: CRÍTICA — Entregar um fluxo completo de aluno que permita: iniciar lição, responder questões, completar lição, ganhar XP/achievements e visualizar progresso.
-
 Observação: todas as rotas cliente devem consumir os endpoints já implementados no backend.
 
+## FASE A — MVP: Frontend do Aluno (Entrega mínima viável)
 1) ✅ Dashboard do Aluno — /student/dashboard
 - ✅ Integração: GET /api/student/dashboard
 - ✅ Itens obrigatórios:
@@ -102,11 +99,9 @@ Observação: todas as rotas cliente devem consumir os endpoints já implementad
 - ✅ Responsividade e loading states implementados
 - ✅ Erros de rede são tratados e exibidos ao usuário
 
-Tempo estimado: 2–3 semanas (1 time frontend focado)
-
 ---
 
-## FASE B — Pós-MVP (Prioridade ALTA/MÉDIA) — Professor (Frontend) & APIs complementares
+## FASE B — Professor (Frontend) & APIs complementares
 Objetivo: fornecer ferramentas de gestão para professores e completar UX administrativo.
 
 1) APIs/Backend (se não existirem completos)
@@ -123,15 +118,11 @@ Objetivo: fornecer ferramentas de gestão para professores e completar UX admini
 
 Requisitos UX:
 - Tabelas com filtros/paginação
-- Export CSV/PDF (relatórios)
 - Permissões: apenas professores autenticados podem acessar
-
-Tempo estimado: 2–3 semanas
 
 ---
 
-## FASE C — Admin / Otimizações (Pós-MVP)
-Prioridade: MÉDIA/BAIXA
+## FASE C — Admin / Otimizações
 
 1) Backend Admin (se necessário)
 - AdminUserResource (gestão de roles)
@@ -152,42 +143,10 @@ Prioridade: MÉDIA/BAIXA
 ---
 
 ## FASE D — Melhorias de UX e Experiências Avançadas
-Prioridade: BAIXA
 - Animações de transição entre questões e micro-interações
 - Feedback sonoro opcional e confetes ao desbloquear conquista
-- Dark mode
-- Testes E2E (Cypress) cobrindo fluxo do aluno
-- Internacionalização (após estabilizar MVP)
 - Speech-to-Text real (substituir placeholder)
 
 ---
 
-## DADOS, SEEDS E CONTRATOS (Rápido resumo)
-- Seeds existentes (autorities, tópicos, achievements, sample questions) devem ser reaproveitados.
-- JSONB: manter schema atual (Question.content, assets, Achievement.criteria)
-- Endpoints essenciais já documentados (StudentLessonResource, DashboardResource, StudentRankingResource)
 
----
-
-## CHECKLIST FINAL (MVP)
-- [x] Dashboard funcional
-- [x] Player de lição completo (tipos essenciais)
-- [x] Resultado da lição com XP e conquistas
-- [x] Ranking por município
-- [x] Página de conquistas
-- [x] Perfil do aluno com edição de meta diária
-- [x] Componentes reutilizáveis e loading states
-- [x] Tratamento de erros e responsividade
-- [x] Navegação global e layout com header e menu
-- [x] Deploy em homologação e smoke tests
-
-Métricas de sucesso pós-deploy:
-- Fluxo de lição complete sem erros críticos
-- Tempo de resposta do ranking < 500ms (monitorar)
-- Feedback de resposta ao usuário < 200ms (objetivo)
-- Taxa de retenção inicial e uso das lições (A/B e analytics)
-
-Notas finais:
-- Focar no essencial: experiência fluida do aluno é o core do produto.
-- Separar claramente tarefas de MVP (entrega imediata) das melhorias e painéis avançados.
-- Priorizar testes E2E para o fluxo principal antes de abrir para usuários reais.

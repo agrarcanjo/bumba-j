@@ -46,4 +46,8 @@ public interface LessonAssignmentRepository extends JpaRepository<LessonAssignme
         "select lessonAssignment from LessonAssignment lessonAssignment left join fetch lessonAssignment.classRoom left join fetch lessonAssignment.lesson where lessonAssignment.id =:id"
     )
     Optional<LessonAssignment> findOneWithToOneRelationships(@Param("id") Long id);
+
+    long countByClassRoomId(Long classRoomId);
+
+    List<LessonAssignment> findByClassRoomId(Long classRoomId);
 }

@@ -13,4 +13,6 @@ import org.springframework.stereotype.Repository;
 public interface ClassRoomRepository extends JpaRepository<ClassRoom, Long>, JpaSpecificationExecutor<ClassRoom> {
     @Query("select classRoom from ClassRoom classRoom where classRoom.teacher.login = ?#{authentication.name}")
     List<ClassRoom> findByTeacherIsCurrentUser();
+
+    List<ClassRoom> findByTeacherId(Long teacherId);
 }

@@ -40,4 +40,8 @@ public interface ClassMemberRepository extends JpaRepository<ClassMember, Long> 
 
     @Query("select classMember from ClassMember classMember left join fetch classMember.classRoom where classMember.id =:id")
     Optional<ClassMember> findOneWithToOneRelationships(@Param("id") Long id);
+
+    long countByClassRoomId(Long classRoomId);
+
+    List<ClassMember> findByClassRoomId(Long classRoomId);
 }

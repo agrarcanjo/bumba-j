@@ -2,6 +2,7 @@ package com.bumbatech.bumbalearning.repository;
 
 import com.bumbatech.bumbalearning.domain.StudentLessonProgress;
 import com.bumbatech.bumbalearning.domain.enumeration.LessonStatus;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -50,4 +51,25 @@ public interface StudentLessonProgressRepository
     List<StudentLessonProgress> findByStudentIdAndStatus(Long studentId, LessonStatus status);
 
     List<StudentLessonProgress> findTop10ByStudentIdOrderByCompletedAtDesc(Long studentId);
+
+    @Query(
+        "select slp from StudentLessonProgress slp " +
+        "join fetch slp.student " +
+        "join fetch slp.lesson " +
+        "join ClassMember cm on cm.student.id = slp.student.id " +
+        "join ClassRoom cr on cr.id = cm.classRoom.id " +
+        "where cr.teacher.id = :teacherId " +
+        "and slp.completedAt >= :since " +
+        "and slp.status = 'COMPLETED' " +
+        "order by slp.completedAt desc"
+    )
+    List<StudentLessonProgress> findRecentActivitiesByTeacherId(@Param("teacherId") Long teacherId, @Param("since") Instant since);
+
+    @Query(
+        "select count(slp) from StudentLessonProgress slp " +
+        "join ClassMember cm on cm.student.id = slp.student.id " +
+        "where cm.classRoom.id = :classRoomId " +
+        "and slp.status = 'COMPLETED'"
+    )
+    long countCompletedLessonsByClassRoomId(@Param("classRoomId") Long classRoomId);
 }

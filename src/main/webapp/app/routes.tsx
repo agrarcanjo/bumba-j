@@ -16,6 +16,7 @@ import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
 import PageNotFound from 'app/shared/error/page-not-found';
 import { AUTHORITIES } from 'app/config/constants';
 import { StudentDashboard, LessonPlayer, StudentRanking, StudentAchievements, StudentProfile, Lessons } from 'app/modules/student';
+import { TeacherDashboard, TeacherClasses, TeacherClassDetail } from 'app/modules/teacher';
 
 const loading = <div>loading ...</div>;
 
@@ -104,6 +105,30 @@ const AppRoutes = () => {
           element={
             <PrivateRoute hasAnyAuthorities={[AUTHORITIES.ROLE_STUDENT]}>
               <StudentProfile />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="teacher/dashboard"
+          element={
+            <PrivateRoute hasAnyAuthorities={[AUTHORITIES.ROLE_TEACHER]}>
+              <TeacherDashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="teacher/classes"
+          element={
+            <PrivateRoute hasAnyAuthorities={[AUTHORITIES.ROLE_TEACHER]}>
+              <TeacherClasses />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="teacher/classes/:id"
+          element={
+            <PrivateRoute hasAnyAuthorities={[AUTHORITIES.ROLE_TEACHER]}>
+              <TeacherClassDetail />
             </PrivateRoute>
           }
         />

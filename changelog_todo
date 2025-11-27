@@ -1,12 +1,12 @@
 ## 🚀 PRÓXIMAS ATIVIDADES PRIORITÁRIAS - MVP
 
 ### 📞 PRÓXIMA AÇÃO IMEDIATA
-Implementar navegação global e layout com header contendo XP e Streak sempre visíveis, menu lateral/mobile com todas as rotas do aluno, e sistema de notificações para conquistas.
+Iniciar FASE C - Funcionalidades Avançadas do Professor: Implementar criação/edição de atribuições de lições e relatórios detalhados.
 
 ---
 Observação: todas as rotas cliente devem consumir os endpoints já implementados no backend.
 
-## FASE A — MVP: Frontend do Aluno (Entrega mínima viável)
+## FASE A — MVP: Frontend do Aluno (Entrega mínima viável) ✅ COMPLETO
 1) ✅ Dashboard do Aluno — /student/dashboard
 - ✅ Integração: GET /api/student/dashboard
 - ✅ Itens obrigatórios:
@@ -73,14 +73,14 @@ Observação: todas as rotas cliente devem consumir os endpoints já implementad
 - ✅ Requisitos de segurança:
   - ✅ Validação no cliente, chamadas autorizadas com JWT/session
 
-6) Navegação global e Layout
+6) ✅ Navegação global e Layout
 - ✅ Refatorar header padrão do jhipster, (remover botão de 'Entidades', 'Internacionalização') e melhorar 'Início' e 'Conta'
 - ✅ Header moderno com XP e Streak sempre visíveis (pequeno badge).
 - ✅ Menu lateral / mobile com rotas: Dashboard, Lição (quando aplicável), Ranking, Conquistas, Perfil
 - ✅ Notificações para conquistas (tray/mini-modal)
 - ✅ Tema básico: light, responsivo
 
-7) Componentes compartilhados (implementação no MVP)
+7) ✅ Componentes compartilhados (implementação no MVP)
 - ✅ XpBadge
 - ✅ StreakIndicator
 - ✅ LevelBadge
@@ -90,7 +90,7 @@ Observação: todas as rotas cliente devem consumir os endpoints já implementad
 - ✅ FeedbackToast / FeedbackModal
 - ✅ ResultScreen
 
-8) Critérios de aceitação do MVP (frontend)
+8) ✅ Critérios de aceitação do MVP (frontend)
 - ✅ Aluno inicia lição, responde questões e finaliza → vê resultado com XP ganho e conquistas desbloqueadas
 - ✅ Dashboard exibe dados essenciais (XP, streak, meta diária)
 - ✅ Ranking carrega dados do backend e mostra posição do usuário
@@ -101,28 +101,50 @@ Observação: todas as rotas cliente devem consumir os endpoints já implementad
 
 ---
 
-## FASE B — Professor (Frontend) & APIs complementares
+## FASE B — Professor (Frontend) & APIs complementares ✅ COMPLETO
 Objetivo: fornecer ferramentas de gestão para professores e completar UX administrativo.
 
-1) APIs/Backend (se não existirem completos)
-- TeacherClassResource: CRUD turmas, adicionar/remover alunos
-- TeacherAssignmentResource: criar/editar/excluir atribuições
-- TeacherReportResource: relatórios por turma/aluno
-- TeacherQuestionResource: CRUD questões do professor
+1) ✅ APIs/Backend
+- ✅ TeacherDashboardResource: estatísticas e atividades recentes
+- ✅ TeacherClassResource: listagem e detalhes de turmas com alunos
+- ⏳ TeacherAssignmentResource: criar/editar/excluir atribuições (próxima fase)
+- ⏳ TeacherReportResource: relatórios por turma/aluno (próxima fase)
+- ⏳ TeacherQuestionResource: CRUD questões do professor (próxima fase)
 
-2) Frontend Professor (prioridade alta)
-- /teacher/dashboard: visão geral das turmas e atividades recentes
-- /teacher/classes: listagem e detalhe da turma (alunos, lições atribuídas)
-- /teacher/assignments: criar/editar atribuições para turmas
-- /teacher/reports/class/:id e /teacher/reports/student/:id
+2) ✅ Frontend Professor (prioridade alta)
+- ✅ /teacher/dashboard: visão geral das turmas e atividades recentes
+- ✅ /teacher/classes: listagem de turmas
+- ✅ /teacher/classes/:id: detalhe da turma (alunos, lições atribuídas)
+- ⏳ /teacher/assignments: criar/editar atribuições para turmas (próxima fase)
+- ⏳ /teacher/reports/class/:id e /teacher/reports/student/:id (próxima fase)
 
 Requisitos UX:
-- Tabelas com filtros/paginação
-- Permissões: apenas professores autenticados podem acessar
+- ✅ Tabelas com dados dos alunos
+- ✅ Permissões: apenas professores autenticados podem acessar
+- ⏳ Filtros/paginação (próxima fase)
 
 ---
 
-## FASE C — Admin / Otimizações
+## FASE C — Funcionalidades Avançadas do Professor (Em Andamento)
+
+1) Backend APIs
+- TeacherAssignmentResource: criar/editar/excluir atribuições de lições
+- TeacherReportResource: relatórios detalhados por turma/aluno
+- TeacherQuestionResource: CRUD questões do professor
+
+2) Frontend Professor
+- /teacher/assignments: criar/editar atribuições para turmas
+- /teacher/reports/class/:id: relatório detalhado da turma
+- /teacher/reports/student/:id: relatório detalhado do aluno
+
+Requisitos UX:
+- Formulários de criação/edição de atribuições
+- Gráficos e visualizações de dados
+- Filtros e paginação em tabelas
+
+---
+
+## FASE D — Admin & Otimizações Técnicas
 
 1) Backend Admin (se necessário)
 - AdminUserResource (gestão de roles)
@@ -142,7 +164,8 @@ Requisitos UX:
 
 ---
 
-## FASE D — Melhorias de UX e Experiências Avançadas
+## FASE E — Experiências Avançadas & Polish
+
 - Animações de transição entre questões e micro-interações
 - Feedback sonoro opcional e confetes ao desbloquear conquista
 - Speech-to-Text real (substituir placeholder)

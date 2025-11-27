@@ -33,6 +33,9 @@ export const Login = () => {
     if (account?.authorities?.includes(AUTHORITIES.ROLE_STUDENT)) {
       return <Navigate to="/student/dashboard" replace />;
     }
+    if (account?.authorities?.includes(AUTHORITIES.ROLE_TEACHER)) {
+      return <Navigate to="/teacher/dashboard" replace />;
+    }
     return <Navigate to={from} replace />;
   }
 

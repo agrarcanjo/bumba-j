@@ -50,4 +50,22 @@ public interface LessonAssignmentRepository extends JpaRepository<LessonAssignme
     long countByClassRoomId(Long classRoomId);
 
     List<LessonAssignment> findByClassRoomId(Long classRoomId);
+
+    @Query(
+        "select la from LessonAssignment la " +
+        "left join fetch la.classRoom cr " +
+        "left join fetch la.lesson l " +
+        "left join fetch la.assignedBy " +
+        "where cr.teacher.id = :teacherId"
+    )
+    List<LessonAssignment> findByTeacherId(@Param("teacherId") Long teacherId);
+
+    @Query(
+        "select la from LessonAssignment la " +
+        "left join fetch la.classRoom cr " +
+        "left join fetch la.lesson l " +
+        "left join fetch la.assignedBy " +
+        "where la.classRoom.id = :classRoomId"
+    )
+    List<LessonAssignment> findByClassRoomIdWithDetails(@Param("classRoomId") Long classRoomId);
 }

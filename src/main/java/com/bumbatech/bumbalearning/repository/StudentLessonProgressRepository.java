@@ -72,4 +72,28 @@ public interface StudentLessonProgressRepository
         "and slp.status = 'COMPLETED'"
     )
     long countCompletedLessonsByClassRoomId(@Param("classRoomId") Long classRoomId);
+
+    @Query(
+        "select slp from StudentLessonProgress slp " +
+        "join fetch slp.lesson " +
+        "join ClassMember cm on cm.student.id = slp.student.id " +
+        "where cm.classRoom.id = :classRoomId " +
+        "and slp.student.id = :studentId " +
+        "and slp.status = 'COMPLETED' " +
+        "order by slp.completedAt desc"
+    )
+    List<StudentLessonProgress> findByClassRoomIdAndStudentId(@Param("classRoomId") Long classRoomId, @Param("studentId") Long studentId);
+
+    @Query("select avg(slp.score) from StudentLessonProgress slp " + "where slp.student.id = :studentId " + "and slp.status = 'COMPLETED'")
+    Double findAverageScoreByStudentId(@Param("studentId") Long studentId);
+
+    @Query(
+        "select avg(slp.score) from StudentLessonProgress slp " +
+        "join ClassMember cm on cm.student.id = slp.student.id " +
+        "where cm.classRoom.id = :classRoomId " +
+        "and slp.status = 'COMPLETED'"
+    )
+    Double findAverageScoreByClassRoomId(@Param("classRoomId") Long classRoomId);
+
+    List<StudentLessonProgress> findByStudentIdAndStatusOrderByCompletedAtDesc(Long studentId, LessonStatus status);
 }

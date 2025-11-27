@@ -1,8 +1,3 @@
-De acordo com os arquivos changelog_context, changelog_done e changelog_todo, entenda o contexto e execute a próxima ação imediata conforme changelog_todo.
-Após implementação, atualize os arquivos de changelog_done com as atividades concluídas, changelog_context (caso necessário)
-e o changelog_todo com as ações feitas e defina a próxima atividade. Não é necessário criar testes unitários agora e executar a aplicação.
-Foque na nova funcionalidade.
-
 # 📚 BUMBA LEARNING - CHANGELOG
 ## 🎯 VISÃO GERAL DA APLICAÇÃO
 **Bumba Learning** é uma plataforma web de aprendizado de idiomas estilo Duolingo, desenvolvida como MVP monolítico usando JHipster 8.11.0, React 18 + TailwindCSS, Spring Boot, Java 17, JPA/Hibernate, Maven e PostgreSQL.

@@ -64,6 +64,11 @@ export const TeacherClassDetail = () => {
               <strong>Criada em:</strong> {new Date(classDetail.createdAt).toLocaleDateString('pt-BR')}
             </span>
           </div>
+          <div className="header-actions">
+            <Link to={`/teacher/reports/class/${classDetail.id}`} className="btn-primary">
+              Ver Relatório Completo
+            </Link>
+          </div>
         </div>
       </div>
 
@@ -89,6 +94,7 @@ export const TeacherClassDetail = () => {
                     <th>Login</th>
                     <th>Data de Entrada</th>
                     <th>Lições Concluídas</th>
+                    <th>Ações</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -101,6 +107,11 @@ export const TeacherClassDetail = () => {
                       <td>{new Date(student.joinedAt).toLocaleDateString('pt-BR')}</td>
                       <td>
                         <span className="badge">{student.completedLessons}</span>
+                      </td>
+                      <td>
+                        <Link to={`/teacher/reports/student/${student.id}?classRoomId=${classDetail.id}`} className="btn-view-report">
+                          Ver Relatório
+                        </Link>
                       </td>
                     </tr>
                   ))}

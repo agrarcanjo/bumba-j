@@ -109,17 +109,4 @@ src/main/webapp/app/
 7. ✅ Erros de rede são tratados e exibidos ao usuário
 8. ✅ Navegação global com header, sidebar e notificações funcionando
 
-**FASE B - Frontend do Professor**
-
-Implementar dashboard do professor com:
-
-- Visão geral das turmas
-- Atividades recentes dos alunos
-- Estatísticas de desempenho
-- Gestão de turmas e atribuições
-
----
-
 **Observação:** Não é necessário criar testes unitários neste momento. O foco está na implementação das funcionalidades do MVP.
-
-### 🚀 Próxima Ação

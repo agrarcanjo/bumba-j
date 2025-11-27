@@ -110,6 +110,7 @@ Objetivo: fornecer ferramentas de gestão para professores e completar UX admini
 - ⏳ TeacherAssignmentResource: criar/editar/excluir atribuições (próxima fase)
 - ⏳ TeacherReportResource: relatórios por turma/aluno (próxima fase)
 - ⏳ TeacherQuestionResource: CRUD questões do professor (próxima fase)
+- ⏳ Redirecionar para tela de Dashboard do professor após login.
 
 2) ✅ Frontend Professor (prioridade alta)
 - ✅ /teacher/dashboard: visão geral das turmas e atividades recentes

@@ -4,17 +4,12 @@ e o changelog_todo com as ações feitas e defina a próxima atividade. Não é 
 Foque na nova funcionalidade.
 
 # 📚 BUMBA LEARNING - CHANGELOG
-
 ## 🎯 VISÃO GERAL DA APLICAÇÃO
-**Bumba Learning** é uma plataforma web de aprendizado de idiomas estilo Duolingo, desenvolvida como MVP monolítico usando JHipster 8.11.0, React 18 + TailwindCSS, Spring Boot, Java 17 e PostgreSQL.
-
+**Bumba Learning** é uma plataforma web de aprendizado de idiomas estilo Duolingo, desenvolvida como MVP monolítico usando JHipster 8.11.0, React 18 + TailwindCSS, Spring Boot, Java 17, JPA/Hibernate, Maven e PostgreSQL.
 **Objetivo**: Criar uma experiência gamificada de aprendizado de idiomas com foco em inglês (Fase 1), permitindo que professores criem conteúdo, gerenciem turmas e acompanhem o progresso dos alunos.
-
 **Tema**: Bumba remete a um boi (touro) nordestino de cores verde e colorido.
 
-
 ---
-
 ### **Entidades Implementadas:**
 - **Perfil**: UserProfile
 - **Conteúdo**: Topic, Question, Lesson, LessonQuestion
@@ -22,7 +17,6 @@ Foque na nova funcionalidade.
 - **Tentativas**: Attempt
 - **Gamificação**: Achievement, UserAchievement
 - **Recomendação**: Recommendation
-
 ---
 
 Achievement: Long id, String code, String name, String iconUrl, String description, String criteria
@@ -40,38 +34,25 @@ Topic: Long id, String name, Language language, String description
 User: Long id, String login, String password, String firstName, String lastName, String email, boolean activated = false, String langKey, String imageUrl, String activationKey, String resetKey, Instant resetDate = null, Set<Authority> authorities
 UserAchievement: Long id, Instant unlockedAt, User user, Achievement achievement
 UserProfile: Long id, String municipalityCode, UserLevel currentLevel, Integer totalXp, Integer currentStreak, Integer dailyGoalXp, LocalDate lastActivityDate, User user
-
 ---
-
 ## 🎭 PERFIS DE USUÁRIO
-
 ### **ROLE_STUDENT** (Aluno)
 - Realiza lições e ganha XP/conquistas
 - Acompanha progresso pessoal e ranking
 - Recebe recomendações personalizadas
-
 ### **ROLE_TEACHER** (Professor)
 - Herda permissões de STUDENT
 - Cria/gerencia turmas e atribui lições
 - Cria questões customizadas
 - Visualiza relatórios de turmas
-
 ### **ROLE_ADMIN** (Administrador)
 - Acesso total ao sistema
 - Gerencia usuários e permissões
 - Cria conquistas e tópicos
 - Visualiza métricas globais
-
 ---
 
 ## 🏗️ ARQUITETURA DO SISTEMA
-
-### **Stack Tecnológica:**
-- **Backend**: Spring Boot 3.x + Java 17 + PostgreSQL
-- **Frontend**: React 18 + TypeScript + TailwindCSS
-- **Autenticação**: JWT (JHipster Security)
-- **ORM**: JPA/Hibernate
-- **Build**: Maven
 
 ### **Estrutura de Pastas:**
 
@@ -109,38 +90,47 @@ src/main/webapp/app/
 │   ├── topic
 │   ├── user-achievement
 │   └── user-profile
+
+src/main/webapp/app/
 ├── shared/
-│ ├── auth/ # private route
-│ ├── error/ # Error page
-│ ├── jhipster/ # JHipster headers
-│ ├── model/ # Interfaces TypeScript
-│ ├── reducers/ # Redux reducers
-│ └── util/ # Utilitários
+│   └── layout/
+│       ├── header/
+│       │   ├── HeaderStats.tsx ✓
+│       │   ├── header-stats.scss ✓
+│       │   └── header.tsx ✓ (refatorado)
+│       ├── sidebar/
+│       │   ├── StudentSidebar.tsx ✓
+│       │   └── student-sidebar.scss ✓
+│       ├── notifications/
+│       │   ├── AchievementNotification.tsx ✓
+│       │   └── achievement-notification.scss ✓
+│       └── student/
+│           ├── StudentLayout.tsx ✓
+│           └── student-layout.scss ✓
 └── modules/
-    ├── account/ # Gestão de conta
-    ├── login/ # Autenticação
-    ├── home/ # Dashboard
-    └── administration/ # configuration, docs, logs, health, metrics, user-management
+    └── student/
+        ├── StudentDashboard.tsx ✓
+        ├── LessonPlayer.tsx ✓
+        ├── Lessons.tsx ✓
+        ├── StudentRanking.tsx ✓
+        ├── StudentAchievements.tsx ✓
+        ├── StudentProfile.tsx ✓
+        └── components/ ✓
 ---
 
 ## 📊 MODELO DE DADOS - REGRAS DE NEGÓCIO
 
 ### **1. Sistema de XP e Níveis**
-
 BEGINNER:
-
 0-500 XP INTERMEDIATE: 501-2000 XP ADVANCED: 2001+ XP
-
 - XP por questão correta: **10 XP**
 - XP por lição completa: **100 XP** (configurável em `Lesson.xpReward`)
 - Nível recalculado automaticamente após cada lição
-
 ### **2. Sistema de Streak**
 - Conta dias consecutivos com pelo menos 1 lição completa
 - Timezone: **America/Sao_Paulo**
 - Quebra se passar 1 dia sem atividade
 - Meta diária padrão: **50 XP** (configurável)
-
 ### **3. Validação de Respostas**
 | Tipo | Validação |
 |------|-----------|
@@ -149,71 +139,21 @@ BEGINNER:
 | LISTENING/READING | Comparação exata |
 | WRITING | Comparação com gabarito (variações aceitas) |
 | SPEAKING_PLACEHOLDER | Sempre retorna correto (Fase 1) |
-
 ### **4. Conclusão de Lição**
 - **Threshold padrão**: 70% de acerto
 - **Aprovado**: status=COMPLETED, ganha XP, atualiza streak
 - **Reprovado**: status=FAILED, pode refazer após 1 hora (cooldown)
 - **Atrasado**: `isLate=true` se completar após `dueDate`
-
 ### **5. Conquistas (10 básicas)**
 FIRST_LESSON - Primeira lição completa STREAK_7 - 7 dias consecutivos STREAK_30 - 30 dias consecutivos XP_100/1000/5000 - Marcos de XP FIRST_ADVANCED - Primeira lição avançada TEACHER_ASSIGNMENT - Primeira atividade do professor PERFECT_LESSON - 100% de acerto SPEED_DEMON - Lição em < 5 minutos
-
-
 ### **6. Sistema de Recomendação**
 **Prioridade:**
 1. Assignments pendentes (ordenar por `dueDate`)
 2. Lições do nível atual não completadas
 3. Temas com taxa de acerto < 70%
-
 ### **7. Mistura Inteligente de Questões**
 - Embaralhar ordem das questões da lição
 - Evitar mais de 2 questões consecutivas do mesmo tipo
 - Intercalar tipos (ex: MULTIPLE_CHOICE → FILL_BLANK → LISTENING)
-
 ---
-
-
-🎯 MÉTRICAS DE SUCESSO DO MVP
-
-Funcionalidade Core: Aluno consegue completar lição e ganhar XP
-Gamificação: Sistema de streak e conquistas funcionando
-Professor: Consegue criar turma, atribuir lição e ver relatório
-Performance: Ranking carrega em < 500ms
-UX: Feedback imediato em < 200ms
-
-🚫 FORA DO ESCOPO (Fase 1)
-Chat com IA (voz/texto)
-Aulas ao vivo
-Speech-to-Text real (usar placeholder)
-Cadastro público de usuários
-Múltiplos idiomas (focar apenas inglês)
-App mobile nativo
-
-
-🔗 REFERÊNCIAS TÉCNICAS
-
-Documentação:
-
-JHipster: https://www.jhipster.tech/
-Spring Boot: https://spring.io/projects/spring-boot
-React: https://react.dev/
-PostgreSQL JSONB: https://www.postgresql.org/docs/current/datatype-json.html
-Modelo de dados criado: db.jdl na raiz do projeto.
-
-Padrões de Código:
-
-REST API: Seguir convenções RESTful
-
-DTOs: Usar MapStruct para conversões
-
-Validação: Bean Validation (JSR-380)
-
-Segurança: Spring Security + JWT
-
-Frontend: React Hooks + TypeScript
-
-Última atualização: 2025-01-XX Versão do documento: 2.0
-Responsável: Equipe Bumba Learning
-
 

@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { getClassDetail, ClassDetail } from 'app/services/teacher/teacher-class.service';
+import { deleteClassRoom } from 'app/services/classroom.service';
 import './teacher-class-detail.scss';
 
 export const TeacherClassDetail = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [classDetail, setClassDetail] = useState<ClassDetail | null>(null);
   const [loading, setLoading] = useState(true);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -25,6 +28,26 @@ export const TeacherClassDetail = () => {
       console.error('Error loading class detail:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!classDetail) return;
+
+    const confirmMessage = `Tem certeza que deseja excluir a turma "${classDetail.name}"? Esta ação não pode ser desfeita.`;
+    if (!window.confirm(confirmMessage)) return;
+
+    try {
+      setDeleting(true);
+      await deleteClassRoom(classDetail.id);
+      toast.success('Turma excluída com sucesso!');
+      navigate('/teacher/classes');
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.message || 'Erro ao excluir turma';
+      toast.error(errorMessage);
+      console.error('Error deleting classroom:', error);
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -65,6 +88,12 @@ export const TeacherClassDetail = () => {
             </span>
           </div>
           <div className="header-actions">
+            <button onClick={handleDelete} className="btn-danger" disabled={deleting}>
+              {deleting ? 'Excluindo...' : 'Excluir Turma'}
+            </button>
+            <Link to={`/teacher/classes/edit/${classDetail.id}`} className="btn-secondary">
+              Editar Turma
+            </Link>
             <Link to={`/teacher/reports/class/${classDetail.id}`} className="btn-primary">
               Ver Relatório Completo
             </Link>

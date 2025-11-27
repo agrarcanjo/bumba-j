@@ -103,7 +103,7 @@ export const TeacherDashboard = () => {
           {dashboard.classes.length === 0 && (
             <div className="empty-state">
               <p>Você ainda não tem turmas criadas</p>
-              <Link to="/class-room/new" className="btn-primary">
+              <Link to="/classes/new" className="btn-primary">
                 Criar primeira turma
               </Link>
             </div>

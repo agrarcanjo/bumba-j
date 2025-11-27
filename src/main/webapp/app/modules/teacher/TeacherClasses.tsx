@@ -41,7 +41,7 @@ export const TeacherClasses = () => {
     <div className="teacher-classes">
       <div className="classes-header">
         <h1>Minhas Turmas</h1>
-        <Link to="/class-room/new" className="btn-primary">
+        <Link to="/teacher/classes/new" className="btn-primary">
           + Nova Turma
         </Link>
       </div>
@@ -51,7 +51,7 @@ export const TeacherClasses = () => {
           <div className="empty-icon">🏫</div>
           <h2>Nenhuma turma criada</h2>
           <p>Crie sua primeira turma para começar a gerenciar alunos e atribuir lições</p>
-          <Link to="/class-room/new" className="btn-primary">
+          <Link to="/teacher/classes/new" className="btn-primary">
             Criar primeira turma
           </Link>
         </div>

@@ -25,7 +25,6 @@ public class ClassRoomDTO implements Serializable {
     @Schema(description = "Idioma da turma (fase 1: apenas inglês)", requiredMode = Schema.RequiredMode.REQUIRED)
     private Language language;
 
-    @NotNull
     @Schema(description = "Data de criação", requiredMode = Schema.RequiredMode.REQUIRED)
     private Instant createdAt;
 

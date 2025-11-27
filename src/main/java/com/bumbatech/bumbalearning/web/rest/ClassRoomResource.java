@@ -70,7 +70,7 @@ public class ClassRoomResource {
             throw new BadRequestAlertException("A new classRoom cannot already have an ID", ENTITY_NAME, "idexists");
         }
         classRoomDTO = classRoomService.save(classRoomDTO);
-        return ResponseEntity.created(new URI("/api/class-rooms/" + classRoomDTO.getId()))
+        return ResponseEntity.created(new URI("/api/teacher/class-rooms/" + classRoomDTO.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, classRoomDTO.getId().toString()))
             .body(classRoomDTO);
     }

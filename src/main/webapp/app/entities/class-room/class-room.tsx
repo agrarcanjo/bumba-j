@@ -98,7 +98,7 @@ export const ClassRoom = () => {
             <FontAwesomeIcon icon="sync" spin={loading} />{' '}
             <Translate contentKey="bumbaApp.classRoom.home.refreshListLabel">Refresh List</Translate>
           </Button>
-          <Link to="/class-room/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
+          <Link to="/classes/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon="plus" />
             &nbsp;
             <Translate contentKey="bumbaApp.classRoom.home.createLabel">Create new Class Room</Translate>

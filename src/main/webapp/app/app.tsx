@@ -36,7 +36,7 @@ export const App = () => {
   const isInProduction = useAppSelector(state => state.applicationProfile.inProduction);
   const isOpenAPIEnabled = useAppSelector(state => state.applicationProfile.isOpenAPIEnabled);
   const account = useAppSelector(state => state.authentication.account);
-  const isStudent = account?.authorities?.includes('ROLE_STUDENT');
+  const isStudent = account?.authorities?.includes(AUTHORITIES.ROLE_STUDENT);
 
   const paddingTop = isStudent ? '0px' : '60px';
 

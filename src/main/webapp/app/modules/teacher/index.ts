@@ -4,3 +4,4 @@ export { default as TeacherClassDetail } from './TeacherClassDetail';
 export { TeacherAssignments } from './TeacherAssignments';
 export { TeacherClassReport } from './TeacherClassReport';
 export { TeacherStudentReport } from './TeacherStudentReport';
+export { ClassRoomForm } from './ClassRoomForm';

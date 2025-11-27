@@ -23,6 +23,7 @@ import {
   TeacherAssignments,
   TeacherClassReport,
   TeacherStudentReport,
+  ClassRoomForm,
 } from 'app/modules/teacher';
 
 const loading = <div>loading ...</div>;
@@ -136,6 +137,22 @@ const AppRoutes = () => {
           element={
             <PrivateRoute hasAnyAuthorities={[AUTHORITIES.ROLE_TEACHER]}>
               <TeacherClassDetail />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="teacher/classes/new"
+          element={
+            <PrivateRoute hasAnyAuthorities={[AUTHORITIES.ROLE_TEACHER]}>
+              <ClassRoomForm />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="teacher/classes/edit/:id"
+          element={
+            <PrivateRoute hasAnyAuthorities={[AUTHORITIES.ROLE_TEACHER]}>
+              <ClassRoomForm />
             </PrivateRoute>
           }
         />

@@ -56,6 +56,13 @@ public class ClassRoom implements Serializable {
     @NotNull
     private User teacher;
 
+    @PrePersist
+    private void prePersist() {
+        if (this.createdAt == null) {
+            this.createdAt = Instant.now();
+        }
+    }
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {

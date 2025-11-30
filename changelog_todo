@@ -12,17 +12,17 @@ Objetivo: fornecer ferramentas de gestão para professores e completar UX admini
 1) ✅ APIs/Backend
 - ✅ TeacherDashboardResource: estatísticas e atividades recentes
 - ✅ TeacherClassResource: listagem e detalhes de turmas com alunos
-- ⏳ TeacherAssignmentResource: criar/editar/excluir atribuições (próxima fase)
-- ⏳ TeacherReportResource: relatórios por turma/aluno (próxima fase)
-- ⏳ TeacherQuestionResource: CRUD questões do professor (próxima fase)
+- ✅ TeacherAssignmentResource: criar/editar/excluir atribuições
+- ✅ TeacherReportResource: relatórios por turma/aluno
+- ⏳ TeacherQuestionResource: CRUD questões do professor
 - ⏳ Redirecionar para tela de Dashboard do professor após login.
 
 2) ✅ Frontend Professor (prioridade alta)
 - ✅ /teacher/dashboard: visão geral das turmas e atividades recentes
 - ✅ /teacher/classes: listagem de turmas
 - ✅ /teacher/classes/:id: detalhe da turma (alunos, lições atribuídas)
-- ⏳ /teacher/assignments: criar/editar atribuições para turmas (próxima fase)
-- ⏳ /teacher/reports/class/:id e /teacher/reports/student/:id (próxima fase)
+- ⏳ /teacher/assignments: criar/editar atribuições para turmas teacher-assignment.service.ts
+- ⏳ /teacher/reports/class/:id e /teacher/reports/student/:id -> TeacherClassReport
 
 Requisitos UX:
 - ✅ Tabelas com dados dos alunos
@@ -33,14 +33,21 @@ Requisitos UX:
 
 ## FASE C — Funcionalidades Avançadas do Professor (Em Andamento)
 
-1) Backend APIs
-- TeacherAssignmentResource: criar/editar/excluir atribuições de lições
-- TeacherReportResource: relatórios detalhados por turma/aluno
-- TeacherQuestionResource: CRUD questões do professor
+1) Backend APIs -
+- TeacherAssignmentResource: criar/editar/excluir atribuições de lições /api/teacher/assignments ✅ COMPLETO
+  - GET / -> List<AssignmentDTO>
+  - GET /classroom/{classRoomId} -> List<AssignmentDTO>
+  - POST / -> CreateAssignmentDTO
+  - PUT /{id} -> CreateAssignmentDTO
+  - DELETE /{id}
+- TeacherReportResource: relatórios detalhados por turma/aluno /api/teacher/reports ✅ COMPLETO
+  - GET /class/{classRoomId} -> ClassReportDTO
+  - GET /student/{studentId} -> StudentReportDTO
+- TeacherQuestionResource: CRUD questões do professor ⏳
 
 2) Frontend Professor
 - /teacher/assignments: criar/editar atribuições para turmas
-- /teacher/reports/class/:id: relatório detalhado da turma
+- /teacher/reports/class/:id: relatório detalhado da turma ✅ TeacherClassReport
 - /teacher/reports/student/:id: relatório detalhado do aluno
 
 Requisitos UX:

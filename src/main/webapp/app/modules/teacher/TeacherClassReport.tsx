@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getClassReport, ClassReportDTO } from '../../services/teacher-report.service';
+import { getClassReport, ClassReportDTO } from 'app/services/teacher-report.service';
 import './teacher-class-report.scss';
 
 export const TeacherClassReport: React.FC = () => {

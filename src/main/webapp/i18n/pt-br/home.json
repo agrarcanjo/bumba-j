@@ -1,19 +1,184 @@
 {
   "home": {
-    "title": "Bem vindo, Java Hipster!",
-    "subtitle": "Esta é a página principal",
-    "logged": {
-      "message": "Você está logado como \"{{username}}\"."
+    "hero": {
+      "title": "Inglês de qualidade para toda a sua rede pública",
+      "subtitle": "Uma plataforma gamificada inspirada no Bumba meu Boi, que engaja estudantes, apoia professores e oferece dados em tempo real para redes municipais e estaduais.",
+      "tagline": "Educação Bilíngue ao Alcance de Todos",
+      "cta": {
+        "primary": "Quero conhecer o Bumba Learning",
+        "secondary": "Baixar apresentação para secretarias"
+      },
+      "trust": "Feito no Brasil, pensado para escolas públicas do Nordeste"
     },
-    "question": "Em caso de dúvida sobre o JHipster:",
-    "link": {
-      "homepage": "Página principal JHipster",
-      "stackoverflow": "JHipster no Stack Overflow",
-      "bugtracker": "JHipster bug tracker",
-      "chat": "Sala de bate-papo pública JHipster",
-      "follow": "siga @jhipster no Twitter"
+    "reality": {
+      "title": "Pensado para a realidade das escolas públicas do Nordeste",
+      "subtitle": "Uma solução que funciona na infraestrutura que você já tem",
+      "benefits": {
+        "infrastructure": "Funciona bem na infraestrutura típica de escolas públicas",
+        "pace": "Alunos aprendem no próprio ritmo, com lições curtas",
+        "teachers": "Professores ganham dados e tempo para focar na mediação",
+        "access": "Acesso em computadores simples, laboratórios de informática e tablets",
+        "internet": "Aulas leves que funcionam com internet limitada",
+        "content": "Conteúdos gamificados para a faixa etária dos estudantes"
+      }
     },
-    "like": "Se você gosta do JHipster, não se esqueça de avaliar no",
-    "github": "GitHub"
+    "howItWorks": {
+      "title": "Como o Bumba Learning funciona na prática",
+      "subtitle": "Implementação simples em 4 passos",
+      "steps": {
+        "step1": {
+          "title": "Secretaria escolhe turmas",
+          "description": "Secretaria/escola escolhe turmas e anos para participar do programa"
+        },
+        "step2": {
+          "title": "Formação dos professores",
+          "description": "Professores recebem formação rápida e acesso ao painel de gestão"
+        },
+        "step3": {
+          "title": "Alunos começam a usar",
+          "description": "Alunos começam a usar o app em laboratório ou sala multimídia"
+        },
+        "step4": {
+          "title": "Acompanhamento de resultados",
+          "description": "Gestores acompanham resultados em relatórios claros e objetivos"
+        }
+      },
+      "features": {
+        "students": "Para alunos: lições gamificadas, XP, ranking, conquistas",
+        "teachers": "Para professores: criação de lições, acompanhamento da turma",
+        "managers": "Para gestores: métricas por escola, turma, município"
+      }
+    },
+    "platform": {
+      "title": "O que a plataforma já faz hoje",
+      "subtitle": "MVP robusto pronto para implementação",
+      "students": {
+        "title": "Para Alunos",
+        "features": {
+          "gamification": "Sistema de XP, níveis e streak que engaja como em jogos",
+          "achievements": "Conquistas e ranking por município estimulam participação",
+          "content": "Conteúdos incluídos: vocabulário básico, gramática, listening"
+        }
+      },
+      "educators": {
+        "title": "Para Professores e Gestores",
+        "features": {
+          "reports": "Relatórios por turma, aluno e lição para decisões pedagógicas",
+          "management": "Gestão completa de turmas e acompanhamento individual",
+          "intervention": "Dados para intervenções pedagógicas direcionadas"
+        }
+      }
+    },
+    "impact": {
+      "title": "Impacto educacional esperado",
+      "subtitle": "Resultados mensuráveis para sua rede",
+      "benefits": {
+        "engagement": "Melhora na frequência e engajamento nas aulas de inglês",
+        "tracking": "Acompanhamento individualizado mesmo em turmas grandes",
+        "equity": "Redução do abismo de acesso ao inglês entre ensino público e privado"
+      },
+      "metrics": {
+        "title": "Indicadores que a rede pode acompanhar:",
+        "completion": "% de alunos acima de X lições concluídas",
+        "xp": "Média de XP por escola",
+        "evolution": "Evolução de acerto por tipo de questão"
+      }
+    },
+    "company": {
+      "title": "Por que Fourground e Bumba Learning?",
+      "subtitle": "Empresa brasileira focada em inclusão educacional",
+      "benefits": {
+        "brazilian": "Empresa brasileira de educação e tecnologia focada em inclusão",
+        "scalable": "Solução escalável para redes completas, não só para uma escola",
+        "integration": "Integração simples aos processos já existentes da secretaria/escola"
+      },
+      "manifesto": "Nossa visão é de um futuro bilíngue para estudantes da escola pública, conectada à simbologia do Bumba meu Boi como força cultural que une, celebra e ressignifica o território nordestino."
+    },
+    "audience": {
+      "title": "Para quem é?",
+      "municipal": {
+        "title": "Secretarias municipais de educação",
+        "description": "Visão macro, métricas por escola e implementação em rede"
+      },
+      "state": {
+        "title": "Escolas estaduais e técnicas",
+        "description": "Preparar estudantes para ENEM, vestibulares, mundo do trabalho"
+      },
+      "teachers": {
+        "title": "Professores de inglês da rede pública",
+        "description": "Ferramentas de apoio, banco de questões, menos trabalho manual"
+      }
+    },
+    "faq": {
+      "title": "Perguntas frequentes",
+      "questions": {
+        "q1": {
+          "question": "A plataforma funciona em computadores antigos?",
+          "answer": "Sim, o Bumba Learning foi desenvolvido para funcionar em equipamentos básicos comuns em escolas públicas."
+        },
+        "q2": {
+          "question": "Quanto tempo leva para começar um piloto?",
+          "answer": "Um piloto pode ser iniciado em até 2 semanas, incluindo formação dos professores e configuração das turmas."
+        },
+        "q3": {
+          "question": "Como os dados dos estudantes são protegidos?",
+          "answer": "Seguimos rigorosamente a LGPD e todas as normas de proteção de dados educacionais."
+        },
+        "q4": {
+          "question": "É possível usar com turmas grandes?",
+          "answer": "Sim, a plataforma suporta turmas de qualquer tamanho e oferece acompanhamento individualizado."
+        },
+        "q5": {
+          "question": "O que os professores precisam saber para começar?",
+          "answer": "Oferecemos formação completa. Professores precisam apenas de conhecimentos básicos de informática."
+        },
+        "q6": {
+          "question": "A plataforma atende escolas com internet instável?",
+          "answer": "Sim, as lições são otimizadas para funcionar com conexões limitadas e instáveis."
+        }
+      }
+    },
+    "testimonials": {
+      "title": "O que educadores estão dizendo",
+      "testimonial1": {
+        "text": "O engajamento dos alunos aumentou significativamente. Eles pedem para usar o Bumba Learning até no recreio!",
+        "author": "Coordenadora Pedagógica, Escola Municipal do Interior"
+      },
+      "testimonial2": {
+        "text": "Finalmente conseguimos dados claros sobre o progresso individual de cada aluno. Isso mudou nossa forma de ensinar.",
+        "author": "Professora de Inglês, Rede Municipal"
+      },
+      "testimonial3": {
+        "text": "A implementação foi muito mais simples do que esperávamos. Em duas semanas já tínhamos resultados visíveis.",
+        "author": "Gestora de Secretaria Municipal"
+      }
+    },
+    "finalCta": {
+      "title": "Leve inglês de qualidade para a sua rede pública",
+      "subtitle": "Uma solução inspirada no Bumba meu Boi, feita para a realidade das escolas do Nordeste",
+      "cta": {
+        "primary": "Agendar uma conversa com a equipe",
+        "secondary": "Receber material para apresentar à secretaria"
+      },
+      "form": {
+        "name": "Nome completo",
+        "position": "Cargo",
+        "municipality": "Município/Estado",
+        "network": "Tipo de rede",
+        "email": "E-mail institucional",
+        "phone": "Telefone/WhatsApp",
+        "positions": {
+          "secretary": "Secretaria",
+          "director": "Direção",
+          "coordinator": "Coordenação",
+          "teacher": "Docência"
+        },
+        "networks": {
+          "municipal": "Municipal",
+          "state": "Estadual",
+          "federal": "Federal"
+        }
+      }
+    }
   }
 }

@@ -32,7 +32,6 @@ public class ClassRoomDTO implements Serializable {
     @Schema(description = "Descrição da turma")
     private String description;
 
-    @NotNull
     private UserDTO teacher;
 
     public Long getId() {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { createClassRoom, updateClassRoom, getClassRoom, CreateClassRoomDTO } from '../../services/classroom.service';
+import { createClassRoom, updateClassRoom, getClassRoom, CreateClassRoomDTO } from 'app/services/classroom.service';
 import './classroom-form.scss';
 
 export const ClassRoomForm: React.FC = () => {

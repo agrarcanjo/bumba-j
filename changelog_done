@@ -220,16 +220,33 @@ Todos os itens da Fase B foram implementados com sucesso:
     - /teacher/classes - Lista de turmas (protegida com ROLE_TEACHER)
     - /teacher/classes/:id - Detalhes da turma (protegida com ROLE_TEACHER)
   - Resultado: Interface completa para professores gerenciarem suas turmas e acompanharem o progresso dos alunos
-28. ✅ **FASE C - Funcionalidades Avançadas do Professor implementado** - Atribuições e relatórios (v2.6 - 2025-01-XX)
+
+### **FASE C - Funcionalidades Avançadas do Professor - EM ANDAMENTO**
+28. ✅ **Atribuições de Lições (Frontend) implementado** - Interface para criar/editar atribuições (v2.6 - 2025-01-XX)
   - Backend Resources criados:
     - TeacherAssignmentResource - CRUD de atribuições de lições
-    - TeacherReportResource - Relatórios detalhados
-  - Componentes React criados:
+      - GET / -> List<AssignmentDTO>
+      - GET /classroom/{classRoomId} -> List<AssignmentDTO>
+      - POST / -> CreateAssignmentDTO
+      - PUT /{id} -> CreateAssignmentDTO
+      - DELETE /{id}
+  - Serviço API criado (lesson.service.ts):
+    - getAllLessons() - Lista todas as lições disponíveis
+    - getLessonById() - Busca dados de uma lição específica
+    - Interface LessonDTO com dados da lição
+  - Componente React atualizado:
     - TeacherAssignments.tsx - Gerenciamento de atribuições
-    - TeacherClassReport.tsx - Relatório detalhado da turma
-    - TeacherStudentReport.tsx - Relatório detalhado do aluno
-  - Rotas adicionadas:
+      - Listagem de todas as atribuições em tabela
+      - Colunas: Turma, Lição, Data de Atribuição, Prazo, Atribuído por, Ações
+      - Modal de criação/edição de atribuição
+      - Formulário com campos:
+        - Select de turma (carrega turmas do professor)
+        - Select de lição (carrega lições disponíveis com título e dificuldade)
+        - Input de data para prazo
+      - Botões de ações: Editar, Excluir
+      - Confirmação antes de excluir
+      - Loading state e tratamento de erros
+      - Empty state quando não há atribuições
+  - Rota adicionada:
     - /teacher/assignments - Gerenciamento de atribuições (protegida com ROLE_TEACHER)
-    - /teacher/reports/class/:id - Relatório da turma (protegida com ROLE_TEACHER)
-    - /teacher/reports/student/:id - Relatório do aluno (protegida com ROLE_TEACHER)
-  - Resultado: Sistema completo de atribuições e relatórios para professores acompanharem o desempenho dos alunos
+  - Resultado: Sistema completo de atribuições de lições com UX intuitiva e seleção facilitada de lições

@@ -2,7 +2,7 @@
 ## 🎯 VISÃO GERAL DA APLICAÇÃO
 **Bumba Learning** é uma plataforma web de aprendizado de idiomas estilo Duolingo, desenvolvida como MVP monolítico usando JHipster 8.11.0, React 18 + TailwindCSS, Spring Boot, Java 17, JPA/Hibernate, Maven e PostgreSQL.
 **Objetivo**: Criar uma experiência gamificada de aprendizado de idiomas com foco em inglês (Fase 1), permitindo que professores criem conteúdo, gerenciem turmas e acompanhem o progresso dos alunos.
-**Tema**: Bumba remete a um boi (touro) nordestino de cores verde e colorido.
+**Tema**: Bumba remete a um boi (touro) nordestino de cores preto, branco e colorido.
 
 ---
 ### **Entidades Implementadas:**
@@ -92,7 +92,7 @@ src/main/webapp/app/
 │       ├── header/
 │       │   ├── HeaderStats.tsx ✓
 │       │   ├── header-stats.scss ✓
-│       │   └── header.tsx ✓ (refatorado)
+│       │   └── header.tsx ✓ 
 │       ├── sidebar/
 │       │   ├── StudentSidebar.tsx ✓
 │       │   └── student-sidebar.scss ✓

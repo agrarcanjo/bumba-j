@@ -1,7 +1,7 @@
 ## 🚀 PRÓXIMAS ATIVIDADES PRIORITÁRIAS - MVP
 
 ### 📞 PRÓXIMA AÇÃO IMEDIATA
-Iniciar FASE C - Funcionalidades Avançadas do Professor: Implementar criação/edição de atribuições de lições e relatórios detalhados.
+Implementar telas de relatórios detalhados: /teacher/reports/class/:id e /teacher/reports/student/:id
 
 ---
 Observação: todas as rotas cliente devem consumir os endpoints já implementados no backend.
@@ -21,7 +21,7 @@ Objetivo: fornecer ferramentas de gestão para professores e completar UX admini
 - ✅ /teacher/dashboard: visão geral das turmas e atividades recentes
 - ✅ /teacher/classes: listagem de turmas
 - ✅ /teacher/classes/:id: detalhe da turma (alunos, lições atribuídas)
-- ⏳ /teacher/assignments: criar/editar atribuições para turmas teacher-assignment.service.ts
+- ✅ /teacher/assignments: criar/editar atribuições para turmas
 - ⏳ /teacher/reports/class/:id e /teacher/reports/student/:id -> TeacherClassReport
 
 Requisitos UX:
@@ -46,14 +46,14 @@ Requisitos UX:
 - TeacherQuestionResource: CRUD questões do professor ⏳
 
 2) Frontend Professor
-- /teacher/assignments: criar/editar atribuições para turmas
-- /teacher/reports/class/:id: relatório detalhado da turma ✅ TeacherClassReport
-- /teacher/reports/student/:id: relatório detalhado do aluno
+- /teacher/assignments: criar/editar atribuições para turmas ✅ COMPLETO
+- /teacher/reports/class/:id: relatório detalhado da turma ⏳
+- /teacher/reports/student/:id: relatório detalhado do aluno ⏳
 
 Requisitos UX:
-- Formulários de criação/edição de atribuições
-- Gráficos e visualizações de dados
-- Filtros e paginação em tabelas
+- ✅ Formulários de criação/edição de atribuições
+- ⏳ Gráficos e visualizações de dados
+- ⏳ Filtros e paginação em tabelas
 
 ---
 

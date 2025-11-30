@@ -9,10 +9,12 @@ import {
 } from 'app/services/teacher-assignment.service';
 import './teacher-assignments.scss';
 import { getTeacherClasses } from 'app/services/teacher/teacher-class.service';
+import { getAllLessons, LessonDTO } from 'app/services/lesson.service';
 
 export const TeacherAssignments: React.FC = () => {
   const [assignments, setAssignments] = useState<AssignmentDTO[]>([]);
   const [classRooms, setClassRooms] = useState<any[]>([]);
+  const [lessons, setLessons] = useState<LessonDTO[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
@@ -30,9 +32,10 @@ export const TeacherAssignments: React.FC = () => {
   const loadData = async () => {
     try {
       setLoading(true);
-      const [assignmentsData, classRoomsData] = await Promise.all([getAllAssignments(), getTeacherClasses()]);
+      const [assignmentsData, classRoomsData, lessonsData] = await Promise.all([getAllAssignments(), getTeacherClasses(), getAllLessons()]);
       setAssignments(assignmentsData);
       setClassRooms(classRoomsData);
+      setLessons(lessonsData);
     } catch (err: any) {
       setError(err.message || 'Erro ao carregar dados');
     } finally {
@@ -186,14 +189,20 @@ export const TeacherAssignments: React.FC = () => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="lessonId">Lição (ID)</label>
-                <input
-                  type="number"
+                <label htmlFor="lessonId">Lição</label>
+                <select
                   id="lessonId"
-                  value={formData.lessonId || ''}
+                  value={formData.lessonId}
                   onChange={e => setFormData({ ...formData, lessonId: Number(e.target.value) })}
                   required
-                />
+                >
+                  <option value={0}>Selecione uma lição</option>
+                  {lessons.map(lesson => (
+                    <option key={lesson.id} value={lesson.id}>
+                      {lesson.title} - {lesson.difficulty}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div className="form-group">

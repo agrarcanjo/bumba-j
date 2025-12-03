@@ -57,4 +57,8 @@ public interface AttemptRepository extends JpaRepository<Attempt, Long>, JpaSpec
         @Param("startDate") Instant startDate,
         @Param("endDate") Instant endDate
     );
+
+    long countByIsCorrectIsTrue();
+
+    long countByIsCorrectIsFalse();
 }

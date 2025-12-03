@@ -16,6 +16,9 @@ public interface QuestionRepository extends JpaRepository<Question, Long>, JpaSp
     @Query("select question from Question question where question.createdBy.login = ?#{authentication.name}")
     List<Question> findByCreatedByIsCurrentUser();
 
+    @Query("select distinct q from Question q left join fetch q.topic where q.createdBy = :createdBy")
+    List<Question> findByCreatedBy(@Param("createdBy") String createdBy);
+
     default Optional<Question> findOneWithEagerRelationships(Long id) {
         return this.findOneWithToOneRelationships(id);
     }

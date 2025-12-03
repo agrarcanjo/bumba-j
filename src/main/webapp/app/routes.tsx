@@ -25,6 +25,7 @@ import {
   TeacherStudentReport,
   ClassRoomForm,
 } from 'app/modules/teacher';
+import AdminDashboardRoutes from 'app/modules/admin-dashboard';
 
 const loading = <div>loading ...</div>;
 
@@ -177,6 +178,14 @@ const AppRoutes = () => {
           element={
             <PrivateRoute hasAnyAuthorities={[AUTHORITIES.ROLE_TEACHER]}>
               <TeacherStudentReport />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="admin/dashboard/*"
+          element={
+            <PrivateRoute hasAnyAuthorities={[AUTHORITIES.ADMIN]}>
+              <AdminDashboardRoutes />
             </PrivateRoute>
           }
         />

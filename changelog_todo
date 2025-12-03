@@ -1,88 +1,18 @@
 ## 🚀 PRÓXIMAS ATIVIDADES PRIORITÁRIAS - MVP
 
 ### 📞 PRÓXIMA AÇÃO IMEDIATA
-Implementar telas de relatórios detalhados: /teacher/reports/class/:id e /teacher/reports/student/:id
+- criação no frontend de na visão de professor, adicionar alunos e atribuições à turma (/teacher/classes/). rotas já criadas
+ mas não feitas: lesson-assignment/new e /class-member
 
----
-Observação: todas as rotas cliente devem consumir os endpoints já implementados no backend.
+- Ao fazer login como como professor, deve redirecionar o professor para seu dashboard.
+- Ao fazer login como admin, deve redirecionar o admin para seu dashboard.
+- Adicionar menu lateral conforme existe na visão do aluno com as funcionalidades interente ao perfil:
+    professor: funcionalidades do professor no menu lateral
+    administrador: funcionalidades do administrador no menu lateral
 
-## FASE B — Professor (Frontend) & APIs complementares ✅ COMPLETO
-Objetivo: fornecer ferramentas de gestão para professores e completar UX administrativo.
+- quando estou login, não consigo acessar o dashboard na tela inicial (hoje), adicionar menu de dashboard no header para o seu redirect correto
+conforme perfil do login
 
-1) ✅ APIs/Backend
-- ✅ TeacherDashboardResource: estatísticas e atividades recentes
-- ✅ TeacherClassResource: listagem e detalhes de turmas com alunos
-- ✅ TeacherAssignmentResource: criar/editar/excluir atribuições
-- ✅ TeacherReportResource: relatórios por turma/aluno
-- ⏳ TeacherQuestionResource: CRUD questões do professor
-- ⏳ Redirecionar para tela de Dashboard do professor após login.
-
-2) ✅ Frontend Professor (prioridade alta)
-- ✅ /teacher/dashboard: visão geral das turmas e atividades recentes
-- ✅ /teacher/classes: listagem de turmas
-- ✅ /teacher/classes/:id: detalhe da turma (alunos, lições atribuídas)
-- ✅ /teacher/assignments: criar/editar atribuições para turmas
-- ⏳ /teacher/reports/class/:id e /teacher/reports/student/:id -> TeacherClassReport
-
-Requisitos UX:
-- ✅ Tabelas com dados dos alunos
-- ✅ Permissões: apenas professores autenticados podem acessar
-- ⏳ Filtros/paginação (próxima fase)
-
----
-
-## FASE C — Funcionalidades Avançadas do Professor (Em Andamento)
-
-1) Backend APIs -
-- TeacherAssignmentResource: criar/editar/excluir atribuições de lições /api/teacher/assignments ✅ COMPLETO
-  - GET / -> List<AssignmentDTO>
-  - GET /classroom/{classRoomId} -> List<AssignmentDTO>
-  - POST / -> CreateAssignmentDTO
-  - PUT /{id} -> CreateAssignmentDTO
-  - DELETE /{id}
-- TeacherReportResource: relatórios detalhados por turma/aluno /api/teacher/reports ✅ COMPLETO
-  - GET /class/{classRoomId} -> ClassReportDTO
-  - GET /student/{studentId} -> StudentReportDTO
-- TeacherQuestionResource: CRUD questões do professor ⏳
-
-2) Frontend Professor
-- /teacher/assignments: criar/editar atribuições para turmas ✅ COMPLETO
-- /teacher/reports/class/:id: relatório detalhado da turma ⏳
-- /teacher/reports/student/:id: relatório detalhado do aluno ⏳
-
-Requisitos UX:
-- ✅ Formulários de criação/edição de atribuições
-- ⏳ Gráficos e visualizações de dados
-- ⏳ Filtros e paginação em tabelas
-
----
-
-## FASE D — Admin & Otimizações Técnicas
-
-1) Backend Admin (se necessário)
-- AdminUserResource (gestão de roles)
-- AdminContentResource (tópicos, conquistas, moderação de questões)
-- AdminMetricsResource (métricas globais)
-
-2) Frontend Admin
-- /admin/dashboard (cards + gráficos)
-- /admin/users (CRUD + roles)
-- /admin/content (CRUD tópicos, conquistas, moderação)
-
-3) Otimizações técnicas
-- Cache Redis para dashboard/ranking
-- Índices no PostgreSQL (ranking e buscas)
-- Paginação em todas as listagens
-- Lazy loading de assets e code-splitting
-
----
-
-## FASE E — Experiências Avançadas & Polish
-
-- Animações de transição entre questões e micro-interações
-- Feedback sonoro opcional e confetes ao desbloquear conquista
-- Speech-to-Text real (substituir placeholder)
-
----
+- Ao resolver questão, a proxima questão deve vir com nenhuma opção marcada. hoje está deixando a opção escolhida anteriormente pré selecionada.
 
 

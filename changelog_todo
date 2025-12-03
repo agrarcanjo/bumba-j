@@ -1,18 +1,22 @@
 ## 🚀 PRÓXIMAS ATIVIDADES PRIORITÁRIAS - MVP
 
 ### 📞 PRÓXIMA AÇÃO IMEDIATA
-- criação no frontend de na visão de professor, adicionar alunos e atribuições à turma (/teacher/classes/). rotas já criadas
- mas não feitas: lesson-assignment/new e /class-member
+- Implementar tela de gestão de questões do professor (/teacher/questions)
+- Adicionar funcionalidade de criar, editar e excluir questões
+- Implementar filtros e busca de questões
+- Adicionar validação de questões antes de salvar
+- Implementar preview de questões
 
-- Ao fazer login como como professor, deve redirecionar o professor para seu dashboard.
-- Ao fazer login como admin, deve redirecionar o admin para seu dashboard.
-- Adicionar menu lateral conforme existe na visão do aluno com as funcionalidades interente ao perfil:
-    professor: funcionalidades do professor no menu lateral
-    administrador: funcionalidades do administrador no menu lateral
+### 🎯 MELHORIAS E REFINAMENTOS
+- Adicionar paginação nas listagens de alunos e turmas
+- Implementar notificações em tempo real para professores
+- Adicionar gráficos de desempenho mais detalhados
+- Implementar exportação de relatórios em PDF
+- Adicionar sistema de mensagens entre professor e aluno
 
-- quando estou login, não consigo acessar o dashboard na tela inicial (hoje), adicionar menu de dashboard no header para o seu redirect correto
-conforme perfil do login
-
-- Ao resolver questão, a proxima questão deve vir com nenhuma opção marcada. hoje está deixando a opção escolhida anteriormente pré selecionada.
-
-
+### 🔧 OTIMIZAÇÕES TÉCNICAS
+- Implementar cache de dados no frontend
+- Otimizar queries do banco de dados
+- Adicionar testes unitários e de integração
+- Implementar lazy loading de componentes
+- Melhorar tratamento de erros e feedback ao usuário

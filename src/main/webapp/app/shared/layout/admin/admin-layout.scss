@@ -1,0 +1,19 @@
+.admin-layout {
+  display: flex;
+  min-height: calc(100vh - 60px);
+
+  .admin-content {
+    flex: 1;
+    transition: margin-left 0.3s ease;
+
+    @media (min-width: 768px) {
+      margin-left: 280px;
+    }
+
+    &.sidebar-open {
+      @media (max-width: 767px) {
+        margin-left: 0;
+      }
+    }
+  }
+}

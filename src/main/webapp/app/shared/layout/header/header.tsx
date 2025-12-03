@@ -8,7 +8,7 @@ import LoadingBar from 'react-redux-loading-bar';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { setLocale } from 'app/shared/reducers/locale';
 import { AccountMenu, AdminMenu } from '../menus';
-import { Brand, Home } from './header-components';
+import { Brand, Home, DashboardLink } from './header-components';
 import HeaderStats from './HeaderStats';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
@@ -27,6 +27,8 @@ const Header = (props: IHeaderProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const account = useAppSelector(state => state.authentication.account);
   const isStudent = account?.authorities?.includes('ROLE_STUDENT');
+  const isTeacher = account?.authorities?.includes('ROLE_TEACHER');
+  const isAdmin = account?.authorities?.includes('ROLE_ADMIN');
 
   const dispatch = useAppDispatch();
 
@@ -52,7 +54,7 @@ const Header = (props: IHeaderProps) => {
       {renderDevRibbon()}
       <LoadingBar className="loading-bar" />
       <Navbar data-cy="navbar" dark expand="md" fixed="top" className="bg-primary">
-        {isStudent && props.onToggleSidebar && (
+        {(isStudent || isTeacher || isAdmin) && props.onToggleSidebar && (
           <button className="sidebar-toggle-btn" onClick={props.onToggleSidebar} aria-label="Toggle sidebar">
             <FontAwesomeIcon icon={faBars} />
           </button>
@@ -62,6 +64,7 @@ const Header = (props: IHeaderProps) => {
         <Collapse isOpen={menuOpen} navbar>
           <Nav id="header-tabs" className="ms-auto" navbar>
             <Home />
+            <DashboardLink />
             {props.isAuthenticated && props.isAdmin && <AdminMenu showOpenAPI={props.isOpenAPIEnabled} />}
             {props.isAuthenticated && isStudent && <HeaderStats />}
             <AccountMenu isAuthenticated={props.isAuthenticated} />

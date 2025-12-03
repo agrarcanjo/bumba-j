@@ -282,4 +282,141 @@ public class TeacherClassResource {
             this.completedLessons = completedLessons;
         }
     }
+
+    @GetMapping("/{id}/available-students")
+    @PreAuthorize("hasAuthority('ROLE_TEACHER')")
+    public ResponseEntity<List<AvailableStudentDTO>> getAvailableStudents(@PathVariable Long id) {
+        LOG.debug("REST request to get available students for class: {}", id);
+
+        String login = SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new RuntimeException("Current user login not found"));
+        var user = userRepository.findOneByLogin(login).orElseThrow(() -> new RuntimeException("User not found"));
+        var classRoom = classRoomRepository.findById(id).orElseThrow(() -> new RuntimeException("Class not found"));
+
+        if (!classRoom.getTeacher().getId().equals(user.getId())) {
+            throw new RuntimeException("Unauthorized access to class");
+        }
+
+        var enrolledStudentIds = classMemberRepository
+            .findByClassRoomId(id)
+            .stream()
+            .map(member -> member.getStudent().getId())
+            .collect(Collectors.toSet());
+
+        var allStudents = userRepository.findAll();
+        var availableStudents = allStudents
+            .stream()
+            .filter(student -> student.getAuthorities().stream().anyMatch(auth -> auth.getName().equals("ROLE_STUDENT")))
+            .filter(student -> !enrolledStudentIds.contains(student.getId()))
+            .map(student ->
+                new AvailableStudentDTO(
+                    student.getId(),
+                    student.getLogin(),
+                    student.getFirstName(),
+                    student.getLastName(),
+                    student.getEmail()
+                )
+            )
+            .collect(Collectors.toList());
+
+        return ResponseEntity.ok(availableStudents);
+    }
+
+    @PostMapping("/{id}/add-students")
+    @PreAuthorize("hasAuthority('ROLE_TEACHER')")
+    public ResponseEntity<Void> addStudentsToClass(@PathVariable Long id, @RequestBody AddStudentsRequest request) {
+        LOG.debug("REST request to add students to class: {}", id);
+
+        String login = SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new RuntimeException("Current user login not found"));
+        var user = userRepository.findOneByLogin(login).orElseThrow(() -> new RuntimeException("User not found"));
+        var classRoom = classRoomRepository.findById(id).orElseThrow(() -> new RuntimeException("Class not found"));
+
+        if (!classRoom.getTeacher().getId().equals(user.getId())) {
+            throw new RuntimeException("Unauthorized access to class");
+        }
+
+        for (Long studentId : request.getStudentIds()) {
+            var student = userRepository.findById(studentId).orElseThrow(() -> new RuntimeException("Student not found"));
+
+            var existingMember = classMemberRepository.findByClassRoomIdAndStudentId(id, studentId);
+            if (existingMember.isEmpty()) {
+                var member = new com.bumbatech.bumbalearning.domain.ClassMember();
+                member.setClassRoom(classRoom);
+                member.setStudent(student);
+                member.setEnrolledAt(java.time.Instant.now());
+                classMemberRepository.save(member);
+            }
+        }
+
+        return ResponseEntity.ok().build();
+    }
+
+    public static class AvailableStudentDTO {
+
+        private Long id;
+        private String login;
+        private String firstName;
+        private String lastName;
+        private String email;
+
+        public AvailableStudentDTO(Long id, String login, String firstName, String lastName, String email) {
+            this.id = id;
+            this.login = login;
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.email = email;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public String getLogin() {
+            return login;
+        }
+
+        public void setLogin(String login) {
+            this.login = login;
+        }
+
+        public String getFirstName() {
+            return firstName;
+        }
+
+        public void setFirstName(String firstName) {
+            this.firstName = firstName;
+        }
+
+        public String getLastName() {
+            return lastName;
+        }
+
+        public void setLastName(String lastName) {
+            this.lastName = lastName;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+    }
+
+    public static class AddStudentsRequest {
+
+        private List<Long> studentIds;
+
+        public List<Long> getStudentIds() {
+            return studentIds;
+        }
+
+        public void setStudentIds(List<Long> studentIds) {
+            this.studentIds = studentIds;
+        }
+    }
 }

@@ -26,6 +26,8 @@ import {
   ClassRoomForm,
 } from 'app/modules/teacher';
 import AdminDashboardRoutes from 'app/modules/admin-dashboard';
+import LessonAssignmentForm from 'app/modules/teacher/LessonAssignmentForm';
+import ClassMemberForm from 'app/modules/teacher/ClassMemberForm';
 
 const loading = <div>loading ...</div>;
 
@@ -154,6 +156,22 @@ const AppRoutes = () => {
           element={
             <PrivateRoute hasAnyAuthorities={[AUTHORITIES.ROLE_TEACHER]}>
               <ClassRoomForm />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="class-member"
+          element={
+            <PrivateRoute hasAnyAuthorities={[AUTHORITIES.ROLE_TEACHER]}>
+              <ClassMemberForm />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="lesson-assignment/new"
+          element={
+            <PrivateRoute hasAnyAuthorities={[AUTHORITIES.ROLE_TEACHER]}>
+              <LessonAssignmentForm />
             </PrivateRoute>
           }
         />

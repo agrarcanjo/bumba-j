@@ -17,6 +17,8 @@ import ErrorBoundary from 'app/shared/error/error-boundary';
 import { AUTHORITIES } from 'app/config/constants';
 import AppRoutes from 'app/routes';
 import StudentLayout from 'app/shared/layout/student/StudentLayout';
+import TeacherLayout from 'app/shared/layout/teacher/TeacherLayout';
+import AdminLayout from 'app/shared/layout/admin/AdminLayout';
 
 const baseHref = document.querySelector('base').getAttribute('href').replace(/\/$/, '');
 
@@ -37,8 +39,9 @@ export const App = () => {
   const isOpenAPIEnabled = useAppSelector(state => state.applicationProfile.isOpenAPIEnabled);
   const account = useAppSelector(state => state.authentication.account);
   const isStudent = account?.authorities?.includes(AUTHORITIES.ROLE_STUDENT);
+  const isTeacher = account?.authorities?.includes(AUTHORITIES.ROLE_TEACHER);
 
-  const paddingTop = isStudent ? '0px' : '60px';
+  const paddingTop = isStudent || isTeacher || isAdmin ? '0px' : '60px';
 
   return (
     <BrowserRouter basename={baseHref}>
@@ -56,14 +59,18 @@ export const App = () => {
           />
         </ErrorBoundary>
         <StudentLayout onToggleSidebar={setToggleSidebarFn}>
-          <div className="container-fluid view-container" id="app-view-container">
-            <Card className="jh-card">
-              <ErrorBoundary>
-                <AppRoutes />
-              </ErrorBoundary>
-            </Card>
-            <Footer />
-          </div>
+          <TeacherLayout onToggleSidebar={setToggleSidebarFn}>
+            <AdminLayout onToggleSidebar={setToggleSidebarFn}>
+              <div className="container-fluid view-container" id="app-view-container">
+                <Card className="jh-card">
+                  <ErrorBoundary>
+                    <AppRoutes />
+                  </ErrorBoundary>
+                </Card>
+                <Footer />
+              </div>
+            </AdminLayout>
+          </TeacherLayout>
         </StudentLayout>
       </div>
     </BrowserRouter>

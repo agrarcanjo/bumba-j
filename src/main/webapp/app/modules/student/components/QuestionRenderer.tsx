@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FormGroup, Label, Input, Button } from 'reactstrap';
 import { IQuestion } from '../lesson.service';
 
@@ -11,6 +11,11 @@ interface QuestionRendererProps {
 export const QuestionRenderer: React.FC<QuestionRendererProps> = ({ question, onSubmit, disabled }) => {
   const [answer, setAnswer] = useState('');
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    setAnswer('');
+    setSelectedIndex(null);
+  }, [question.id]);
 
   const handleSubmit = () => {
     let formattedAnswer = '';

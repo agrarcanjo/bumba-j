@@ -1,0 +1,187 @@
+.class-member-form {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  .form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+
+    h1 {
+      font-size: 24px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin: 0;
+    }
+
+    .btn-back {
+      padding: 8px 16px;
+      background: #f5f5f5;
+      border: 1px solid #d9d9d9;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s;
+
+      &:hover {
+        background: #e6e6e6;
+      }
+    }
+  }
+
+  .search-box {
+    margin-bottom: 24px;
+
+    .search-input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #d9d9d9;
+      border-radius: 4px;
+      font-size: 14px;
+      transition: all 0.3s;
+
+      &:focus {
+        outline: none;
+        border-color: #1890ff;
+        box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+      }
+    }
+  }
+
+  .students-selection {
+    background: white;
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 24px;
+
+    .selection-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #f0f0f0;
+
+      h3 {
+        font-size: 16px;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin: 0;
+      }
+
+      .selected-count {
+        font-size: 14px;
+        color: #1890ff;
+        font-weight: 500;
+      }
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #8c8c8c;
+    }
+
+    .students-list {
+      max-height: 500px;
+      overflow-y: auto;
+
+      .student-item {
+        display: flex;
+        align-items: center;
+        padding: 12px;
+        border: 1px solid #f0f0f0;
+        border-radius: 4px;
+        margin-bottom: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+
+        &:hover {
+          background: #f5f5f5;
+          border-color: #d9d9d9;
+        }
+
+        &.selected {
+          background: #e6f7ff;
+          border-color: #1890ff;
+        }
+
+        input[type='checkbox'] {
+          margin-right: 12px;
+          cursor: pointer;
+        }
+
+        .student-info {
+          flex: 1;
+
+          .student-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+          }
+
+          .student-details {
+            display: flex;
+            gap: 16px;
+            font-size: 12px;
+            color: #8c8c8c;
+
+            .student-login {
+              font-weight: 500;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+
+    button {
+      padding: 10px 24px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: none;
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+
+    .btn-cancel {
+      background: white;
+      border: 1px solid #d9d9d9;
+      color: #595959;
+
+      &:hover:not(:disabled) {
+        background: #f5f5f5;
+      }
+    }
+
+    .btn-submit {
+      background: #1890ff;
+      color: white;
+
+      &:hover:not(:disabled) {
+        background: #40a9ff;
+      }
+    }
+  }
+
+  .loading {
+    text-align: center;
+    padding: 40px;
+    color: #8c8c8c;
+  }
+}

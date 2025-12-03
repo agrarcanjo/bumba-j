@@ -1,0 +1,236 @@
+.lesson-assignment-form {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  .form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+
+    h1 {
+      font-size: 24px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin: 0;
+    }
+
+    .btn-back {
+      padding: 8px 16px;
+      background: #f5f5f5;
+      border: 1px solid #d9d9d9;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s;
+
+      &:hover {
+        background: #e6e6e6;
+      }
+    }
+  }
+
+  .form-section {
+    margin-bottom: 24px;
+
+    .form-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: #1a1a1a;
+      margin-bottom: 8px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #d9d9d9;
+      border-radius: 4px;
+      font-size: 14px;
+      transition: all 0.3s;
+
+      &:focus {
+        outline: none;
+        border-color: #1890ff;
+        box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+      }
+    }
+
+    .form-help {
+      font-size: 12px;
+      color: #8c8c8c;
+      margin-top: 4px;
+    }
+  }
+
+  .lessons-selection {
+    background: white;
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 24px;
+
+    .selection-header {
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #f0f0f0;
+
+      h3 {
+        font-size: 16px;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin: 0;
+      }
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #8c8c8c;
+    }
+
+    .lessons-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+      max-height: 600px;
+      overflow-y: auto;
+
+      .lesson-card {
+        position: relative;
+        padding: 16px;
+        border: 2px solid #f0f0f0;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+        background: white;
+
+        &:hover {
+          border-color: #d9d9d9;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        &.selected {
+          border-color: #1890ff;
+          background: #e6f7ff;
+          box-shadow: 0 2px 8px rgba(24, 144, 255, 0.2);
+        }
+
+        .lesson-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          margin-bottom: 12px;
+
+          h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin: 0;
+            flex: 1;
+          }
+
+          .difficulty-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-left: 8px;
+
+            &.easy {
+              background: #d4edda;
+              color: #155724;
+            }
+
+            &.medium {
+              background: #fff3cd;
+              color: #856404;
+            }
+
+            &.hard {
+              background: #f8d7da;
+              color: #721c24;
+            }
+          }
+        }
+
+        .lesson-description {
+          font-size: 14px;
+          color: #595959;
+          margin-bottom: 12px;
+          line-height: 1.5;
+        }
+
+        .lesson-footer {
+          display: flex;
+          align-items: center;
+          font-size: 12px;
+          color: #8c8c8c;
+
+          .lesson-topic {
+            font-weight: 500;
+          }
+        }
+
+        .selected-indicator {
+          position: absolute;
+          top: 8px;
+          right: 8px;
+          background: #1890ff;
+          color: white;
+          padding: 4px 8px;
+          border-radius: 4px;
+          font-size: 12px;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+
+    button {
+      padding: 10px 24px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: none;
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+
+    .btn-cancel {
+      background: white;
+      border: 1px solid #d9d9d9;
+      color: #595959;
+
+      &:hover:not(:disabled) {
+        background: #f5f5f5;
+      }
+    }
+
+    .btn-submit {
+      background: #1890ff;
+      color: white;
+
+      &:hover:not(:disabled) {
+        background: #40a9ff;
+      }
+    }
+  }
+
+  .loading {
+    text-align: center;
+    padding: 40px;
+    color: #8c8c8c;
+  }
+}

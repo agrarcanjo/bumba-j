@@ -44,4 +44,6 @@ public interface ClassMemberRepository extends JpaRepository<ClassMember, Long> 
     long countByClassRoomId(Long classRoomId);
 
     List<ClassMember> findByClassRoomId(Long classRoomId);
+
+    Optional<ClassMember> findByClassRoomIdAndStudentId(Long classRoomId, Long studentId);
 }

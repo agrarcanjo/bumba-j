@@ -221,7 +221,7 @@ Todos os itens da Fase B foram implementados com sucesso:
     - /teacher/classes/:id - Detalhes da turma (protegida com ROLE_TEACHER)
   - Resultado: Interface completa para professores gerenciarem suas turmas e acompanharem o progresso dos alunos
 
-### **FASE C - Funcionalidades Avançadas do Professor - EM ANDAMENTO**
+### **FASE C - Funcionalidades Avançadas do Professor**
 28. ✅ **Atribuições de Lições (Frontend) implementado** - Interface para criar/editar atribuições (v2.6 - 2025-01-XX)
   - Backend Resources criados:
     - TeacherAssignmentResource - CRUD de atribuições de lições

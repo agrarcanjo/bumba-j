@@ -2,7 +2,6 @@ package com.bumbatech.bumbalearning.web.rest.teacher;
 
 import com.bumbatech.bumbalearning.repository.*;
 import com.bumbatech.bumbalearning.security.SecurityUtils;
-import com.bumbatech.bumbalearning.service.dto.ClassMemberDTO;
 import com.bumbatech.bumbalearning.service.dto.ClassRoomDTO;
 import com.bumbatech.bumbalearning.service.dto.LessonAssignmentDTO;
 import java.util.List;

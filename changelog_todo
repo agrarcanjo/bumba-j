@@ -20,3 +20,56 @@
 - Adicionar testes unitários e de integração
 - Implementar lazy loading de componentes
 - Melhorar tratamento de erros e feedback ao usuário
+
+### 🔧 IDEIAS PARA MELHORIAS
+1. Quiz Relâmpago - Reutiliza 100% da estrutura atual, só adiciona timer e ranking
+2. Desafio Diário - Usa Recommendation + Achievement existentes
+3. Duelo de Vocabulário - Aproveita StudentLessonProgress para comparar scores
+
+1. Jogo da Memória de Vocabulário
+Cartas com palavras em inglês e suas traduções/imagens
+Usa questões MULTIPLE_CHOICE existentes
+Pontuação baseada em tempo e tentativas
+XP bônus por completar sem erros
+
+2. Corrida de Palavras (Word Race)
+Aluno completa palavras contra o tempo
+Usa questões FILL_BLANK existentes
+Streak de acertos consecutivos multiplica XP
+Níveis progressivos de dificuldade
+
+3. Quiz Relâmpago (Lightning Quiz)
+10 questões rápidas (30 segundos cada)
+Mistura MULTIPLE_CHOICE e FILL_BLANK
+Ranking semanal entre alunos da turma
+Conquistas por velocidade e precisão
+
+4. Caça-Palavras Temático
+Grid com palavras do Topic atual
+Palavras em inglês com dicas em português
+Timer e sistema de hints
+XP por palavra encontrada
+
+5. Duelo de Vocabulário
+2 alunos respondem mesmas questões
+Modo assíncrono (não precisa estar online junto)
+Usa LessonAssignment para criar desafios
+Vencedor ganha XP bônus
+
+6. Sequência de Frases
+Ordenar palavras para formar frases corretas
+Novo QuestionType: SENTENCE_ORDER
+Drag-and-drop simples
+Feedback visual imediato
+
+7. Bingo de Listening
+Professor cria cartelas com vocabulário
+Reproduz áudios (usa LISTENING existente)
+Primeiro a completar linha/cartela ganha
+Ótimo para turmas
+
+8. Desafio Diário (Daily Challenge)
+1 questão especial por dia
+Dificuldade adaptativa baseada no UserLevel
+XP dobrado + conquista por streak de 7 dias
+Usa sistema de Achievement existente

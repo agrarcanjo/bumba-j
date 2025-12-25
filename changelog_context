@@ -34,10 +34,12 @@ UserProfile: Long id, String municipalityCode, UserLevel currentLevel, Integer t
 ### **ROLE_STUDENT** (Aluno)
 - Realiza lições e ganha XP/conquistas
 - Acompanha progresso pessoal e ranking
-- Recebe recomendações personalizadas
+- Recebe recomendações personalizadas pelo professor
 ### **ROLE_TEACHER** (Professor)
 - Herda permissões de STUDENT
-- Cria/gerencia turmas e atribui lições
+- Cria/gerencia turmas 
+- Atribui alunos a turmas
+- Atribui lições a turmas com prazo para conclusão
 - Cria questões customizadas
 - Visualiza relatórios de turmas
 ### **ROLE_ADMIN** (Administrador)
@@ -85,35 +87,49 @@ src/main/webapp/app/
 │   ├── topic
 │   ├── user-achievement
 │   └── user-profile
-
-src/main/webapp/app/
-├── shared/
-│   └── layout/
-│       ├── header/
-│       │   ├── HeaderStats.tsx ✓
-│       │   ├── header-stats.scss ✓
-│       │   └── header.tsx ✓ 
-│       ├── sidebar/
-│       │   ├── StudentSidebar.tsx ✓
-│       │   └── student-sidebar.scss ✓
-│       ├── notifications/
-│       │   ├── AchievementNotification.tsx ✓
-│       │   └── achievement-notification.scss ✓
-│       └── student/
-│           ├── StudentLayout.tsx ✓
-│           └── student-layout.scss ✓
-└── modules/
-    └── student/
-        ├── StudentDashboard.tsx ✓
-        ├── LessonPlayer.tsx ✓
-        ├── Lessons.tsx ✓
-        ├── StudentRanking.tsx ✓
-        ├── StudentAchievements.tsx ✓
-        ├── StudentProfile.tsx ✓
-        └── components/ ✓
+├── modules/
+│   ├── acoount/
+│   ├── admin-dashboard/
+│   ├── administration/
+│   ├── home/
+│   ├── login/
+│   ├── teacher/
+│   └── student/
+│       ├── StudentDashboard.tsx
+│       ├── LessonPlayer.tsx
+│       ├── Lessons.tsx
+│       ├── StudentRanking.tsx
+│       ├── StudentAchievements.tsx
+│       ├── StudentProfile.tsx
+│       └── components/
+├── services/
+│   └── teacher/
+└── shared/
+    ├── auth/
+    ├── components/ 
+    ├── error/
+    ├── jhipster/           
+    ├── model/    
+    ├── reducers/
+    ├── util/        
+    └── layout/
+        ├── header/
+        │   ├── HeaderStats.tsx
+        │   ├── header-stats.scss
+        │   └── header.tsx 
+        ├── sidebar/
+        │   ├── StudentSidebar.tsx
+        │   └── student-sidebar.scss
+        ├── notifications/
+        │   ├── AchievementNotification.tsx
+        │   └── achievement-notification.scss
+        └── student/
+            ├── StudentLayout.tsx
+            └── student-layout.scss
+     ...
 ---
 
-## 📊 MODELO DE DADOS - REGRAS DE NEGÓCIO
+## 📊 REGRAS DE NEGÓCIO
 
 ### **1. Sistema de XP e Níveis**
 BEGINNER:
@@ -140,7 +156,14 @@ BEGINNER:
 - **Reprovado**: status=FAILED, pode refazer após 1 hora (cooldown)
 - **Atrasado**: `isLate=true` se completar após `dueDate`
 ### **5. Conquistas (10 básicas)**
-FIRST_LESSON - Primeira lição completa STREAK_7 - 7 dias consecutivos STREAK_30 - 30 dias consecutivos XP_100/1000/5000 - Marcos de XP FIRST_ADVANCED - Primeira lição avançada TEACHER_ASSIGNMENT - Primeira atividade do professor PERFECT_LESSON - 100% de acerto SPEED_DEMON - Lição em < 5 minutos
+- FIRST_LESSON 
+- Primeira lição completa STREAK_7 
+- 7 dias consecutivos STREAK_30 
+- 30 dias consecutivos XP_100/1000/5000 
+- Marcos de XP FIRST_ADVANCED 
+- Primeira lição avançada TEACHER_ASSIGNMENT 
+- Primeira atividade do professor PERFECT_LESSON 
+- 100% de acerto SPEED_DEMON - Lição em < 5 minutos
 ### **6. Sistema de Recomendação**
 **Prioridade:**
 1. Assignments pendentes (ordenar por `dueDate`)

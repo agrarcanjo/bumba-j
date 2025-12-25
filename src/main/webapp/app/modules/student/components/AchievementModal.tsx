@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Badge, Progress } from 'reactstrap';
-import { IStudentAchievement } from '../achievements.service';
+import { IStudentAchievement } from 'app/modules/student';
 
 interface AchievementModalProps {
   achievement: IStudentAchievement | null;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Alert, Card, CardBody, Container, Progress, Spinner } from 'reactstrap';
 import { FeedbackModal, QuestionRenderer, ResultScreen } from 'app/modules/student/components';
 import {

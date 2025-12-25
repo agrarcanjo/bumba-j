@@ -1,6 +1,5 @@
 package com.bumbatech.bumbalearning.service.dto.teacher;
 
-import java.time.Instant;
 import java.util.List;
 
 public class StudentReportDTO {
@@ -16,8 +15,6 @@ public class StudentReportDTO {
     private int completedLessons;
     private double averageScore;
     private List<LessonProgressDTO> lessonProgress;
-
-    public StudentReportDTO() {}
 
     public StudentReportDTO(
         Long studentId,

@@ -1,8 +1,8 @@
 package com.bumbatech.bumbalearning.service.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.Lob;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
@@ -121,11 +121,10 @@ public class AttemptDTO implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof AttemptDTO)) {
+        if (!(o instanceof AttemptDTO attemptDTO)) {
             return false;
         }
 
-        AttemptDTO attemptDTO = (AttemptDTO) o;
         if (this.id == null) {
             return false;
         }

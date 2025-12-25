@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class AchievementTestSamples {
 
     private static final Random random = new Random();
-    private static final AtomicLong longCount = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+    private static final AtomicLong longCount = new AtomicLong(random.nextInt() + (2L * Integer.MAX_VALUE));
 
     public static Achievement getAchievementSample1() {
         return new Achievement().id(1L).code("code1").name("name1").iconUrl("iconUrl1").description("description1");

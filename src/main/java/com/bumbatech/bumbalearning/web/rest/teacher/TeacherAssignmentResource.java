@@ -1,9 +1,6 @@
 package com.bumbatech.bumbalearning.web.rest.teacher;
 
-import com.bumbatech.bumbalearning.domain.ClassRoom;
-import com.bumbatech.bumbalearning.domain.Lesson;
 import com.bumbatech.bumbalearning.domain.LessonAssignment;
-import com.bumbatech.bumbalearning.domain.User;
 import com.bumbatech.bumbalearning.repository.ClassRoomRepository;
 import com.bumbatech.bumbalearning.repository.LessonAssignmentRepository;
 import com.bumbatech.bumbalearning.repository.LessonRepository;

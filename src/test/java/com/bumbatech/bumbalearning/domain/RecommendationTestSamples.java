@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class RecommendationTestSamples {
 
     private static final Random random = new Random();
-    private static final AtomicLong longCount = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+    private static final AtomicLong longCount = new AtomicLong(random.nextInt() + (2L * Integer.MAX_VALUE));
 
     public static Recommendation getRecommendationSample1() {
         return new Recommendation().id(1L).reason("reason1");

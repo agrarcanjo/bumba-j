@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardBody, Badge, Progress } from 'reactstrap';
-import { IStudentAchievement } from '../achievements.service';
+import { IStudentAchievement } from 'app/modules/student';
 
 interface AchievementCardProps {
   achievement: IStudentAchievement;

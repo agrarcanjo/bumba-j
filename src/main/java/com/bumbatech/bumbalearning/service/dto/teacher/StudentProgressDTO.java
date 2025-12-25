@@ -11,8 +11,6 @@ public class StudentProgressDTO {
     private double averageScore;
     private int currentStreak;
 
-    public StudentProgressDTO() {}
-
     public StudentProgressDTO(
         Long studentId,
         String studentLogin,

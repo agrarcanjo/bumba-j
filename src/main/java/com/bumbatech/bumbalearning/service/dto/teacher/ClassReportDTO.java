@@ -13,8 +13,6 @@ public class ClassReportDTO {
     private double averageScore;
     private List<StudentProgressDTO> studentProgress;
 
-    public ClassReportDTO() {}
-
     public ClassReportDTO(
         Long classRoomId,
         String classRoomName,

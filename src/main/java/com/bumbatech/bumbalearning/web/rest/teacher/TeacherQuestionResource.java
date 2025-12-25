@@ -1,7 +1,5 @@
 package com.bumbatech.bumbalearning.web.rest.teacher;
 
-import com.bumbatech.bumbalearning.domain.Question;
-import com.bumbatech.bumbalearning.domain.User;
 import com.bumbatech.bumbalearning.repository.QuestionRepository;
 import com.bumbatech.bumbalearning.repository.UserRepository;
 import com.bumbatech.bumbalearning.security.SecurityUtils;
@@ -80,7 +78,7 @@ public class TeacherQuestionResource {
             .findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Question not found"));
 
-        if (!question.getCreatedBy().equals(currentUser.getLogin())) {
+        if (!question.getCreatedBy().getLogin().equals(currentUser.getLogin())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not the creator of this question");
         }
 
@@ -128,7 +126,7 @@ public class TeacherQuestionResource {
             .findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Question not found"));
 
-        if (!existingQuestion.getCreatedBy().equals(currentUser.getLogin())) {
+        if (!existingQuestion.getCreatedBy().getLogin().equals(currentUser.getLogin())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not the creator of this question");
         }
 
@@ -151,7 +149,7 @@ public class TeacherQuestionResource {
             .findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Question not found"));
 
-        if (!question.getCreatedBy().equals(currentUser.getLogin())) {
+        if (!question.getCreatedBy().getLogin().equals(currentUser.getLogin())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not the creator of this question");
         }
 

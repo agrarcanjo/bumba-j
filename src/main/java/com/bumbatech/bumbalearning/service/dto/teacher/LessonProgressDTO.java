@@ -11,8 +11,6 @@ public class LessonProgressDTO {
     private int xpGained;
     private int attempts;
 
-    public LessonProgressDTO() {}
-
     public LessonProgressDTO(Long lessonId, String lessonTitle, Instant completedAt, int score, int xpGained, int attempts) {
         this.lessonId = lessonId;
         this.lessonTitle = lessonTitle;

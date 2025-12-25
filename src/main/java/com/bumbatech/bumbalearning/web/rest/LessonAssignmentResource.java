@@ -73,13 +73,12 @@ public class LessonAssignmentResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated lessonAssignmentDTO,
      * or with status {@code 400 (Bad Request)} if the lessonAssignmentDTO is not valid,
      * or with status {@code 500 (Internal Server Error)} if the lessonAssignmentDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
     public ResponseEntity<LessonAssignmentDTO> updateLessonAssignment(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody LessonAssignmentDTO lessonAssignmentDTO
-    ) throws URISyntaxException {
+    ) {
         LOG.debug("REST request to update LessonAssignment : {}, {}", id, lessonAssignmentDTO);
         if (lessonAssignmentDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

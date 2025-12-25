@@ -14,8 +14,6 @@ public class RankingEntryDTO implements Serializable {
     private Integer rank;
     private Boolean isCurrentUser;
 
-    public RankingEntryDTO() {}
-
     public RankingEntryDTO(
         Long userId,
         String userName,

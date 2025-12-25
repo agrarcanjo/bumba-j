@@ -1,8 +1,5 @@
 package com.bumbatech.bumbalearning.web.rest.admin;
 
-import com.bumbatech.bumbalearning.domain.Achievement;
-import com.bumbatech.bumbalearning.domain.Question;
-import com.bumbatech.bumbalearning.domain.Topic;
 import com.bumbatech.bumbalearning.repository.AchievementRepository;
 import com.bumbatech.bumbalearning.repository.QuestionRepository;
 import com.bumbatech.bumbalearning.repository.TopicRepository;

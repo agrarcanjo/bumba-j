@@ -139,7 +139,7 @@ public class AchievementCheckService {
             return Optional.empty();
         }
 
-        Achievement achievement = achievementOpt.get();
+        Achievement achievement = achievementOpt.orElse(new Achievement());
 
         boolean alreadyUnlocked = userAchievementRepository.existsByUserIdAndAchievementId(user.getId(), achievement.getId());
 

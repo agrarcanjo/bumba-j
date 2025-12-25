@@ -1,6 +1,6 @@
 {
   "extends": "./tsconfig",
-  "include": ["src/main/webapp/app", "src/main/webapp/microfrontends"],
+  "include": ["src/main/webapp/app/**/*", "src/main/webapp/microfrontends/**/*"],
   "exclude": [],
   "compilerOptions": {
     "paths": {

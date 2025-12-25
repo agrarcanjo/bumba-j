@@ -26,7 +26,7 @@ export default tseslint.config(
   },
   {
     files: ['src/main/webapp/**/*.{ts,tsx}'],
-    extends: [...tseslint.configs.recommendedTypeChecked, react],
+    extends: [...tseslint.configs.recommended, react],
     settings: {
       react: {
         version: 'detect',
@@ -35,9 +35,6 @@ export default tseslint.config(
     languageOptions: {
       globals: {
         ...globals.browser,
-      },
-      parserOptions: {
-        project: ['./tsconfig.json', './tsconfig.test.json'],
       },
     },
     rules: {

@@ -15,9 +15,13 @@
 
 logging:
   level:
-    ROOT: INFO
-    tech.jhipster: INFO
-    com.bumbatech.bumbalearning: INFO
+    ROOT: ${LOG_LEVEL_ROOT:INFO}
+    tech.jhipster: ${LOG_LEVEL_JHIPSTER:INFO}
+    com.bumbatech.bumbalearning: ${LOG_LEVEL_APP:INFO}
+    org.springframework.web: ${LOG_LEVEL_SPRING_WEB:INFO}
+    org.springframework.security: ${LOG_LEVEL_SPRING_SECURITY:INFO}
+    org.hibernate.SQL: ${LOG_LEVEL_HIBERNATE_SQL:INFO}
+    org.hibernate.type.descriptor.sql.BasicBinder: ${LOG_LEVEL_HIBERNATE_PARAMS:INFO}
 
 management:
   prometheus:

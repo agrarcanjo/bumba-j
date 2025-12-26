@@ -3,6 +3,7 @@ package com.bumbatech.bumbalearning.domain;
 import com.bumbatech.bumbalearning.domain.enumeration.UserLevel;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class UserProfile implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id

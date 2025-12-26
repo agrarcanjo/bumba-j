@@ -8,10 +8,16 @@ interface Lesson {
   id: number;
   title: string;
   description: string;
-  difficulty: string;
+  language: 'ENGLISH';
+  level: 'EASY' | 'INTERMEDIATE' | 'ADVANCED';
+  xpReward: string;
+  passThreshold: number;
+  createdAt: string;
   topic: {
     id: number;
     name: string;
+    language: string;
+    description: string;
   };
 }
 
@@ -83,12 +89,14 @@ export const LessonAssignmentForm = () => {
     }
   };
 
-  const filteredLessons = lessons.filter(
-    lesson =>
-      lesson.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      lesson.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      lesson.topic.name.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+  const filteredLessons = lessons.filter(lesson => {
+    const search = searchTerm.toLowerCase();
+    return (
+      (lesson.title || '').toLowerCase().includes(search) ||
+      (lesson.description || '').toLowerCase().includes(search) ||
+      (lesson.topic?.name || '').toLowerCase().includes(search)
+    );
+  });
 
   const getMinDate = () => {
     const tomorrow = new Date();
@@ -157,7 +165,7 @@ export const LessonAssignmentForm = () => {
                 >
                   <div className="lesson-header">
                     <h4>{lesson.title}</h4>
-                    <span className={`difficulty-badge ${lesson.difficulty.toLowerCase()}`}>{lesson.difficulty}</span>
+                    <span className={`difficulty-badge ${lesson.level.toLowerCase()}`}>{lesson.level}</span>
                   </div>
                   <p className="lesson-description">{lesson.description}</p>
                   <div className="lesson-footer">

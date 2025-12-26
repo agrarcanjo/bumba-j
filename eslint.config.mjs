@@ -82,14 +82,16 @@ export default tseslint.config(
       'no-invalid-this': 'off',
       'react/prop-types': 'off',
       'react/display-name': 'off',
+      'prettier/prettier': 'off',
     },
   },
   {
     files: ['src/main/webapp/**/*.spec.ts'],
     rules: {
       '@typescript-eslint/no-empty-function': 'off',
+      'prettier/prettier': 'off',
     },
   },
   // jhipster-needle-eslint-add-config - JHipster will add additional config here
-  prettier,
+  // prettier,
 );

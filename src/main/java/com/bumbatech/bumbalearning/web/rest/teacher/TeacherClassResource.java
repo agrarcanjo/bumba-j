@@ -6,6 +6,8 @@ import com.bumbatech.bumbalearning.service.dto.ClassRoomDTO;
 import com.bumbatech.bumbalearning.service.dto.LessonAssignmentDTO;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.Getter;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -123,6 +125,8 @@ public class TeacherClassResource {
         return ResponseEntity.ok(detail);
     }
 
+    @Setter
+    @Getter
     public static class ClassDetailDTO {
 
         private Long id;
@@ -150,64 +154,10 @@ public class TeacherClassResource {
             this.students = students;
             this.assignments = assignments;
         }
-
-        public Long getId() {
-            return id;
-        }
-
-        public void setId(Long id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }
-
-        public String getLanguage() {
-            return language;
-        }
-
-        public void setLanguage(String language) {
-            this.language = language;
-        }
-
-        public java.time.Instant getCreatedAt() {
-            return createdAt;
-        }
-
-        public void setCreatedAt(java.time.Instant createdAt) {
-            this.createdAt = createdAt;
-        }
-
-        public List<StudentSummaryDTO> getStudents() {
-            return students;
-        }
-
-        public void setStudents(List<StudentSummaryDTO> students) {
-            this.students = students;
-        }
-
-        public List<LessonAssignmentDTO> getAssignments() {
-            return assignments;
-        }
-
-        public void setAssignments(List<LessonAssignmentDTO> assignments) {
-            this.assignments = assignments;
-        }
     }
 
+    @Setter
+    @Getter
     public static class StudentSummaryDTO {
 
         private Long id;
@@ -232,54 +182,6 @@ public class TeacherClassResource {
             this.joinedAt = joinedAt;
             this.completedLessons = completedLessons;
         }
-
-        public Long getId() {
-            return id;
-        }
-
-        public void setId(Long id) {
-            this.id = id;
-        }
-
-        public String getLogin() {
-            return login;
-        }
-
-        public void setLogin(String login) {
-            this.login = login;
-        }
-
-        public String getFirstName() {
-            return firstName;
-        }
-
-        public void setFirstName(String firstName) {
-            this.firstName = firstName;
-        }
-
-        public String getLastName() {
-            return lastName;
-        }
-
-        public void setLastName(String lastName) {
-            this.lastName = lastName;
-        }
-
-        public java.time.Instant getJoinedAt() {
-            return joinedAt;
-        }
-
-        public void setJoinedAt(java.time.Instant joinedAt) {
-            this.joinedAt = joinedAt;
-        }
-
-        public long getCompletedLessons() {
-            return completedLessons;
-        }
-
-        public void setCompletedLessons(long completedLessons) {
-            this.completedLessons = completedLessons;
-        }
     }
 
     @GetMapping("/{id}/available-students")
@@ -301,10 +203,9 @@ public class TeacherClassResource {
             .map(member -> member.getStudent().getId())
             .collect(Collectors.toSet());
 
-        var allStudents = userRepository.findAll();
+        var allStudents = userRepository.findAllStudentsWithAuthorities();
         var availableStudents = allStudents
             .stream()
-            .filter(student -> student.getAuthorities().stream().anyMatch(auth -> auth.getName().equals("ROLE_STUDENT")))
             .filter(student -> !enrolledStudentIds.contains(student.getId()))
             .map(student ->
                 new AvailableStudentDTO(
@@ -349,6 +250,8 @@ public class TeacherClassResource {
         return ResponseEntity.ok().build();
     }
 
+    @Setter
+    @Getter
     public static class AvailableStudentDTO {
 
         private Long id;
@@ -364,58 +267,12 @@ public class TeacherClassResource {
             this.lastName = lastName;
             this.email = email;
         }
-
-        public Long getId() {
-            return id;
-        }
-
-        public void setId(Long id) {
-            this.id = id;
-        }
-
-        public String getLogin() {
-            return login;
-        }
-
-        public void setLogin(String login) {
-            this.login = login;
-        }
-
-        public String getFirstName() {
-            return firstName;
-        }
-
-        public void setFirstName(String firstName) {
-            this.firstName = firstName;
-        }
-
-        public String getLastName() {
-            return lastName;
-        }
-
-        public void setLastName(String lastName) {
-            this.lastName = lastName;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
-        }
     }
 
+    @Setter
+    @Getter
     public static class AddStudentsRequest {
 
         private List<Long> studentIds;
-
-        public List<Long> getStudentIds() {
-            return studentIds;
-        }
-
-        public void setStudentIds(List<Long> studentIds) {
-            this.studentIds = studentIds;
-        }
     }
 }

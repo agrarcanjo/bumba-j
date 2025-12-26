@@ -1,5 +1,6 @@
 package com.bumbatech.bumbalearning.service.dto;
 
+import com.bumbatech.bumbalearning.domain.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
@@ -15,7 +16,6 @@ public class LessonAssignmentDTO implements Serializable {
 
     private Long id;
 
-    @NotNull
     @Schema(description = "Data de atribuição", requiredMode = Schema.RequiredMode.REQUIRED)
     private Instant assignedAt;
 
@@ -29,7 +29,6 @@ public class LessonAssignmentDTO implements Serializable {
     @NotNull
     private LessonDTO lesson;
 
-    @NotNull
     private UserDTO assignedBy;
 
     public Long getId() {

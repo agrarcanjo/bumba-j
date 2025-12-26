@@ -1,13 +1,18 @@
 package com.bumbatech.bumbalearning.web.rest;
 
+import com.bumbatech.bumbalearning.domain.User;
 import com.bumbatech.bumbalearning.repository.LessonAssignmentRepository;
+import com.bumbatech.bumbalearning.repository.UserRepository;
+import com.bumbatech.bumbalearning.security.SecurityUtils;
 import com.bumbatech.bumbalearning.service.LessonAssignmentService;
 import com.bumbatech.bumbalearning.service.dto.LessonAssignmentDTO;
+import com.bumbatech.bumbalearning.service.dto.UserDTO;
 import com.bumbatech.bumbalearning.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -36,13 +41,16 @@ public class LessonAssignmentResource {
     private final LessonAssignmentService lessonAssignmentService;
 
     private final LessonAssignmentRepository lessonAssignmentRepository;
+    private final UserRepository userRepository;
 
     public LessonAssignmentResource(
         LessonAssignmentService lessonAssignmentService,
-        LessonAssignmentRepository lessonAssignmentRepository
+        LessonAssignmentRepository lessonAssignmentRepository,
+        UserRepository userRepository
     ) {
         this.lessonAssignmentService = lessonAssignmentService;
         this.lessonAssignmentRepository = lessonAssignmentRepository;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -59,6 +67,15 @@ public class LessonAssignmentResource {
         if (lessonAssignmentDTO.getId() != null) {
             throw new BadRequestAlertException("A new lessonAssignment cannot already have an ID", ENTITY_NAME, "idexists");
         }
+
+        lessonAssignmentDTO.setAssignedAt(Instant.now());
+
+        String userLogin = SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new RuntimeException("User not authenticated"));
+
+        User user = userRepository.findOneByLogin(userLogin).orElseThrow(() -> new RuntimeException("User not found: " + userLogin));
+
+        lessonAssignmentDTO.setAssignedBy(new UserDTO(user));
+
         lessonAssignmentDTO = lessonAssignmentService.save(lessonAssignmentDTO);
         return ResponseEntity.created(new URI("/api/lesson-assignments/" + lessonAssignmentDTO.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, lessonAssignmentDTO.getId().toString()))
